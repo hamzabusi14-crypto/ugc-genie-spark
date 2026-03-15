@@ -1,7 +1,18 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import type { User, Session } from "@supabase/supabase-js";
-import type { UserProfile } from "./types";
+
+export interface UserProfile {
+  id: string;
+  email: string | null;
+  name: string | null;
+  avatar_url: string | null;
+  credits: number;
+  plan: string;
+  language: string;
+  created_at: string;
+  updated_at: string;
+}
 
 interface AuthContextType {
   user: User | null;
@@ -26,7 +37,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       .select("*")
       .eq("id", userId)
       .single();
-    if (data) setProfile(data as unknown as UserProfile);
+    if (data) setProfile(data as UserProfile);
   };
 
   const refreshProfile = async () => {
