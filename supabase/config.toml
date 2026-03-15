@@ -1,1 +1,4 @@
 project_id = "marvdamxumxuqyvkljsh"
+
+[functions.video-callback]
+verify_jwt = false
