@@ -18,7 +18,7 @@ export default function SignupPage() {
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -29,6 +29,9 @@ export default function SignupPage() {
     setLoading(false);
     if (error) {
       toast.error(error.message);
+    } else if (data.session) {
+      toast.success("Account created!");
+      navigate("/dashboard");
     } else {
       toast.success("Check your email to confirm your account!");
       navigate("/login");
