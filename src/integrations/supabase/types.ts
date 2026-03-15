@@ -14,7 +14,173 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          credits: number
+          email: string | null
+          id: string
+          language: string
+          name: string | null
+          plan: string
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          credits?: number
+          email?: string | null
+          id: string
+          language?: string
+          name?: string | null
+          plan?: string
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          credits?: number
+          email?: string | null
+          id?: string
+          language?: string
+          name?: string | null
+          plan?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      script_segments: {
+        Row: {
+          created_at: string
+          id: string
+          paragraph_text: string
+          segment_number: number
+          status: string
+          video_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          paragraph_text: string
+          segment_number: number
+          status?: string
+          video_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          paragraph_text?: string
+          segment_number?: number
+          status?: string
+          video_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "script_segments_video_id_fkey"
+            columns: ["video_id"]
+            isOneToOne: false
+            referencedRelation: "videos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      transactions: {
+        Row: {
+          amount: number
+          created_at: string
+          credits: number
+          description: string
+          id: string
+          type: string
+          user_id: string
+        }
+        Insert: {
+          amount?: number
+          created_at?: string
+          credits: number
+          description: string
+          id?: string
+          type: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          credits?: number
+          description?: string
+          id?: string
+          type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      videos: {
+        Row: {
+          aspect_ratio: string
+          country: string
+          created_at: string
+          credits_used: number
+          current_segment: number
+          description: string | null
+          duration: string
+          id: string
+          language: string
+          model: string
+          product_image_url: string
+          product_name: string
+          status: string
+          task_id: string | null
+          thumbnail_url: string | null
+          total_segments: number | null
+          updated_at: string
+          user_id: string
+          video_url: string | null
+        }
+        Insert: {
+          aspect_ratio?: string
+          country: string
+          created_at?: string
+          credits_used?: number
+          current_segment?: number
+          description?: string | null
+          duration?: string
+          id?: string
+          language?: string
+          model?: string
+          product_image_url: string
+          product_name: string
+          status?: string
+          task_id?: string | null
+          thumbnail_url?: string | null
+          total_segments?: number | null
+          updated_at?: string
+          user_id: string
+          video_url?: string | null
+        }
+        Update: {
+          aspect_ratio?: string
+          country?: string
+          created_at?: string
+          credits_used?: number
+          current_segment?: number
+          description?: string | null
+          duration?: string
+          id?: string
+          language?: string
+          model?: string
+          product_image_url?: string
+          product_name?: string
+          status?: string
+          task_id?: string | null
+          thumbnail_url?: string | null
+          total_segments?: number | null
+          updated_at?: string
+          user_id?: string
+          video_url?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
