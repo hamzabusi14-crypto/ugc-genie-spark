@@ -99,11 +99,28 @@ export default function CreateVideoPage() {
     }, 15000);
 
     try {
-      // Send to n8n webhook
+      // Create video record first to get the ID
+      const { data: videoRecord, error: dbError } = await supabase.from("videos").insert({
+        user_id: profile!.id,
+        product_name: productName.trim(),
+        product_image_url: imageUrl,
+        status: "generating",
+        duration,
+        aspect_ratio: aspectRatio,
+        language,
+        country: country.trim(),
+        description: description.trim() || null,
+        credits_used: creditCost,
+      }).select("id").single();
+
+      if (dbError || !videoRecord) throw dbError || new Error("Failed to create video record");
+
+      // Send to n8n webhook with videoId
       const res = await fetch("https://snap-automation1.app.n8n.cloud/webhook/generate-video", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          videoId: videoRecord.id,
           productName: productName.trim(),
           productImage: imageUrl,
           duration,
@@ -118,22 +135,10 @@ export default function CreateVideoPage() {
 
       const result = await res.json();
 
-      // Create video record
-      const { error: dbError } = await supabase.from("videos").insert({
-        user_id: profile!.id,
-        product_name: productName.trim(),
-        product_image_url: imageUrl,
-        status: "generating",
-        duration,
-        aspect_ratio: aspectRatio,
-        language,
-        country: country.trim(),
-        description: description.trim() || null,
-        task_id: result?.taskId || null,
-        credits_used: creditCost,
-      });
-
-      if (dbError) throw dbError;
+      // Update task_id if returned by n8n
+      if (result?.taskId) {
+        await supabase.from("videos").update({ task_id: result.taskId }).eq("id", videoRecord.id);
+      }
 
       // Deduct credits
       await supabase
