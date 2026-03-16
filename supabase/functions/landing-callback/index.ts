@@ -18,10 +18,10 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { productName, html, heroImageUrl, featuresImageUrl, howToUseImageUrl, pricingImageUrl, status } = await req.json();
+    const { landingPageId, html, heroImageUrl, featuresImageUrl, howToUseImageUrl, pricingImageUrl, status } = await req.json();
 
-    if (!productName) {
-      return new Response(JSON.stringify({ error: "Missing productName" }), {
+    if (!landingPageId) {
+      return new Response(JSON.stringify({ error: "Missing landingPageId" }), {
         status: 400,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
@@ -44,7 +44,7 @@ Deno.serve(async (req) => {
     const { error } = await supabase
       .from("landing_pages")
       .update(updateData)
-      .eq("product_name", productName);
+      .eq("id", landingPageId);
 
     if (error) {
       return new Response(JSON.stringify({ error: error.message }), {
