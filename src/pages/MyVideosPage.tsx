@@ -1,7 +1,7 @@
 import { useI18n } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 import DashboardLayout from "@/components/DashboardLayout";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Film, Download, Trash2, FastForward } from "lucide-react";
 import { toast } from "sonner";
@@ -11,6 +11,7 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 export default function MyVideosPage() {
   const { t } = useI18n();
+  const queryClient = useQueryClient();
 
   const { data: videos, refetch } = useQuery({
     queryKey: ["all-videos"],
@@ -21,8 +22,24 @@ export default function MyVideosPage() {
         .order("created_at", { ascending: false });
       return data ?? [];
     },
-    refetchInterval: 30000, // Auto-refresh every 30 seconds
   });
+
+  useEffect(() => {
+    const channel = supabase
+      .channel("videos-realtime")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "videos" },
+        () => {
+          queryClient.invalidateQueries({ queryKey: ["all-videos"] });
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [queryClient]);
 
   const [playVideo, setPlayVideo] = useState<string | null>(null);
 
