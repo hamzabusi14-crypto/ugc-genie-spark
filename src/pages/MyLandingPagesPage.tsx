@@ -1,7 +1,8 @@
+import { useEffect } from "react";
 import { useI18n } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 import DashboardLayout from "@/components/DashboardLayout";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { FileText, Download, Trash2, Eye } from "lucide-react";
 import { toast } from "sonner";
