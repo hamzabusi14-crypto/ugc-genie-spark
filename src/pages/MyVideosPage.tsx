@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import DashboardLayout from "@/components/DashboardLayout";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Film, Download, Trash2, FastForward } from "lucide-react";
+import { Film, Download, Trash2, FastForward, Play } from "lucide-react";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -75,10 +75,21 @@ export default function MyVideosPage() {
             {videos.map((video) => (
               <div key={video.id} className={`glass-card overflow-hidden group ${video.status === "generating" ? "generating-border" : ""}`}>
                 <div
-                  className="aspect-video bg-muted flex items-center justify-center cursor-pointer"
+                  className="aspect-video bg-muted relative flex items-center justify-center cursor-pointer overflow-hidden"
                   onClick={() => video.video_url && setPlayVideo(video.video_url)}
                 >
-                  {video.thumbnail_url ? (
+                  {video.video_url ? (
+                    <>
+                      <img
+                        src={video.video_url.replace(/\.[^.]+$/, '.jpg')}
+                        alt={video.product_name}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Play className="h-12 w-12 text-white fill-white/80" />
+                      </div>
+                    </>
+                  ) : video.thumbnail_url ? (
                     <img src={video.thumbnail_url} alt={video.product_name} className="w-full h-full object-cover" />
                   ) : (
                     <Film className="h-10 w-10 text-muted-foreground" />
