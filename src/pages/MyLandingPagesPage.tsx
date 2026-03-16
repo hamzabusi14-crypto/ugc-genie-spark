@@ -1,7 +1,8 @@
+import { useEffect } from "react";
 import { useI18n } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 import DashboardLayout from "@/components/DashboardLayout";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { FileText, Download, Trash2, Eye } from "lucide-react";
 import { toast } from "sonner";
@@ -9,6 +10,8 @@ import { Link } from "react-router-dom";
 
 export default function MyLandingPagesPage() {
   const { t } = useI18n();
+
+  const queryClient = useQueryClient();
 
   const { data: pages, refetch } = useQuery({
     queryKey: ["landing-pages"],
@@ -19,8 +22,24 @@ export default function MyLandingPagesPage() {
         .order("created_at", { ascending: false });
       return data ?? [];
     },
-    refetchInterval: 15000,
   });
+
+  useEffect(() => {
+    const channel = supabase
+      .channel("landing-pages-realtime")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "landing_pages" },
+        () => {
+          queryClient.invalidateQueries({ queryKey: ["landing-pages"] });
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [queryClient]);
 
   const handleDelete = async (id: string) => {
     const { error } = await supabase.from("landing_pages").delete().eq("id", id);
