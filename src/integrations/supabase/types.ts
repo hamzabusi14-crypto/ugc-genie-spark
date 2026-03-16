@@ -14,6 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
+      landing_pages: {
+        Row: {
+          created_at: string
+          features_image_url: string | null
+          hero_image_url: string | null
+          howto_image_url: string | null
+          html: string | null
+          id: string
+          pricing_image_url: string | null
+          product_name: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          features_image_url?: string | null
+          hero_image_url?: string | null
+          howto_image_url?: string | null
+          html?: string | null
+          id?: string
+          pricing_image_url?: string | null
+          product_name: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          features_image_url?: string | null
+          hero_image_url?: string | null
+          howto_image_url?: string | null
+          html?: string | null
+          id?: string
+          pricing_image_url?: string | null
+          product_name?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
