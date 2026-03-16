@@ -35,6 +35,9 @@ const App = () => (
               <Route path="/create" element={<CreateVideoPage />} />
               <Route path="/videos" element={<MyVideosPage />} />
               <Route path="/extend/:id" element={<ExtendVideoPage />} />
+              <Route path="/create-landing-page" element={<CreateLandingPage />} />
+              <Route path="/landing-pages" element={<MyLandingPagesPage />} />
+              <Route path="/preview-landing/:id" element={<PreviewLandingPage />} />
               <Route path="/billing" element={<BillingPage />} />
               <Route path="/settings" element={<SettingsPage />} />
               <Route path="*" element={<NotFound />} />

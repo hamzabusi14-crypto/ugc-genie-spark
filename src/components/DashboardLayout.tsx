@@ -22,6 +22,7 @@ const navItems = [
   { key: "dashboard" as const, path: "/dashboard", icon: LayoutDashboard },
   { key: "createVideo" as const, path: "/create", icon: Video },
   { key: "myVideos" as const, path: "/videos", icon: Film },
+  { key: "landingPages" as const, path: "/landing-pages", icon: FileText },
   { key: "billing" as const, path: "/billing", icon: CreditCard },
   { key: "settings" as const, path: "/settings", icon: Settings },
 ];
