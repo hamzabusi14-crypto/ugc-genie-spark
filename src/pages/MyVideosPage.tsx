@@ -75,10 +75,21 @@ export default function MyVideosPage() {
             {videos.map((video) => (
               <div key={video.id} className={`glass-card overflow-hidden group ${video.status === "generating" ? "generating-border" : ""}`}>
                 <div
-                  className="aspect-video bg-muted flex items-center justify-center cursor-pointer"
+                  className="aspect-video bg-muted relative flex items-center justify-center cursor-pointer overflow-hidden"
                   onClick={() => video.video_url && setPlayVideo(video.video_url)}
                 >
-                  {video.thumbnail_url ? (
+                  {video.video_url ? (
+                    <>
+                      <img
+                        src={video.video_url.replace(/\.[^.]+$/, '.jpg')}
+                        alt={video.product_name}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Play className="h-12 w-12 text-white fill-white/80" />
+                      </div>
+                    </>
+                  ) : video.thumbnail_url ? (
                     <img src={video.thumbnail_url} alt={video.product_name} className="w-full h-full object-cover" />
                   ) : (
                     <Film className="h-10 w-10 text-muted-foreground" />
