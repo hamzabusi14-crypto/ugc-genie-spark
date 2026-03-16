@@ -93,7 +93,7 @@ export default function MyVideosPage() {
                   <div className="flex gap-2 mt-3">
                     {video.status === "done" && video.video_url && (
                       <Button variant="glass" size="sm" asChild>
-                        <a href={video.video_url} download target="_blank" rel="noopener noreferrer">
+                        <a href={`${video.video_url}?fl_attachment=true`} download>
                           <Download className="h-3.5 w-3.5" />
                           {t("download")}
                         </a>
