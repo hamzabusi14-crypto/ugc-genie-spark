@@ -11,6 +11,8 @@ import { Link } from "react-router-dom";
 export default function MyLandingPagesPage() {
   const { t } = useI18n();
 
+  const queryClient = useQueryClient();
+
   const { data: pages, refetch } = useQuery({
     queryKey: ["landing-pages"],
     queryFn: async () => {
@@ -20,8 +22,24 @@ export default function MyLandingPagesPage() {
         .order("created_at", { ascending: false });
       return data ?? [];
     },
-    refetchInterval: 15000,
   });
+
+  useEffect(() => {
+    const channel = supabase
+      .channel("landing-pages-realtime")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "landing_pages" },
+        () => {
+          queryClient.invalidateQueries({ queryKey: ["landing-pages"] });
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [queryClient]);
 
   const handleDelete = async (id: string) => {
     const { error } = await supabase.from("landing_pages").delete().eq("id", id);
