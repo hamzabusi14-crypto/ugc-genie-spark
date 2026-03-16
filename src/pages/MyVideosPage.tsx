@@ -134,13 +134,25 @@ export default function MyVideosPage() {
         )}
 
         {/* Video player modal */}
-        <Dialog open={!!playVideo} onOpenChange={() => setPlayVideo(null)}>
-          <DialogContent className="max-w-3xl bg-card border-border p-0 overflow-hidden">
-            {playVideo && (
-              <video src={playVideo} controls autoPlay className="w-full" />
-            )}
-          </DialogContent>
-        </Dialog>
+        {playVideo && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90" onClick={() => setPlayVideo(null)}>
+            <button
+              className="absolute top-4 right-4 z-50 rounded-full bg-white/10 p-2 text-white hover:bg-white/20 transition-colors"
+              onClick={() => setPlayVideo(null)}
+            >
+              <X className="h-6 w-6" />
+            </button>
+            <div className="w-full max-w-md max-h-[90vh] flex items-center justify-center" onClick={(e) => e.stopPropagation()}>
+              <video
+                src={playVideo}
+                controls
+                autoPlay
+                className="max-w-full max-h-[90vh] rounded-lg"
+                style={{ objectFit: 'contain' }}
+              />
+            </div>
+          </div>
+        )}
       </div>
     </DashboardLayout>
   );
