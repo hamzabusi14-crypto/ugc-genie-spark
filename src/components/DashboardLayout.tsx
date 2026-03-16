@@ -8,6 +8,7 @@ import {
   FastForward,
   CreditCard,
   Settings,
+  FileText,
   LogOut,
   Menu,
   Coins,
