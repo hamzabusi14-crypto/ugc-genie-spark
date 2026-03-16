@@ -14,6 +14,9 @@ import ExtendVideoPage from "@/pages/ExtendVideoPage";
 import BillingPage from "@/pages/BillingPage";
 import SettingsPage from "@/pages/SettingsPage";
 import NotFound from "@/pages/NotFound";
+import CreateLandingPage from "@/pages/CreateLandingPage";
+import MyLandingPagesPage from "@/pages/MyLandingPagesPage";
+import PreviewLandingPage from "@/pages/PreviewLandingPage";
 
 const queryClient = new QueryClient();
 
