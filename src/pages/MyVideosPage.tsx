@@ -103,11 +103,16 @@ export default function MyVideosPage() {
                   </div>
                   <div className="flex gap-2 mt-3">
                     {video.status === "done" && video.video_url && (
-                      <Button variant="glass" size="sm" asChild>
-                        <a href={`${video.video_url}?fl_attachment=true`} download>
-                          <Download className="h-3.5 w-3.5" />
-                          {t("download")}
-                        </a>
+                      <Button variant="glass" size="sm" onClick={() => {
+                        const a = document.createElement('a');
+                        a.href = video.video_url + '?fl_attachment=true';
+                        a.download = 'video.mp4';
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                      }}>
+                        <Download className="h-3.5 w-3.5" />
+                        {t("download")}
                       </Button>
                     )}
                     {video.status === "done" && (
