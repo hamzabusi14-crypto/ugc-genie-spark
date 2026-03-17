@@ -44,6 +44,9 @@ export default function MyVideosPage() {
   }, [queryClient]);
 
   const [playVideo, setPlayVideo] = useState<string | null>(null);
+  const [extendVideoId, setExtendVideoId] = useState<string | null>(null);
+  const [additionalDescription, setAdditionalDescription] = useState("");
+  const [extendLoading, setExtendLoading] = useState(false);
 
   const handleDelete = async (id: string) => {
     const { error } = await supabase.from("videos").delete().eq("id", id);
