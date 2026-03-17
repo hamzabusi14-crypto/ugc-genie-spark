@@ -85,7 +85,7 @@ export default function CreateLandingPage() {
       if (dbError || !record) throw dbError || new Error("Failed to create record");
 
       // POST to n8n
-      const res = await fetch("https://snap-automation1.app.n8n.cloud/webhook/generate-landing-page", {
+      const res = await fetch("https://snap-automation1.app.n8n.cloud/webhook/67a9c4a5-ceec-470d-9313-bf407b093522", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
