@@ -194,6 +194,7 @@ export default function MyVideosPage() {
                       headers: { "Content-Type": "application/json" },
                       body: JSON.stringify({
                         videoId: extendVideoId,
+                        taskId: extendVideo?.task_id ?? "",
                         productName: extendVideo?.product_name ?? "",
                         productImageUrl: extendVideo?.product_image_url ?? "",
                         language: extendVideo?.language ?? "",
