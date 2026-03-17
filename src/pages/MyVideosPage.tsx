@@ -7,7 +7,9 @@ import { Film, Download, Trash2, FastForward, Play, X } from "lucide-react";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 
 export default function MyVideosPage() {
   const { t } = useI18n();
