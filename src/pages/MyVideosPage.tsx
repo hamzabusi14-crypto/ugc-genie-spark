@@ -206,6 +206,7 @@ export default function MyVideosPage() {
                       headers: { "Content-Type": "application/json" },
                       body: JSON.stringify({
                         videoId: extendVideoId,
+                        parentVideoId: extendVideoId,
                         taskId: extendVideo?.task_id ?? "",
                         cloudinaryPublicId: (extendVideo as any)?.cloudinary_public_id ?? "",
                         productName: extendVideo?.product_name ?? "",
