@@ -196,6 +196,8 @@ export default function MyVideosPage() {
                         videoId: extendVideoId,
                         productName: extendVideo?.product_name ?? "",
                         productImageUrl: extendVideo?.product_image_url ?? "",
+                        language: extendVideo?.language ?? "",
+                        targetedCountry: extendVideo?.country ?? "",
                         additionalDescription,
                       }),
                     });
