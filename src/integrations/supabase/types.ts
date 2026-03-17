@@ -157,6 +157,7 @@ export type Database = {
       videos: {
         Row: {
           aspect_ratio: string
+          cloudinary_public_id: string | null
           country: string
           created_at: string
           credits_used: number
@@ -178,6 +179,7 @@ export type Database = {
         }
         Insert: {
           aspect_ratio?: string
+          cloudinary_public_id?: string | null
           country: string
           created_at?: string
           credits_used?: number
@@ -199,6 +201,7 @@ export type Database = {
         }
         Update: {
           aspect_ratio?: string
+          cloudinary_public_id?: string | null
           country?: string
           created_at?: string
           credits_used?: number
