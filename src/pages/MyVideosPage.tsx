@@ -121,11 +121,12 @@ export default function MyVideosPage() {
                       </Button>
                     )}
                     {video.status === "done" && (
-                      <Button variant="glass" size="sm" asChild>
-                        <Link to={`/extend/${video.id}`}>
-                          <FastForward className="h-3.5 w-3.5" />
-                          {t("extend")}
-                        </Link>
+                      <Button variant="glass" size="sm" onClick={() => {
+                        setExtendVideoId(video.id);
+                        setAdditionalDescription("");
+                      }}>
+                        <FastForward className="h-3.5 w-3.5" />
+                        {t("extend")}
                       </Button>
                     )}
                     <Button variant="ghost" size="sm" className="text-destructive ms-auto" onClick={() => handleDelete(video.id)}>
