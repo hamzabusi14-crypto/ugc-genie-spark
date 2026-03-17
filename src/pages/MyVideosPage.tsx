@@ -77,65 +77,77 @@ export default function MyVideosPage() {
           </div>
         ) : (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {videos.map((video) => (
-              <div key={video.id} className={`glass-card overflow-hidden group ${video.status === "generating" ? "generating-border" : ""}`}>
-                <div
-                  className="aspect-video bg-muted relative flex items-center justify-center cursor-pointer overflow-hidden"
-                  onClick={() => video.video_url && setPlayVideo(video.video_url)}
-                >
-                  {video.video_url ? (
-                    <>
-                      <img
-                        src={video.video_url.replace(/\.[^.]+$/, '.jpg')}
-                        alt={video.product_name}
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <Play className="h-12 w-12 text-white fill-white/80" />
-                      </div>
-                    </>
-                  ) : video.thumbnail_url ? (
-                    <img src={video.thumbnail_url} alt={video.product_name} className="w-full h-full object-cover" />
-                  ) : (
-                    <Film className="h-10 w-10 text-muted-foreground" />
-                  )}
-                </div>
-                <div className="p-4">
-                  <h4 className="font-medium truncate">{video.product_name}</h4>
-                  <div className="flex items-center justify-between mt-2">
-                    <span className="text-xs text-muted-foreground">{video.duration} · {new Date(video.created_at).toLocaleDateString()}</span>
-                    <StatusBadge status={video.status} />
-                  </div>
-                  <div className="flex gap-2 mt-3">
-                    {video.status === "done" && video.video_url && (
-                      <Button variant="glass" size="sm" onClick={() => {
-                        const a = document.createElement('a');
-                        a.href = video.video_url + '?fl_attachment=true';
-                        a.download = 'video.mp4';
-                        document.body.appendChild(a);
-                        a.click();
-                        document.body.removeChild(a);
-                      }}>
-                        <Download className="h-3.5 w-3.5" />
-                        {t("download")}
-                      </Button>
+            {videos.map((video) => {
+              const isExtended = !!(video as any).parent_video_id;
+              return (
+                <div key={video.id} className={`glass-card overflow-hidden group ${video.status === "generating" ? "generating-border" : ""}`}>
+                  <div
+                    className="aspect-video bg-muted relative flex items-center justify-center cursor-pointer overflow-hidden"
+                    onClick={() => video.video_url && setPlayVideo(video.video_url)}
+                  >
+                    {video.video_url ? (
+                      <>
+                        <img
+                          src={video.video_url.replace(/\.[^.]+$/, '.jpg')}
+                          alt={video.product_name}
+                          className="w-full h-full object-cover"
+                        />
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <Play className="h-12 w-12 text-white fill-white/80" />
+                        </div>
+                      </>
+                    ) : video.thumbnail_url ? (
+                      <img src={video.thumbnail_url} alt={video.product_name} className="w-full h-full object-cover" />
+                    ) : (
+                      <Film className="h-10 w-10 text-muted-foreground" />
                     )}
-                    {video.status === "done" && (
-                      <Button variant="glass" size="sm" onClick={() => {
-                        setExtendVideoId(video.id);
-                        setAdditionalDescription("");
-                      }}>
-                        <FastForward className="h-3.5 w-3.5" />
-                        {t("extend")}
-                      </Button>
+                    {isExtended && (
+                      <span className="absolute top-2 left-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-primary text-primary-foreground">
+                        Extended
+                      </span>
                     )}
-                    <Button variant="ghost" size="sm" className="text-destructive ms-auto" onClick={() => handleDelete(video.id)}>
-                      <Trash2 className="h-3.5 w-3.5" />
-                    </Button>
+                  </div>
+                  <div className="p-4">
+                    <h4 className="font-medium truncate">
+                      {video.product_name}{isExtended ? " · Extended" : ""}
+                    </h4>
+                    <div className="flex items-center justify-between mt-2">
+                      <span className="text-xs text-muted-foreground">
+                        {isExtended ? "16s" : video.duration} · {new Date(video.created_at).toLocaleDateString()}
+                      </span>
+                      <StatusBadge status={video.status} />
+                    </div>
+                    <div className="flex gap-2 mt-3">
+                      {video.status === "done" && video.video_url && (
+                        <Button variant="glass" size="sm" onClick={() => {
+                          const a = document.createElement('a');
+                          a.href = video.video_url + '?fl_attachment=true';
+                          a.download = 'video.mp4';
+                          document.body.appendChild(a);
+                          a.click();
+                          document.body.removeChild(a);
+                        }}>
+                          <Download className="h-3.5 w-3.5" />
+                          {t("download")}
+                        </Button>
+                      )}
+                      {video.status === "done" && !isExtended && (
+                        <Button variant="glass" size="sm" onClick={() => {
+                          setExtendVideoId(video.id);
+                          setAdditionalDescription("");
+                        }}>
+                          <FastForward className="h-3.5 w-3.5" />
+                          {t("extend")}
+                        </Button>
+                      )}
+                      <Button variant="ghost" size="sm" className="text-destructive ms-auto" onClick={() => handleDelete(video.id)}>
+                        <Trash2 className="h-3.5 w-3.5" />
+                      </Button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
 
