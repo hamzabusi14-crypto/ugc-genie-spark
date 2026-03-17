@@ -1,0 +1,1 @@
+ALTER TABLE public.videos ADD COLUMN cloudinary_public_id text;
