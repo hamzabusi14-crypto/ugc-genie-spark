@@ -159,6 +159,54 @@ export default function MyVideosPage() {
             </div>
           </div>
         )}
+
+        {/* Extend video modal */}
+        <Dialog open={!!extendVideoId} onOpenChange={(open) => { if (!open) setExtendVideoId(null); }}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Extend Video +8s</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4 py-2">
+              <div className="space-y-2">
+                <Label htmlFor="additionalDescription">Additional Description (Optional)</Label>
+                <Textarea
+                  id="additionalDescription"
+                  placeholder="Environment, places, script ideas..."
+                  value={additionalDescription}
+                  onChange={(e) => setAdditionalDescription(e.target.value)}
+                />
+              </div>
+              <p className="text-sm text-muted-foreground">Credit cost: <span className="font-semibold text-foreground">10 credits</span></p>
+            </div>
+            <DialogFooter>
+              <Button
+                variant="gradient"
+                disabled={extendLoading}
+                onClick={async () => {
+                  setExtendLoading(true);
+                  try {
+                    await fetch("https://snap-automation1.app.n8n.cloud/webhook/extend-video", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({
+                        videoId: extendVideoId,
+                        additionalDescription,
+                      }),
+                    });
+                    toast.success("Video extension started");
+                    setExtendVideoId(null);
+                  } catch (err) {
+                    toast.error("Failed to extend video");
+                  } finally {
+                    setExtendLoading(false);
+                  }
+                }}
+              >
+                {extendLoading ? "Extending..." : "Extend Video"}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     </DashboardLayout>
   );
