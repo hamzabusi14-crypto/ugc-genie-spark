@@ -178,7 +178,10 @@ export default function MyVideosPage() {
               </div>
               <p className="text-sm text-muted-foreground">Credit cost: <span className="font-semibold text-foreground">10 credits</span></p>
             </div>
-            <DialogFooter>
+            <DialogFooter className="gap-2 sm:gap-2">
+              <Button variant="outline" onClick={() => setExtendVideoId(null)}>
+                Cancel
+              </Button>
               <Button
                 variant="gradient"
                 disabled={extendLoading}
