@@ -1,0 +1,1 @@
+ALTER TABLE public.videos ADD COLUMN parent_video_id uuid REFERENCES public.videos(id) ON DELETE SET NULL;

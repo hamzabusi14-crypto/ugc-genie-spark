@@ -167,6 +167,7 @@ export type Database = {
           id: string
           language: string
           model: string
+          parent_video_id: string | null
           product_image_url: string
           product_name: string
           status: string
@@ -189,6 +190,7 @@ export type Database = {
           id?: string
           language?: string
           model?: string
+          parent_video_id?: string | null
           product_image_url: string
           product_name: string
           status?: string
@@ -211,6 +213,7 @@ export type Database = {
           id?: string
           language?: string
           model?: string
+          parent_video_id?: string | null
           product_image_url?: string
           product_name?: string
           status?: string
@@ -221,7 +224,15 @@ export type Database = {
           user_id?: string
           video_url?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "videos_parent_video_id_fkey"
+            columns: ["parent_video_id"]
+            isOneToOne: false
+            referencedRelation: "videos"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
