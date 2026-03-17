@@ -188,11 +188,14 @@ export default function MyVideosPage() {
                 onClick={async () => {
                   setExtendLoading(true);
                   try {
+                    const extendVideo = videos?.find(v => v.id === extendVideoId);
                     await fetch("https://snap-automation1.app.n8n.cloud/webhook/extend-video", {
                       method: "POST",
                       headers: { "Content-Type": "application/json" },
                       body: JSON.stringify({
                         videoId: extendVideoId,
+                        productName: extendVideo?.product_name ?? "",
+                        productImageUrl: extendVideo?.product_image_url ?? "",
                         additionalDescription,
                       }),
                     });
