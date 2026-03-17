@@ -7,7 +7,9 @@ import { Film, Download, Trash2, FastForward, Play, X } from "lucide-react";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 
 export default function MyVideosPage() {
   const { t } = useI18n();
@@ -42,6 +44,9 @@ export default function MyVideosPage() {
   }, [queryClient]);
 
   const [playVideo, setPlayVideo] = useState<string | null>(null);
+  const [extendVideoId, setExtendVideoId] = useState<string | null>(null);
+  const [additionalDescription, setAdditionalDescription] = useState("");
+  const [extendLoading, setExtendLoading] = useState(false);
 
   const handleDelete = async (id: string) => {
     const { error } = await supabase.from("videos").delete().eq("id", id);
@@ -116,11 +121,12 @@ export default function MyVideosPage() {
                       </Button>
                     )}
                     {video.status === "done" && (
-                      <Button variant="glass" size="sm" asChild>
-                        <Link to={`/extend/${video.id}`}>
-                          <FastForward className="h-3.5 w-3.5" />
-                          {t("extend")}
-                        </Link>
+                      <Button variant="glass" size="sm" onClick={() => {
+                        setExtendVideoId(video.id);
+                        setAdditionalDescription("");
+                      }}>
+                        <FastForward className="h-3.5 w-3.5" />
+                        {t("extend")}
                       </Button>
                     )}
                     <Button variant="ghost" size="sm" className="text-destructive ms-auto" onClick={() => handleDelete(video.id)}>
@@ -153,6 +159,54 @@ export default function MyVideosPage() {
             </div>
           </div>
         )}
+
+        {/* Extend video modal */}
+        <Dialog open={!!extendVideoId} onOpenChange={(open) => { if (!open) setExtendVideoId(null); }}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Extend Video +8s</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4 py-2">
+              <div className="space-y-2">
+                <Label htmlFor="additionalDescription">Additional Description (Optional)</Label>
+                <Textarea
+                  id="additionalDescription"
+                  placeholder="Environment, places, script ideas..."
+                  value={additionalDescription}
+                  onChange={(e) => setAdditionalDescription(e.target.value)}
+                />
+              </div>
+              <p className="text-sm text-muted-foreground">Credit cost: <span className="font-semibold text-foreground">10 credits</span></p>
+            </div>
+            <DialogFooter>
+              <Button
+                variant="gradient"
+                disabled={extendLoading}
+                onClick={async () => {
+                  setExtendLoading(true);
+                  try {
+                    await fetch("https://snap-automation1.app.n8n.cloud/webhook/extend-video", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({
+                        videoId: extendVideoId,
+                        additionalDescription,
+                      }),
+                    });
+                    toast.success("Video extension started");
+                    setExtendVideoId(null);
+                  } catch (err) {
+                    toast.error("Failed to extend video");
+                  } finally {
+                    setExtendLoading(false);
+                  }
+                }}
+              >
+                {extendLoading ? "Extending..." : "Extend Video"}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     </DashboardLayout>
   );
