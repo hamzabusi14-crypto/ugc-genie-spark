@@ -17,6 +17,7 @@ import NotFound from "@/pages/NotFound";
 import CreateLandingPage from "@/pages/CreateLandingPage";
 import MyLandingPagesPage from "@/pages/MyLandingPagesPage";
 import PreviewLandingPage from "@/pages/PreviewLandingPage";
+import LandingPageProgressPage from "@/pages/LandingPageProgressPage";
 
 const queryClient = new QueryClient();
 
