@@ -1,11 +1,14 @@
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useI18n } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 import DashboardLayout from "@/components/DashboardLayout";
-import { Download, ExternalLink, ArrowLeft } from "lucide-react";
+import { Download, ExternalLink, ArrowLeft, Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
+import JSZip from "jszip";
+import { saveAs } from "file-saver";
 
 export default function PreviewLandingPage() {
   const { id } = useParams<{ id: string }>();
