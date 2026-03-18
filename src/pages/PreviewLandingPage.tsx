@@ -99,9 +99,18 @@ export default function PreviewLandingPage() {
             <h2 className="font-display text-xl font-bold">{page.product_name}</h2>
           </div>
           <div className="flex gap-2">
-            <Button variant="glass" size="sm" onClick={handleDownload}>
-              <Download className="h-4 w-4" />
-              {t("download")}
+            <Button variant="glass" size="sm" onClick={handleDownload} disabled={isZipping}>
+              {isZipping ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  جاري التحميل...
+                </>
+              ) : (
+                <>
+                  <Download className="h-4 w-4" />
+                  {t("download")}
+                </>
+              )}
             </Button>
             <Button variant="glass" size="sm" onClick={handleOpenNewTab}>
               <ExternalLink className="h-4 w-4" />
