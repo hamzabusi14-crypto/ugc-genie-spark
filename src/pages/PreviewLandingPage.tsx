@@ -13,6 +13,7 @@ import { saveAs } from "file-saver";
 export default function PreviewLandingPage() {
   const { id } = useParams<{ id: string }>();
   const { t } = useI18n();
+  const [isZipping, setIsZipping] = useState(false);
 
   const { data: page, isLoading } = useQuery({
     queryKey: ["landing-page", id],
@@ -27,15 +28,35 @@ export default function PreviewLandingPage() {
     enabled: !!id,
   });
 
-  const handleDownload = () => {
-    if (!page?.html) return;
-    const blob = new Blob([page.html], { type: "text/html" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `${page.product_name}.html`;
-    a.click();
-    URL.revokeObjectURL(url);
+  const handleDownload = async () => {
+    if (!page) return;
+    setIsZipping(true);
+    try {
+      const zip = new JSZip();
+      const imageEntries = [
+        { url: page.hero_image_url, name: "hero-banner.png" },
+        { url: page.features_image_url, name: "features.png" },
+        { url: page.howto_image_url, name: "how-to-use.png" },
+        { url: page.pricing_image_url, name: "pricing-offer.png" },
+      ];
+
+      await Promise.all(
+        imageEntries
+          .filter((entry) => entry.url)
+          .map(async (entry) => {
+            const response = await fetch(entry.url!);
+            const blob = await response.blob();
+            zip.file(entry.name, blob);
+          })
+      );
+
+      const content = await zip.generateAsync({ type: "blob" });
+      saveAs(content, `${page.product_name}-landing-page.zip`);
+    } catch (error) {
+      console.error("Failed to create ZIP:", error);
+    } finally {
+      setIsZipping(false);
+    }
   };
 
   const handleOpenNewTab = () => {
