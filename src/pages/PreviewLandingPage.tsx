@@ -1,15 +1,19 @@
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useI18n } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 import DashboardLayout from "@/components/DashboardLayout";
-import { Download, ExternalLink, ArrowLeft } from "lucide-react";
+import { Download, ExternalLink, ArrowLeft, Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
+import JSZip from "jszip";
+import { saveAs } from "file-saver";
 
 export default function PreviewLandingPage() {
   const { id } = useParams<{ id: string }>();
   const { t } = useI18n();
+  const [isZipping, setIsZipping] = useState(false);
 
   const { data: page, isLoading } = useQuery({
     queryKey: ["landing-page", id],
@@ -24,15 +28,35 @@ export default function PreviewLandingPage() {
     enabled: !!id,
   });
 
-  const handleDownload = () => {
-    if (!page?.html) return;
-    const blob = new Blob([page.html], { type: "text/html" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `${page.product_name}.html`;
-    a.click();
-    URL.revokeObjectURL(url);
+  const handleDownload = async () => {
+    if (!page) return;
+    setIsZipping(true);
+    try {
+      const zip = new JSZip();
+      const imageEntries = [
+        { url: page.hero_image_url, name: "hero-banner.png" },
+        { url: page.features_image_url, name: "features.png" },
+        { url: page.howto_image_url, name: "how-to-use.png" },
+        { url: page.pricing_image_url, name: "pricing-offer.png" },
+      ];
+
+      await Promise.all(
+        imageEntries
+          .filter((entry) => entry.url)
+          .map(async (entry) => {
+            const response = await fetch(entry.url!);
+            const blob = await response.blob();
+            zip.file(entry.name, blob);
+          })
+      );
+
+      const content = await zip.generateAsync({ type: "blob" });
+      saveAs(content, `${page.product_name}-landing-page.zip`);
+    } catch (error) {
+      console.error("Failed to create ZIP:", error);
+    } finally {
+      setIsZipping(false);
+    }
   };
 
   const handleOpenNewTab = () => {
@@ -75,9 +99,18 @@ export default function PreviewLandingPage() {
             <h2 className="font-display text-xl font-bold">{page.product_name}</h2>
           </div>
           <div className="flex gap-2">
-            <Button variant="glass" size="sm" onClick={handleDownload}>
-              <Download className="h-4 w-4" />
-              {t("download")}
+            <Button variant="glass" size="sm" onClick={handleDownload} disabled={isZipping}>
+              {isZipping ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  جاري التحميل...
+                </>
+              ) : (
+                <>
+                  <Download className="h-4 w-4" />
+                  {t("download")}
+                </>
+              )}
             </Button>
             <Button variant="glass" size="sm" onClick={handleOpenNewTab}>
               <ExternalLink className="h-4 w-4" />
