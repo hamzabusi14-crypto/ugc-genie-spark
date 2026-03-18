@@ -222,8 +222,8 @@ export default function CreateVideoPage() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="8s">8s</SelectItem>
-                <SelectItem value="15s">15s</SelectItem>
-                <SelectItem value="25s">25s</SelectItem>
+                <SelectItem value="16s">16s</SelectItem>
+                <SelectItem value="24s">24s</SelectItem>
               </SelectContent>
             </Select>
           </div>
