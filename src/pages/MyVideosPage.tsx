@@ -76,10 +76,25 @@ export default function MyVideosPage() {
             </Button>
           </div>
         ) : (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {videos.map((video) => {
-              const isExtended = !!(video as any).parent_video_id;
-              return (
+          <div className="space-y-6">
+            {(() => {
+              // Group: originals (no parent) with their extensions
+              const originals = videos.filter((v) => !(v as any).parent_video_id);
+              const extensionsByParent = new Map<string, typeof videos>();
+              videos.forEach((v) => {
+                const parentId = (v as any).parent_video_id;
+                if (parentId) {
+                  const list = extensionsByParent.get(parentId) ?? [];
+                  list.push(v);
+                  extensionsByParent.set(parentId, list);
+                }
+              });
+              // Orphan extensions (parent deleted)
+              const orphanExtensions = videos.filter(
+                (v) => (v as any).parent_video_id && !originals.find((o) => o.id === (v as any).parent_video_id)
+              );
+
+              const renderCard = (video: (typeof videos)[0], isExtended: boolean) => (
                 <div key={video.id} className={`glass-card overflow-hidden group ${video.status === "generating" ? "generating-border" : ""}`}>
                   <div
                     className="aspect-video bg-muted relative flex items-center justify-center cursor-pointer overflow-hidden"
@@ -147,7 +162,35 @@ export default function MyVideosPage() {
                   </div>
                 </div>
               );
-            })}
+
+              return (
+                <>
+                  {originals.map((original) => {
+                    const extensions = extensionsByParent.get(original.id) ?? [];
+                    if (extensions.length === 0) {
+                      return (
+                        <div key={original.id} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                          {renderCard(original, false)}
+                        </div>
+                      );
+                    }
+                    return (
+                      <div key={original.id} className="rounded-xl border border-border/60 bg-muted/20 p-3">
+                        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                          {renderCard(original, false)}
+                          {extensions.map((ext) => renderCard(ext, true))}
+                        </div>
+                      </div>
+                    );
+                  })}
+                  {orphanExtensions.length > 0 && (
+                    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {orphanExtensions.map((ext) => renderCard(ext, true))}
+                    </div>
+                  )}
+                </>
+              );
+            })()}
           </div>
         )}
 
