@@ -128,7 +128,7 @@ export default function MyVideosPage() {
                     </h4>
                     <div className="flex items-center justify-between mt-2">
                       <span className="text-xs text-muted-foreground">
-                        {isExtended ? "16s" : video.duration} · {new Date(video.created_at).toLocaleDateString()}
+                        {video.duration} · {new Date(video.created_at).toLocaleDateString()}
                       </span>
                       <StatusBadge status={video.status} />
                     </div>
