@@ -18,7 +18,7 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { videoId, videoUrl, status, taskId } = await req.json();
+    const { videoId, videoUrl, status, taskId, parentVideoId } = await req.json();
 
     if (!videoId || !status) {
       return new Response(JSON.stringify({ error: "Missing videoId or status" }), {
@@ -32,13 +32,13 @@ Deno.serve(async (req) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
     );
 
-    // Check if this is an extension callback (taskId present means it came from extend flow)
-    if (taskId && status === "done" && videoUrl) {
+    // Extension callback: only when parentVideoId is explicitly provided
+    if (parentVideoId && status === "done" && videoUrl) {
       // Fetch original video to copy fields
       const { data: original, error: fetchError } = await supabase
         .from("videos")
         .select("product_name, product_image_url, language, country, user_id, aspect_ratio, model, description")
-        .eq("id", videoId)
+        .eq("id", parentVideoId)
         .single();
 
       if (fetchError || !original) {
@@ -63,7 +63,7 @@ Deno.serve(async (req) => {
           video_url: videoUrl,
           status: "done",
           duration: "16s",
-          parent_video_id: videoId,
+          parent_video_id: parentVideoId,
           task_id: taskId,
         });
 
