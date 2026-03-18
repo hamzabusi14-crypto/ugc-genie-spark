@@ -53,8 +53,8 @@ export interface ScriptSegment {
 
 export const CREDIT_COSTS: Record<string, number> = {
   "8s": 10,
-  "15s": 20,
-  "25s": 35,
+  "16s": 20,
+  "24s": 35,
 };
 
 export const PLANS = [
