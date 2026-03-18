@@ -32,7 +32,7 @@ export default function CreateVideoPage() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [duration, setDuration] = useState("8s");
-  const [aspectRatio, setAspectRatio] = useState("Portrait");
+  const [aspectRatio, setAspectRatio] = useState("9:16");
   const [language, setLanguage] = useState("Arabic");
   const [country, setCountry] = useState("");
   const [description, setDescription] = useState("");
