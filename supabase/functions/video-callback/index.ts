@@ -18,7 +18,7 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { videoId, videoUrl, status, taskId, parentVideoId } = await req.json();
+    const { videoId, videoUrl, status, taskId, parentVideoId, duration } = await req.json();
 
     if (!videoId || !status) {
       return new Response(JSON.stringify({ error: "Missing videoId or status" }), {
@@ -32,44 +32,54 @@ Deno.serve(async (req) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
     );
 
-    // Extension callback: only when parentVideoId is explicitly provided
-    if (parentVideoId && status === "done" && videoUrl) {
-      // Fetch original video to copy fields
-      const { data: original, error: fetchError } = await supabase
-        .from("videos")
-        .select("product_name, product_image_url, language, country, user_id, aspect_ratio, model, description")
-        .eq("id", parentVideoId)
-        .single();
+    // Extension callback: triggered when taskId is present
+    if (taskId) {
+      if (status === "done" && videoUrl) {
+        // Use parentVideoId if provided, otherwise fall back to videoId as the original
+        const originalId = parentVideoId || videoId;
 
-      if (fetchError || !original) {
-        return new Response(JSON.stringify({ error: fetchError?.message || "Original video not found" }), {
-          status: 500,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        });
-      }
+        const { data: original, error: fetchError } = await supabase
+          .from("videos")
+          .select("product_name, product_image_url, language, country, user_id, aspect_ratio, model, description, cloudinary_public_id")
+          .eq("id", originalId)
+          .single();
 
-      // Create a new record for the extended video
-      const { error: insertError } = await supabase
-        .from("videos")
-        .insert({
-          user_id: original.user_id,
-          product_name: original.product_name,
-          product_image_url: original.product_image_url,
-          language: original.language,
-          country: original.country,
-          aspect_ratio: original.aspect_ratio,
-          model: original.model,
-          description: original.description,
-          video_url: videoUrl,
-          status: "done",
-          duration: "16s",
-          parent_video_id: parentVideoId,
-          task_id: taskId,
-        });
+        if (fetchError || !original) {
+          return new Response(JSON.stringify({ error: fetchError?.message || "Original video not found" }), {
+            status: 500,
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          });
+        }
 
-      if (insertError) {
-        return new Response(JSON.stringify({ error: insertError.message }), {
-          status: 500,
+        const { error: insertError } = await supabase
+          .from("videos")
+          .insert({
+            user_id: original.user_id,
+            product_name: original.product_name,
+            product_image_url: original.product_image_url,
+            language: original.language,
+            country: original.country,
+            aspect_ratio: original.aspect_ratio,
+            model: original.model,
+            description: original.description,
+            cloudinary_public_id: original.cloudinary_public_id,
+            video_url: videoUrl,
+            status: "done",
+            duration: duration || "16s",
+            parent_video_id: originalId,
+            task_id: taskId,
+          });
+
+        if (insertError) {
+          return new Response(JSON.stringify({ error: insertError.message }), {
+            status: 500,
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          });
+        }
+      } else {
+        // taskId present but not done yet — do nothing, don't update original
+        return new Response(JSON.stringify({ success: true, message: "Extension in progress, no update needed" }), {
+          status: 200,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
