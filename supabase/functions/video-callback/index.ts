@@ -18,7 +18,7 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { videoId, videoUrl, status } = await req.json();
+    const { videoId, videoUrl, status, taskId } = await req.json();
 
     if (!videoId || !status) {
       return new Response(JSON.stringify({ error: "Missing videoId or status" }), {
@@ -32,19 +32,63 @@ Deno.serve(async (req) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
     );
 
-    const updateData: Record<string, unknown> = { status };
-    if (videoUrl) updateData.video_url = videoUrl;
+    // Check if this is an extension callback (taskId present means it came from extend flow)
+    if (taskId && status === "done" && videoUrl) {
+      // Fetch original video to copy fields
+      const { data: original, error: fetchError } = await supabase
+        .from("videos")
+        .select("product_name, product_image_url, language, country, user_id, aspect_ratio, model, description")
+        .eq("id", videoId)
+        .single();
 
-    const { error } = await supabase
-      .from("videos")
-      .update(updateData)
-      .eq("id", videoId);
+      if (fetchError || !original) {
+        return new Response(JSON.stringify({ error: fetchError?.message || "Original video not found" }), {
+          status: 500,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
 
-    if (error) {
-      return new Response(JSON.stringify({ error: error.message }), {
-        status: 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      // Create a new record for the extended video
+      const { error: insertError } = await supabase
+        .from("videos")
+        .insert({
+          user_id: original.user_id,
+          product_name: original.product_name,
+          product_image_url: original.product_image_url,
+          language: original.language,
+          country: original.country,
+          aspect_ratio: original.aspect_ratio,
+          model: original.model,
+          description: original.description,
+          video_url: videoUrl,
+          status: "done",
+          duration: "16s",
+          parent_video_id: videoId,
+          task_id: taskId,
+        });
+
+      if (insertError) {
+        return new Response(JSON.stringify({ error: insertError.message }), {
+          status: 500,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+    } else {
+      // Normal callback: update existing record
+      const updateData: Record<string, unknown> = { status };
+      if (videoUrl) updateData.video_url = videoUrl;
+
+      const { error } = await supabase
+        .from("videos")
+        .update(updateData)
+        .eq("id", videoId);
+
+      if (error) {
+        return new Response(JSON.stringify({ error: error.message }), {
+          status: 500,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
     }
 
     return new Response(JSON.stringify({ success: true }), {
