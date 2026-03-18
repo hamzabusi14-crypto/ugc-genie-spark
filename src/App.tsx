@@ -17,6 +17,7 @@ import NotFound from "@/pages/NotFound";
 import CreateLandingPage from "@/pages/CreateLandingPage";
 import MyLandingPagesPage from "@/pages/MyLandingPagesPage";
 import PreviewLandingPage from "@/pages/PreviewLandingPage";
+import LandingPageProgressPage from "@/pages/LandingPageProgressPage";
 
 const queryClient = new QueryClient();
 
@@ -38,6 +39,7 @@ const App = () => (
               <Route path="/create-landing-page" element={<CreateLandingPage />} />
               <Route path="/landing-pages" element={<MyLandingPagesPage />} />
               <Route path="/preview-landing/:id" element={<PreviewLandingPage />} />
+              <Route path="/landing-progress/:id" element={<LandingPageProgressPage />} />
               <Route path="/billing" element={<BillingPage />} />
               <Route path="/settings" element={<SettingsPage />} />
               <Route path="*" element={<NotFound />} />

@@ -101,7 +101,7 @@ export default function CreateLandingPage() {
       if (!res.ok) throw new Error("Webhook failed");
 
       toast.success(t("landingPageStarted"));
-      navigate("/landing-pages");
+      navigate(`/landing-progress/${record.id}`);
     } catch (err: any) {
       toast.error(err.message || "Generation failed");
     } finally {
