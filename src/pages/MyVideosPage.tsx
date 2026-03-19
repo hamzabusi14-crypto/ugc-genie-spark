@@ -257,6 +257,7 @@ export default function MyVideosPage() {
                         language: extendVideo?.language ?? "",
                         targetedCountry: extendVideo?.country ?? "",
                         additionalDescription,
+                        duration: extendVideo?.duration ?? "8s",
                       }),
                     });
                     toast.success("Video extension started");
