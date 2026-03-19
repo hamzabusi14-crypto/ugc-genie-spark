@@ -11,6 +11,7 @@ import { useState } from "react";
 
 export default function ExtendVideoPage() {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const { t } = useI18n();
   const { profile, refreshProfile } = useAuth();
   const queryClient = useQueryClient();
