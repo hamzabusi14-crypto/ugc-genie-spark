@@ -32,16 +32,13 @@ Deno.serve(async (req) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
     );
 
-    // Extension callback: triggered when taskId is present
-    if (taskId) {
+    if (taskId && parentVideoId) {
+      // Extension callback: both taskId AND parentVideoId present — create a new record
       if (status === "done" && videoUrl) {
-        // Use parentVideoId if provided, otherwise fall back to videoId as the original
-        const originalId = parentVideoId || videoId;
-
         const { data: original, error: fetchError } = await supabase
           .from("videos")
           .select("product_name, product_image_url, language, country, user_id, aspect_ratio, model, description, cloudinary_public_id")
-          .eq("id", originalId)
+          .eq("id", parentVideoId)
           .single();
 
         if (fetchError || !original) {
@@ -66,7 +63,7 @@ Deno.serve(async (req) => {
             video_url: videoUrl,
             status: "done",
             duration: duration || "16s",
-            parent_video_id: originalId,
+            parent_video_id: parentVideoId,
             task_id: taskId,
           });
 
@@ -77,7 +74,6 @@ Deno.serve(async (req) => {
           });
         }
       } else {
-        // taskId present but not done yet — do nothing, don't update original
         return new Response(JSON.stringify({ success: true, message: "Extension in progress, no update needed" }), {
           status: 200,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
