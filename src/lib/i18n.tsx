@@ -232,6 +232,12 @@ const translations = {
     fillRequired: "يرجى ملء جميع الحقول المطلوبة",
     preview: "معاينة",
     openInNewTab: "فتح في تبويب جديد",
+    progressAnalyzing: "جارٍ تحليل منتجك...",
+    progressCharacter: "جارٍ إنشاء الشخصية...",
+    progressScene: "جارٍ إنشاء مشهد الفيديو...",
+    progressTouches: "جارٍ إضافة اللمسات الأخيرة...",
+    progressAlmost: "أوشك على الانتهاء...",
+    progressDone: "فيديوك جاهز! 🎉",
   },
 };
 
