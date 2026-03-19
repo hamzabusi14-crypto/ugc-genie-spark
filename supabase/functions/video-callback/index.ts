@@ -83,6 +83,8 @@ Deno.serve(async (req) => {
       // Normal callback: update existing record
       const updateData: Record<string, unknown> = { status };
       if (videoUrl) updateData.video_url = videoUrl;
+      if (taskId) updateData.task_id = taskId;
+      if (cloudinaryPublicId) updateData.cloudinary_public_id = cloudinaryPublicId;
 
       const { error } = await supabase
         .from("videos")
