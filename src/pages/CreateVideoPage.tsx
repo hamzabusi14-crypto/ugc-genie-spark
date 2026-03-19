@@ -143,20 +143,19 @@ export default function CreateVideoPage() {
         await supabase.from("videos").update({ task_id: result.taskId }).eq("id", videoRecord.id);
       }
 
-      // Deduct credits
-      await supabase
-        .from("profiles")
-        .update({ credits: (profile?.credits ?? 0) - creditCost })
-        .eq("id", profile!.id);
+      // Deduct credits (disabled for testing)
+      // await supabase
+      //   .from("profiles")
+      //   .update({ credits: (profile?.credits ?? 0) - creditCost })
+      //   .eq("id", profile!.id);
 
-      // Log transaction
-      await supabase.from("transactions").insert({
-        user_id: profile!.id,
-        type: "debit",
-        amount: 0,
-        credits: creditCost,
-        description: `Video generation: ${productName.trim()}`,
-      });
+      // await supabase.from("transactions").insert({
+      //   user_id: profile!.id,
+      //   type: "debit",
+      //   amount: 0,
+      //   credits: creditCost,
+      //   description: `Video generation: ${productName.trim()}`,
+      // });
 
       await refreshProfile();
       toast.success(t("videoStarted"));
