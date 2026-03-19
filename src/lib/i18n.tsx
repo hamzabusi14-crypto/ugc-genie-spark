@@ -114,6 +114,12 @@ const translations = {
     fillRequired: "Please fill all required fields",
     preview: "Preview",
     openInNewTab: "Open in New Tab",
+    progressAnalyzing: "Analyzing your product...",
+    progressCharacter: "Generating character...",
+    progressScene: "Creating your video scene...",
+    progressTouches: "Adding final touches...",
+    progressAlmost: "Almost ready...",
+    progressDone: "Your video is ready! 🎉",
   },
   ar: {
     brand: "OFA AI",
