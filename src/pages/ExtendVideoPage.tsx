@@ -81,7 +81,9 @@ export default function ExtendVideoPage() {
       await refreshProfile();
       queryClient.invalidateQueries({ queryKey: ["video", id] });
       queryClient.invalidateQueries({ queryKey: ["segments", id] });
-      toast.success("Extension started!");
+      
+      // Redirect to progress page
+      navigate(`/extend-progress/${id}?name=${encodeURIComponent(video?.product_name || "")}`);
     } catch (err: any) {
       toast.error(err.message || "Extension failed");
     }
