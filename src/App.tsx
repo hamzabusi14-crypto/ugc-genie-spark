@@ -19,6 +19,7 @@ import MyLandingPagesPage from "@/pages/MyLandingPagesPage";
 import PreviewLandingPage from "@/pages/PreviewLandingPage";
 import LandingPageProgressPage from "@/pages/LandingPageProgressPage";
 import VideoProgressPage from "@/pages/VideoProgressPage";
+import ExtendVideoProgressPage from "@/pages/ExtendVideoProgressPage";
 
 const queryClient = new QueryClient();
 
