@@ -18,7 +18,7 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { videoId, videoUrl, status, taskId, parentVideoId, duration } = await req.json();
+    const { videoId, videoUrl, status, taskId, parentVideoId, duration, cloudinaryPublicId } = await req.json();
 
     if (!videoId || !status) {
       return new Response(JSON.stringify({ error: "Missing videoId or status" }), {
@@ -83,6 +83,8 @@ Deno.serve(async (req) => {
       // Normal callback: update existing record
       const updateData: Record<string, unknown> = { status };
       if (videoUrl) updateData.video_url = videoUrl;
+      if (taskId) updateData.task_id = taskId;
+      if (cloudinaryPublicId) updateData.cloudinary_public_id = cloudinaryPublicId;
 
       const { error } = await supabase
         .from("videos")
