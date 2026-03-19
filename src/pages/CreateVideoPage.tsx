@@ -87,10 +87,10 @@ export default function CreateVideoPage() {
       toast.error("Please fill all required fields");
       return;
     }
-    if ((profile?.credits ?? 0) < creditCost) {
-      toast.error(t("insufficientCredits"));
-      return;
-    }
+    // if ((profile?.credits ?? 0) < creditCost) {
+    //   toast.error(t("insufficientCredits"));
+    //   return;
+    // }
 
     isSubmitting.current = true;
     setGenerating(true);
