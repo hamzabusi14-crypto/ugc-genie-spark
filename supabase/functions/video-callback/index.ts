@@ -18,7 +18,7 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { videoId, videoUrl, status, taskId, parentVideoId, duration } = await req.json();
+    const { videoId, videoUrl, status, taskId, parentVideoId, duration, cloudinaryPublicId } = await req.json();
 
     if (!videoId || !status) {
       return new Response(JSON.stringify({ error: "Missing videoId or status" }), {
