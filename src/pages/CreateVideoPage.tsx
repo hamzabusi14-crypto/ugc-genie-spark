@@ -39,6 +39,7 @@ export default function CreateVideoPage() {
   const [uploading, setUploading] = useState(false);
   const [generating, setGenerating] = useState(false);
   const [stage, setStage] = useState(0);
+  const isSubmitting = useRef(false);
 
   const creditCost = CREDIT_COSTS[duration] || 10;
 
