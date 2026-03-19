@@ -18,6 +18,7 @@ import CreateLandingPage from "@/pages/CreateLandingPage";
 import MyLandingPagesPage from "@/pages/MyLandingPagesPage";
 import PreviewLandingPage from "@/pages/PreviewLandingPage";
 import LandingPageProgressPage from "@/pages/LandingPageProgressPage";
+import VideoProgressPage from "@/pages/VideoProgressPage";
 
 const queryClient = new QueryClient();
 
@@ -40,6 +41,7 @@ const App = () => (
               <Route path="/landing-pages" element={<MyLandingPagesPage />} />
               <Route path="/preview-landing/:id" element={<PreviewLandingPage />} />
               <Route path="/landing-progress/:id" element={<LandingPageProgressPage />} />
+              <Route path="/video-progress/:id" element={<VideoProgressPage />} />
               <Route path="/billing" element={<BillingPage />} />
               <Route path="/settings" element={<SettingsPage />} />
               <Route path="*" element={<NotFound />} />
