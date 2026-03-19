@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useI18n } from "@/lib/i18n";
 import { useAuth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,7 @@ import { useState } from "react";
 
 export default function ExtendVideoPage() {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const { t } = useI18n();
   const { profile, refreshProfile } = useAuth();
   const queryClient = useQueryClient();
@@ -80,7 +81,9 @@ export default function ExtendVideoPage() {
       await refreshProfile();
       queryClient.invalidateQueries({ queryKey: ["video", id] });
       queryClient.invalidateQueries({ queryKey: ["segments", id] });
-      toast.success("Extension started!");
+      
+      // Redirect to progress page
+      navigate(`/extend-progress/${id}?name=${encodeURIComponent(video?.product_name || "")}`);
     } catch (err: any) {
       toast.error(err.message || "Extension failed");
     }
