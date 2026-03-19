@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Upload, Sparkles, Download, ChevronDown, Globe } from "lucide-react";
 import { PLANS } from "@/lib/types";
 import { useState } from "react";
+import AppFooter from "@/components/AppFooter";
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
