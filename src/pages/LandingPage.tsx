@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Upload, Sparkles, Download, ChevronDown, Globe } from "lucide-react";
 import { PLANS } from "@/lib/types";
 import { useState } from "react";
+import AppFooter from "@/components/AppFooter";
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -175,13 +176,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-border py-8 px-4">
-        <div className="container flex flex-col sm:flex-row items-center justify-between gap-4">
-          <span className="font-display font-bold gradient-text">OFA AI</span>
-          <p className="text-sm text-muted-foreground">© 2026 OFA AI. {t("allRightsReserved")}</p>
-        </div>
-      </footer>
+      <AppFooter />
     </div>
   );
 }

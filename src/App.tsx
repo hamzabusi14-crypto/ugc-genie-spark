@@ -20,6 +20,10 @@ import PreviewLandingPage from "@/pages/PreviewLandingPage";
 import LandingPageProgressPage from "@/pages/LandingPageProgressPage";
 import VideoProgressPage from "@/pages/VideoProgressPage";
 import ExtendVideoProgressPage from "@/pages/ExtendVideoProgressPage";
+import PrivacyPolicyPage from "@/pages/PrivacyPolicyPage";
+import TermsOfServicePage from "@/pages/TermsOfServicePage";
+import RefundPolicyPage from "@/pages/RefundPolicyPage";
+import CookiePolicyPage from "@/pages/CookiePolicyPage";
 
 const queryClient = new QueryClient();
 
@@ -34,6 +38,10 @@ const App = () => (
               <Route path="/" element={<LandingPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/signup" element={<SignupPage />} />
+              <Route path="/privacy" element={<PrivacyPolicyPage />} />
+              <Route path="/terms" element={<TermsOfServicePage />} />
+              <Route path="/refund" element={<RefundPolicyPage />} />
+              <Route path="/cookies" element={<CookiePolicyPage />} />
               <Route path="/dashboard" element={<DashboardPage />} />
               <Route path="/create" element={<CreateVideoPage />} />
               <Route path="/videos" element={<MyVideosPage />} />
