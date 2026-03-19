@@ -39,10 +39,10 @@ export default function ExtendVideoPage() {
   });
 
   const handleExtend = async () => {
-    if ((profile?.credits ?? 0) < 5) {
-      toast.error(t("insufficientCredits"));
-      return;
-    }
+    // if ((profile?.credits ?? 0) < 5) {
+    //   toast.error(t("insufficientCredits"));
+    //   return;
+    // }
 
     setExtending(true);
     try {
