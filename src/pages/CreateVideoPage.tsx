@@ -305,7 +305,7 @@ export default function CreateVideoPage() {
               </motion.div>
             ) : (
               <motion.div key="button" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                <Button variant="gradient" size="xl" className="w-full" onClick={handleGenerate} disabled={!imageUrl || uploading}>
+                <Button variant="gradient" size="xl" className="w-full" onClick={handleGenerate} disabled={!imageUrl || uploading || generating}>
                   {t("generateVideo")}
                 </Button>
               </motion.div>
