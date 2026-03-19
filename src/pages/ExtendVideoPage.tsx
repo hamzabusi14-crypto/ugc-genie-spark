@@ -47,7 +47,8 @@ export default function ExtendVideoPage() {
 
     setExtending(true);
     try {
-      const res = await fetch("https://snap-automation1.app.n8n.cloud/webhook/extend-video", {
+      // Fire webhook without awaiting response
+      fetch("https://snap-automation1.app.n8n.cloud/webhook/extend-video", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -56,7 +57,6 @@ export default function ExtendVideoPage() {
           userId: profile?.id,
         }),
       });
-      if (!res.ok) throw new Error("Extension failed");
 
       // Update segment
       await supabase
@@ -64,30 +64,12 @@ export default function ExtendVideoPage() {
         .update({ current_segment: (video?.current_segment ?? 1) + 1 })
         .eq("id", id!);
 
-      // Deduct credits (disabled for testing)
-      // await supabase
-      //   .from("profiles")
-      //   .update({ credits: (profile?.credits ?? 0) - 5 })
-      //   .eq("id", profile!.id);
-
-      // await supabase.from("transactions").insert({
-      //   user_id: profile!.id,
-      //   type: "debit",
-      //   amount: 0,
-      //   credits: 5,
-      //   description: `Video extension: ${video?.product_name}`,
-      // });
-
-      await refreshProfile();
-      queryClient.invalidateQueries({ queryKey: ["video", id] });
-      queryClient.invalidateQueries({ queryKey: ["segments", id] });
-      
-      // Redirect to progress page
+      // Redirect immediately
       navigate(`/extend-progress/${id}?name=${encodeURIComponent(video?.product_name || "")}`);
     } catch (err: any) {
       toast.error(err.message || "Extension failed");
+      setExtending(false);
     }
-    setExtending(false);
   };
 
   if (!video) {
