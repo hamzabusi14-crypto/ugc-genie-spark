@@ -39,10 +39,10 @@ export default function ExtendVideoPage() {
   });
 
   const handleExtend = async () => {
-    if ((profile?.credits ?? 0) < 5) {
-      toast.error(t("insufficientCredits"));
-      return;
-    }
+    // if ((profile?.credits ?? 0) < 5) {
+    //   toast.error(t("insufficientCredits"));
+    //   return;
+    // }
 
     setExtending(true);
     try {
@@ -63,19 +63,19 @@ export default function ExtendVideoPage() {
         .update({ current_segment: (video?.current_segment ?? 1) + 1 })
         .eq("id", id!);
 
-      // Deduct credits
-      await supabase
-        .from("profiles")
-        .update({ credits: (profile?.credits ?? 0) - 5 })
-        .eq("id", profile!.id);
+      // Deduct credits (disabled for testing)
+      // await supabase
+      //   .from("profiles")
+      //   .update({ credits: (profile?.credits ?? 0) - 5 })
+      //   .eq("id", profile!.id);
 
-      await supabase.from("transactions").insert({
-        user_id: profile!.id,
-        type: "debit",
-        amount: 0,
-        credits: 5,
-        description: `Video extension: ${video?.product_name}`,
-      });
+      // await supabase.from("transactions").insert({
+      //   user_id: profile!.id,
+      //   type: "debit",
+      //   amount: 0,
+      //   credits: 5,
+      //   description: `Video extension: ${video?.product_name}`,
+      // });
 
       await refreshProfile();
       queryClient.invalidateQueries({ queryKey: ["video", id] });
