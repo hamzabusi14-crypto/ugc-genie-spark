@@ -236,11 +236,14 @@ const translations = {
     preview: "معاينة",
     openInNewTab: "فتح في تبويب جديد",
     progressAnalyzing: "جارٍ تحليل منتجك...",
-    progressCharacter: "جارٍ إنشاء الشخصية...",
+    progressCharacter: "جارٍ إنشاء شخصية الذكاء الاصطناعي...",
     progressScene: "جارٍ إنشاء مشهد الفيديو...",
-    progressTouches: "جارٍ إضافة اللمسات الأخيرة...",
-    progressAlmost: "أوشك على الانتهاء...",
+    progressTouches: "جارٍ إضافة اللمسات السينمائية...",
+    progressAlmost: "أوشك على الانتهاء، العرض النهائي...",
     progressDone: "فيديوك جاهز! 🎉",
+    progressEstimatedTime: "الوقت المتبقي المقدر",
+    progressMinutes: "دقائق",
+    progressVideoDuration: "مدة الفيديو",
   },
 };
 

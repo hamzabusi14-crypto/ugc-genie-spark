@@ -157,7 +157,7 @@ export default function CreateVideoPage() {
 
       await refreshProfile();
       toast.success(t("videoStarted"));
-      navigate(`/video-progress/${videoRecord.id}`);
+      navigate(`/video-progress/${videoRecord.id}?duration=${duration}`);
     } catch (err: any) {
       toast.error(err.message || "Generation failed");
     } finally {
