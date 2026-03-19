@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
@@ -39,6 +39,7 @@ export default function CreateVideoPage() {
   const [uploading, setUploading] = useState(false);
   const [generating, setGenerating] = useState(false);
   const [stage, setStage] = useState(0);
+  const isSubmitting = useRef(false);
 
   const creditCost = CREDIT_COSTS[duration] || 10;
 
@@ -81,6 +82,7 @@ export default function CreateVideoPage() {
   }, [handleImageSelect]);
 
   const handleGenerate = async () => {
+    if (isSubmitting.current || generating) return;
     if (!productName.trim() || !imageUrl || !country.trim()) {
       toast.error("Please fill all required fields");
       return;
@@ -90,6 +92,7 @@ export default function CreateVideoPage() {
       return;
     }
 
+    isSubmitting.current = true;
     setGenerating(true);
     setStage(0);
 
@@ -302,7 +305,7 @@ export default function CreateVideoPage() {
               </motion.div>
             ) : (
               <motion.div key="button" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                <Button variant="gradient" size="xl" className="w-full" onClick={handleGenerate} disabled={!imageUrl || uploading}>
+                <Button variant="gradient" size="xl" className="w-full" onClick={handleGenerate} disabled={!imageUrl || uploading || generating}>
                   {t("generateVideo")}
                 </Button>
               </motion.div>
