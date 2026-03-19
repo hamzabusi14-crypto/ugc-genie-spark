@@ -82,6 +82,7 @@ export default function CreateVideoPage() {
   }, [handleImageSelect]);
 
   const handleGenerate = async () => {
+    if (isSubmitting.current || generating) return;
     if (!productName.trim() || !imageUrl || !country.trim()) {
       toast.error("Please fill all required fields");
       return;
@@ -91,6 +92,7 @@ export default function CreateVideoPage() {
       return;
     }
 
+    isSubmitting.current = true;
     setGenerating(true);
     setStage(0);
 
