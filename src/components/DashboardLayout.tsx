@@ -17,6 +17,7 @@ import {
 import { NavLink } from "@/components/NavLink";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import AppFooter from "@/components/AppFooter";
 
 const navItems = [
   { key: "dashboard" as const, path: "/dashboard", icon: LayoutDashboard },
