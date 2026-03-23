@@ -3,17 +3,21 @@ import { Button } from "@/components/ui/button";
 import DashboardLayout from "@/components/DashboardLayout";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Film, Download, Trash2, FastForward, Play, X } from "lucide-react";
+import { Film, Download, Trash2, FastForward, Play, X, BookOpen, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { useGenerateFacelessPart2 } from "@/hooks/useFacelessVideo";
+import { useNavigate } from "react-router-dom";
 
 export default function MyVideosPage() {
   const { t } = useI18n();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  const { generatePart2, loading: continueLoading } = useGenerateFacelessPart2();
 
   const { data: videos, refetch } = useQuery({
     queryKey: ["all-videos"],
@@ -94,7 +98,13 @@ export default function MyVideosPage() {
                 (v) => (v as any).parent_video_id && !originals.find((o) => o.id === (v as any).parent_video_id)
               );
 
-              const renderCard = (video: (typeof videos)[0], isExtended: boolean) => (
+              const renderCard = (video: (typeof videos)[0], isExtended: boolean) => {
+                const isFaceless = (video as any).video_type === "faceless";
+                const partNum = (video as any).part_number || 1;
+                const hasCliffhanger = isFaceless && (video as any).cliffhanger && video.status === "done";
+                const seriesId = (video as any).series_id;
+
+                return (
                 <div key={video.id} className={`glass-card overflow-hidden group ${video.status === "generating" ? "generating-border" : ""}`}>
                   <div
                     className="aspect-video bg-muted relative flex items-center justify-center cursor-pointer overflow-hidden"
@@ -116,11 +126,18 @@ export default function MyVideosPage() {
                     ) : (
                       <Film className="h-10 w-10 text-muted-foreground" />
                     )}
-                    {isExtended && (
-                      <span className="absolute top-2 left-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-primary text-primary-foreground">
-                        Extended
-                      </span>
-                    )}
+                    <div className="absolute top-2 left-2 flex gap-1.5">
+                      {isExtended && (
+                        <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-primary text-primary-foreground">
+                          Extended
+                        </span>
+                      )}
+                      {isFaceless && (
+                        <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground">
+                          Part {partNum}
+                        </span>
+                      )}
+                    </div>
                   </div>
                   <div className="p-4">
                     <h4 className="font-medium truncate">
@@ -132,7 +149,7 @@ export default function MyVideosPage() {
                       </span>
                       <StatusBadge status={video.status} />
                     </div>
-                    <div className="flex gap-2 mt-3">
+                    <div className="flex gap-2 mt-3 flex-wrap">
                       {video.status === "done" && video.video_url && (
                         <Button variant="glass" size="sm" onClick={() => {
                           const a = document.createElement('a');
@@ -146,7 +163,7 @@ export default function MyVideosPage() {
                           {t("download")}
                         </Button>
                       )}
-                      {video.status === "done" && !isExtended && (
+                      {video.status === "done" && !isExtended && !isFaceless && (
                         <Button variant="glass" size="sm" onClick={() => {
                           setExtendVideoId(video.id);
                           setAdditionalDescription("");
@@ -155,13 +172,34 @@ export default function MyVideosPage() {
                           {t("extend")}
                         </Button>
                       )}
+                      {hasCliffhanger && seriesId && (
+                        <Button
+                          variant="glass"
+                          size="sm"
+                          disabled={continueLoading}
+                          onClick={async () => {
+                            const newVideoId = await generatePart2(seriesId, video.id);
+                            if (newVideoId) {
+                              navigate(`/video-progress/${newVideoId}?duration=8s`);
+                            }
+                          }}
+                        >
+                          {continueLoading ? (
+                            <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                          ) : (
+                            <BookOpen className="h-3.5 w-3.5" />
+                          )}
+                          Continue Story
+                        </Button>
+                      )}
                       <Button variant="ghost" size="sm" className="text-destructive ms-auto" onClick={() => handleDelete(video.id)}>
                         <Trash2 className="h-3.5 w-3.5" />
                       </Button>
                     </div>
                   </div>
                 </div>
-              );
+                );
+              };
 
               return (
                 <>

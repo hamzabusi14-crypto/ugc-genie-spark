@@ -5,3 +5,6 @@ verify_jwt = false
 
 [functions.landing-callback]
 verify_jwt = false
+
+[functions.faceless-callback]
+verify_jwt = false
