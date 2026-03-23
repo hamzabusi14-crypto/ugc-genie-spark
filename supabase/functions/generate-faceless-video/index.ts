@@ -66,19 +66,7 @@ Deno.serve(async (req) => {
       });
     }
 
-    // Check credits
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("credits")
-      .eq("id", userId)
-      .single();
-
-    if (!profile || profile.credits < 10) {
-      return new Response(JSON.stringify({ error: "Insufficient credits" }), {
-        status: 400,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
+    // Credit check bypassed for testing
 
     // Create video record
     const { data: video, error: insertError } = await supabase
@@ -110,20 +98,7 @@ Deno.serve(async (req) => {
       });
     }
 
-    // Deduct credits
-    await supabase
-      .from("profiles")
-      .update({ credits: profile.credits - 10 })
-      .eq("id", userId);
-
-    // Log transaction
-    await supabase.from("transactions").insert({
-      user_id: userId,
-      type: "debit",
-      amount: 0,
-      credits: 10,
-      description: `Faceless video: ${niche} (Part ${partNumber})`,
-    });
+    // Credit deduction bypassed for testing
 
     // Fire n8n webhook (don't await response)
     fetch(webhookUrl, {
