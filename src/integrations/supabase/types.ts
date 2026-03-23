@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      faceless_series: {
+        Row: {
+          character_description: string | null
+          created_at: string
+          id: string
+          niche: string
+          seed_image_url: string | null
+          title: string
+          total_parts: number
+          user_id: string
+        }
+        Insert: {
+          character_description?: string | null
+          created_at?: string
+          id?: string
+          niche?: string
+          seed_image_url?: string | null
+          title?: string
+          total_parts?: number
+          user_id: string
+        }
+        Update: {
+          character_description?: string | null
+          created_at?: string
+          id?: string
+          niche?: string
+          seed_image_url?: string | null
+          title?: string
+          total_parts?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
       landing_pages: {
         Row: {
           created_at: string
@@ -157,7 +190,10 @@ export type Database = {
       videos: {
         Row: {
           aspect_ratio: string
+          character_description: string | null
+          cliffhanger: string | null
           cloudinary_public_id: string | null
+          context_for_continuation: string | null
           country: string
           created_at: string
           credits_used: number
@@ -167,20 +203,30 @@ export type Database = {
           id: string
           language: string
           model: string
+          narration_script: string | null
+          niche: string | null
           parent_video_id: string | null
+          part_number: number
           product_image_url: string
           product_name: string
+          seed_image_url: string | null
+          series_id: string | null
           status: string
+          story_summary: string | null
           task_id: string | null
           thumbnail_url: string | null
           total_segments: number | null
           updated_at: string
           user_id: string
+          video_type: string
           video_url: string | null
         }
         Insert: {
           aspect_ratio?: string
+          character_description?: string | null
+          cliffhanger?: string | null
           cloudinary_public_id?: string | null
+          context_for_continuation?: string | null
           country: string
           created_at?: string
           credits_used?: number
@@ -190,20 +236,30 @@ export type Database = {
           id?: string
           language?: string
           model?: string
+          narration_script?: string | null
+          niche?: string | null
           parent_video_id?: string | null
+          part_number?: number
           product_image_url: string
           product_name: string
+          seed_image_url?: string | null
+          series_id?: string | null
           status?: string
+          story_summary?: string | null
           task_id?: string | null
           thumbnail_url?: string | null
           total_segments?: number | null
           updated_at?: string
           user_id: string
+          video_type?: string
           video_url?: string | null
         }
         Update: {
           aspect_ratio?: string
+          character_description?: string | null
+          cliffhanger?: string | null
           cloudinary_public_id?: string | null
+          context_for_continuation?: string | null
           country?: string
           created_at?: string
           credits_used?: number
@@ -213,15 +269,22 @@ export type Database = {
           id?: string
           language?: string
           model?: string
+          narration_script?: string | null
+          niche?: string | null
           parent_video_id?: string | null
+          part_number?: number
           product_image_url?: string
           product_name?: string
+          seed_image_url?: string | null
+          series_id?: string | null
           status?: string
+          story_summary?: string | null
           task_id?: string | null
           thumbnail_url?: string | null
           total_segments?: number | null
           updated_at?: string
           user_id?: string
+          video_type?: string
           video_url?: string | null
         }
         Relationships: [
