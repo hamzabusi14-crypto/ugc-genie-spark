@@ -13,6 +13,7 @@ interface GenerateFacelessParams {
   previousContext?: string;
   previousCliffhanger?: string;
   seedImageUrl?: string;
+  testMode?: boolean;
 }
 
 export function useGenerateFacelessVideo() {

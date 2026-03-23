@@ -57,6 +57,7 @@ Deno.serve(async (req) => {
       previousContext,
       previousCliffhanger,
       seedImageUrl,
+      testMode = false,
     } = body;
 
     if (!niche || !country) {
@@ -66,7 +67,31 @@ Deno.serve(async (req) => {
       });
     }
 
-    // Credit check bypassed for testing
+    if (testMode) {
+      console.log("🧪 TEST MODE: Skipping credit check and deduction");
+    } else {
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("credits")
+        .eq("id", userId)
+        .single();
+
+      if (!profile || profile.credits < 10) {
+        return new Response(JSON.stringify({ error: "Insufficient credits" }), {
+          status: 400,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+
+      await supabase.from("profiles").update({ credits: profile.credits - 10 }).eq("id", userId);
+      await supabase.from("transactions").insert({
+        user_id: userId,
+        type: "debit",
+        amount: 0,
+        credits: 10,
+        description: `Faceless video: ${niche} (Part ${partNumber})`,
+      });
+    }
 
     // Create video record
     const { data: video, error: insertError } = await supabase
