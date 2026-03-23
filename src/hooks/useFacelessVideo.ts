@@ -15,11 +15,6 @@ interface GenerateFacelessParams {
   seedImageUrl?: string;
   testMode?: boolean;
 }
-  partNumber?: number;
-  previousContext?: string;
-  previousCliffhanger?: string;
-  seedImageUrl?: string;
-}
 
 export function useGenerateFacelessVideo() {
   const [loading, setLoading] = useState(false);
