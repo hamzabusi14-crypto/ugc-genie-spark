@@ -98,7 +98,13 @@ export default function MyVideosPage() {
                 (v) => (v as any).parent_video_id && !originals.find((o) => o.id === (v as any).parent_video_id)
               );
 
-              const renderCard = (video: (typeof videos)[0], isExtended: boolean) => (
+              const renderCard = (video: (typeof videos)[0], isExtended: boolean) => {
+                const isFaceless = (video as any).video_type === "faceless";
+                const partNum = (video as any).part_number || 1;
+                const hasCliffhanger = isFaceless && (video as any).cliffhanger && video.status === "done";
+                const seriesId = (video as any).series_id;
+
+                return (
                 <div key={video.id} className={`glass-card overflow-hidden group ${video.status === "generating" ? "generating-border" : ""}`}>
                   <div
                     className="aspect-video bg-muted relative flex items-center justify-center cursor-pointer overflow-hidden"
@@ -120,11 +126,18 @@ export default function MyVideosPage() {
                     ) : (
                       <Film className="h-10 w-10 text-muted-foreground" />
                     )}
-                    {isExtended && (
-                      <span className="absolute top-2 left-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-primary text-primary-foreground">
-                        Extended
-                      </span>
-                    )}
+                    <div className="absolute top-2 left-2 flex gap-1.5">
+                      {isExtended && (
+                        <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-primary text-primary-foreground">
+                          Extended
+                        </span>
+                      )}
+                      {isFaceless && (
+                        <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground">
+                          Part {partNum}
+                        </span>
+                      )}
+                    </div>
                   </div>
                   <div className="p-4">
                     <h4 className="font-medium truncate">
@@ -136,7 +149,7 @@ export default function MyVideosPage() {
                       </span>
                       <StatusBadge status={video.status} />
                     </div>
-                    <div className="flex gap-2 mt-3">
+                    <div className="flex gap-2 mt-3 flex-wrap">
                       {video.status === "done" && video.video_url && (
                         <Button variant="glass" size="sm" onClick={() => {
                           const a = document.createElement('a');
@@ -150,7 +163,7 @@ export default function MyVideosPage() {
                           {t("download")}
                         </Button>
                       )}
-                      {video.status === "done" && !isExtended && (
+                      {video.status === "done" && !isExtended && !isFaceless && (
                         <Button variant="glass" size="sm" onClick={() => {
                           setExtendVideoId(video.id);
                           setAdditionalDescription("");
@@ -159,13 +172,34 @@ export default function MyVideosPage() {
                           {t("extend")}
                         </Button>
                       )}
+                      {hasCliffhanger && seriesId && (
+                        <Button
+                          variant="glass"
+                          size="sm"
+                          disabled={continueLoading}
+                          onClick={async () => {
+                            const newVideoId = await generatePart2(seriesId, video.id);
+                            if (newVideoId) {
+                              navigate(`/video-progress/${newVideoId}?duration=8s`);
+                            }
+                          }}
+                        >
+                          {continueLoading ? (
+                            <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                          ) : (
+                            <BookOpen className="h-3.5 w-3.5" />
+                          )}
+                          Continue Story
+                        </Button>
+                      )}
                       <Button variant="ghost" size="sm" className="text-destructive ms-auto" onClick={() => handleDelete(video.id)}>
                         <Trash2 className="h-3.5 w-3.5" />
                       </Button>
                     </div>
                   </div>
                 </div>
-              );
+                );
+              };
 
               return (
                 <>
