@@ -16,6 +16,8 @@ import { useNavigate } from "react-router-dom";
 export default function MyVideosPage() {
   const { t } = useI18n();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  const { generatePart2, loading: continueLoading } = useGenerateFacelessPart2();
 
   const { data: videos, refetch } = useQuery({
     queryKey: ["all-videos"],
