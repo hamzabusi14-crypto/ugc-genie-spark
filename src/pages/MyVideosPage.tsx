@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import DashboardLayout from "@/components/DashboardLayout";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Film, Download, Trash2, FastForward, Play, X } from "lucide-react";
+import { Film, Download, Trash2, FastForward, Play, X, BookOpen, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
