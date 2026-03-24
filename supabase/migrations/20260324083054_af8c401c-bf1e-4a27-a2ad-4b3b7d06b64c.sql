@@ -1,0 +1,1 @@
+ALTER TABLE public.subtitle_jobs ADD COLUMN IF NOT EXISTS language_code TEXT DEFAULT 'ar';

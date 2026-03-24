@@ -18,11 +18,25 @@ const MAX_FILE_SIZE = 100 * 1024 * 1024; // 100MB
 const ACCEPTED_TYPES = ["video/mp4", "video/quicktime", "video/webm", "video/x-msvideo"];
 
 const FONTS = [
+  { value: "Tajawal/Tajawal-ExtraBold.ttf", label: "Tajawal Bold (Arabic)" },
   { value: "Poppins/Poppins-ExtraBold.ttf", label: "Poppins Bold" },
   { value: "Roboto/Roboto-Bold.ttf", label: "Roboto Bold" },
   { value: "Montserrat/Montserrat-ExtraBold.ttf", label: "Montserrat Bold" },
   { value: "Bangers/Bangers-Regular.ttf", label: "Bangers" },
   { value: "Oswald/Oswald-Bold.ttf", label: "Oswald Bold" },
+];
+
+const LANGUAGES = [
+  { code: "ar", name: "Arabic (العربية)" },
+  { code: "en", name: "English" },
+  { code: "fr", name: "French (Français)" },
+  { code: "es", name: "Spanish (Español)" },
+  { code: "de", name: "German (Deutsch)" },
+  { code: "hi", name: "Hindi (हिन्दी)" },
+  { code: "ur", name: "Urdu (اردو)" },
+  { code: "tr", name: "Turkish (Türkçe)" },
+  { code: "id", name: "Indonesian" },
+  { code: "pt", name: "Portuguese (Português)" },
 ];
 
 const TEXT_COLORS = [
@@ -63,14 +77,15 @@ export default function SubtitleGenerator() {
   const [font, setFont] = useState(FONTS[0].value);
   const [color, setColor] = useState("white");
   const [highlightColor, setHighlightColor] = useState("yellow");
-  const [fontsize, setFontsize] = useState(7);
-  const [maxChars, setMaxChars] = useState(20);
-  const [subsPosition, setSubsPosition] = useState("bottom75");
-  const [opacity, setOpacity] = useState(0);
+  const [fontsize, setFontsize] = useState(5);
+  const [maxChars, setMaxChars] = useState(12);
+  const [subsPosition, setSubsPosition] = useState("center");
+  const [opacity, setOpacity] = useState(0.7);
   const [strokeColor, setStrokeColor] = useState("black");
-  const [strokeWidth, setStrokeWidth] = useState(2.6);
-  const [rightToLeft, setRightToLeft] = useState(false);
+  const [strokeWidth, setStrokeWidth] = useState(1.5);
+  const [rightToLeft, setRightToLeft] = useState(true);
   const [translate, setTranslate] = useState(false);
+  const [languageCode, setLanguageCode] = useState("ar");
 
   const [activeJobId, setActiveJobId] = useState<string | null>(null);
   const [activeJob, setActiveJob] = useState<SubtitleJob | null>(null);
@@ -182,14 +197,14 @@ export default function SubtitleGenerator() {
     if (!videoUrl.trim()) return;
     const settings: SubtitleSettings = {
       font, color, highlightColor, fontsize, maxChars, subsPosition,
-      opacity, strokeColor, strokeWidth, rightToLeft, translate,
+      opacity, strokeColor, strokeWidth, rightToLeft, translate, languageCode,
     };
     const jobId = await generateSubtitles(videoUrl.trim(), settings);
     if (jobId) {
       setActiveJobId(jobId);
       setActiveJob({ id: jobId, status: "processing" } as SubtitleJob);
     }
-  }, [videoUrl, font, color, highlightColor, fontsize, maxChars, subsPosition, opacity, strokeColor, strokeWidth, rightToLeft, translate, generateSubtitles]);
+  }, [videoUrl, font, color, highlightColor, fontsize, maxChars, subsPosition, opacity, strokeColor, strokeWidth, rightToLeft, translate, languageCode, generateSubtitles]);
 
   const hasVideo = !!videoUrl.trim();
 
@@ -285,6 +300,17 @@ export default function SubtitleGenerator() {
               </CollapsibleContent>
             </Collapsible>
           )}
+
+          {/* Language selector */}
+          <div>
+            <Label>{lang === "ar" ? "لغة الفيديو" : "Video Language"}</Label>
+            <Select value={languageCode} onValueChange={setLanguageCode}>
+              <SelectTrigger className="mt-1 bg-muted border-border"><SelectValue placeholder="Select language" /></SelectTrigger>
+              <SelectContent>
+                {LANGUAGES.map((l) => (<SelectItem key={l.code} value={l.code}>{l.name}</SelectItem>))}
+              </SelectContent>
+            </Select>
+          </div>
 
           {/* 2-col grid for settings */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

@@ -163,6 +163,7 @@ export type Database = {
           created_at: string | null
           error_message: string | null
           id: string
+          language_code: string | null
           original_video_url: string
           replicate_prediction_id: string | null
           settings: Json | null
@@ -178,6 +179,7 @@ export type Database = {
           created_at?: string | null
           error_message?: string | null
           id?: string
+          language_code?: string | null
           original_video_url: string
           replicate_prediction_id?: string | null
           settings?: Json | null
@@ -193,6 +195,7 @@ export type Database = {
           created_at?: string | null
           error_message?: string | null
           id?: string
+          language_code?: string | null
           original_video_url?: string
           replicate_prediction_id?: string | null
           settings?: Json | null

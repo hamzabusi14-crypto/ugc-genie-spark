@@ -22,14 +22,8 @@ Deno.serve(async (req) => {
 
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY")!;
-    const webhookUrl = Deno.env.get("N8N_SUBTITLE_WEBHOOK_URL");
-
-    if (!webhookUrl) {
-      return new Response(JSON.stringify({ error: "Subtitle webhook URL not configured" }), {
-        status: 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
+    const webhookUrl = Deno.env.get("N8N_ARABIC_SUBTITLE_WEBHOOK_URL") ||
+      "https://snap-automation1.app.n8n.cloud/webhook/generate-arabic-subtitle";
 
     const supabase = createClient(supabaseUrl, supabaseAnonKey, {
       global: { headers: { Authorization: authHeader } },
@@ -49,17 +43,18 @@ Deno.serve(async (req) => {
     const {
       videoUrl,
       videoId,
-      font = "Poppins/Poppins-ExtraBold.ttf",
+      font = "Tajawal/Tajawal-ExtraBold.ttf",
       color = "white",
       highlightColor = "yellow",
-      fontsize = 7,
-      maxChars = 20,
-      subsPosition = "bottom75",
-      opacity = 0,
+      fontsize = 5,
+      maxChars = 12,
+      subsPosition = "center",
+      opacity = 0.7,
       strokeColor = "black",
-      strokeWidth = 2.6,
-      rightToLeft = false,
+      strokeWidth = 1.5,
+      rightToLeft = true,
       translate = false,
+      languageCode = "ar",
     } = body;
 
     if (!videoUrl) {
@@ -77,6 +72,7 @@ Deno.serve(async (req) => {
         video_id: videoId || null,
         original_video_url: videoUrl,
         status: "processing",
+        language_code: languageCode,
         settings: {
           font,
           color,
@@ -89,6 +85,7 @@ Deno.serve(async (req) => {
           strokeWidth,
           rightToLeft,
           translate,
+          languageCode,
         },
       })
       .select("id")
@@ -123,6 +120,7 @@ Deno.serve(async (req) => {
         strokeWidth,
         rightToLeft,
         translate,
+        languageCode,
         callbackUrl,
       }),
     }).catch((err) => console.error("Webhook fire error:", err));
