@@ -105,6 +105,7 @@ const translations = {
     createLandingPageDesc: "Generate a professional landing page for your product with AI.",
     myLandingPages: "My Landing Pages",
     landingPages: "Landing Pages",
+    subtitles: "Subtitles",
     noLandingPages: "No landing pages yet",
     landingPageStarted: "Landing page generation started!",
     targetLocation: "Target Location",
