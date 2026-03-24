@@ -77,14 +77,15 @@ export default function SubtitleGenerator() {
   const [font, setFont] = useState(FONTS[0].value);
   const [color, setColor] = useState("white");
   const [highlightColor, setHighlightColor] = useState("yellow");
-  const [fontsize, setFontsize] = useState(7);
-  const [maxChars, setMaxChars] = useState(20);
-  const [subsPosition, setSubsPosition] = useState("bottom75");
-  const [opacity, setOpacity] = useState(0);
+  const [fontsize, setFontsize] = useState(5);
+  const [maxChars, setMaxChars] = useState(12);
+  const [subsPosition, setSubsPosition] = useState("center");
+  const [opacity, setOpacity] = useState(0.7);
   const [strokeColor, setStrokeColor] = useState("black");
-  const [strokeWidth, setStrokeWidth] = useState(2.6);
-  const [rightToLeft, setRightToLeft] = useState(false);
+  const [strokeWidth, setStrokeWidth] = useState(1.5);
+  const [rightToLeft, setRightToLeft] = useState(true);
   const [translate, setTranslate] = useState(false);
+  const [languageCode, setLanguageCode] = useState("ar");
 
   const [activeJobId, setActiveJobId] = useState<string | null>(null);
   const [activeJob, setActiveJob] = useState<SubtitleJob | null>(null);
