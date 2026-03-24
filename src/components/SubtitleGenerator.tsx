@@ -301,6 +301,17 @@ export default function SubtitleGenerator() {
             </Collapsible>
           )}
 
+          {/* Language selector */}
+          <div>
+            <Label>{lang === "ar" ? "لغة الفيديو" : "Video Language"}</Label>
+            <Select value={languageCode} onValueChange={setLanguageCode}>
+              <SelectTrigger className="mt-1 bg-muted border-border"><SelectValue placeholder="Select language" /></SelectTrigger>
+              <SelectContent>
+                {LANGUAGES.map((l) => (<SelectItem key={l.code} value={l.code}>{l.name}</SelectItem>))}
+              </SelectContent>
+            </Select>
+          </div>
+
           {/* 2-col grid for settings */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>

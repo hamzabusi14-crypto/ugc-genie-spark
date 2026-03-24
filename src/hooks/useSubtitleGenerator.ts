@@ -14,6 +14,7 @@ export interface SubtitleSettings {
   strokeWidth?: number;
   rightToLeft?: boolean;
   translate?: boolean;
+  languageCode?: string;
 }
 
 export interface SubtitleJob {
