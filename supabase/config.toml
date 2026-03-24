@@ -8,3 +8,6 @@ verify_jwt = false
 
 [functions.faceless-callback]
 verify_jwt = false
+
+[functions.subtitle-callback]
+verify_jwt = false

@@ -24,6 +24,7 @@ import PrivacyPolicyPage from "@/pages/PrivacyPolicyPage";
 import TermsOfServicePage from "@/pages/TermsOfServicePage";
 import RefundPolicyPage from "@/pages/RefundPolicyPage";
 import CookiePolicyPage from "@/pages/CookiePolicyPage";
+import SubtitlesPage from "@/pages/SubtitlesPage";
 
 const queryClient = new QueryClient();
 
@@ -52,6 +53,7 @@ const App = () => (
               <Route path="/landing-progress/:id" element={<LandingPageProgressPage />} />
               <Route path="/video-progress/:id" element={<VideoProgressPage />} />
               <Route path="/extend-progress/:id" element={<ExtendVideoProgressPage />} />
+              <Route path="/subtitles" element={<SubtitlesPage />} />
               <Route path="/billing" element={<BillingPage />} />
               <Route path="/settings" element={<SettingsPage />} />
               <Route path="*" element={<NotFound />} />

@@ -13,6 +13,7 @@ import {
   Menu,
   Coins,
   Globe,
+  Captions,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { Button } from "@/components/ui/button";
@@ -24,6 +25,7 @@ const navItems = [
   { key: "createVideo" as const, path: "/create", icon: Video },
   { key: "myVideos" as const, path: "/videos", icon: Film },
   { key: "landingPages" as const, path: "/landing-pages", icon: FileText },
+  { key: "subtitles" as const, path: "/subtitles", icon: Captions },
   { key: "billing" as const, path: "/billing", icon: CreditCard },
   { key: "settings" as const, path: "/settings", icon: Settings },
 ];
