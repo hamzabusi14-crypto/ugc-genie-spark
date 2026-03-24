@@ -227,6 +227,7 @@ const translations = {
     createLandingPageDesc: "أنشئ صفحة هبوط احترافية لمنتجك بالذكاء الاصطناعي.",
     myLandingPages: "صفحات الهبوط",
     landingPages: "صفحات الهبوط",
+    subtitles: "الترجمة",
     noLandingPages: "لا توجد صفحات هبوط بعد",
     landingPageStarted: "بدأ إنشاء صفحة الهبوط!",
     targetLocation: "الموقع المستهدف",
