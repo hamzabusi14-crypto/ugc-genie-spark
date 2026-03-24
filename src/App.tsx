@@ -24,6 +24,7 @@ import PrivacyPolicyPage from "@/pages/PrivacyPolicyPage";
 import TermsOfServicePage from "@/pages/TermsOfServicePage";
 import RefundPolicyPage from "@/pages/RefundPolicyPage";
 import CookiePolicyPage from "@/pages/CookiePolicyPage";
+import SubtitlesPage from "@/pages/SubtitlesPage";
 
 const queryClient = new QueryClient();
 
