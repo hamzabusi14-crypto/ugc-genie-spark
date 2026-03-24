@@ -13,6 +13,7 @@ import {
   Menu,
   Coins,
   Globe,
+  Captions,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { Button } from "@/components/ui/button";
