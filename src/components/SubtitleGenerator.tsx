@@ -18,11 +18,25 @@ const MAX_FILE_SIZE = 100 * 1024 * 1024; // 100MB
 const ACCEPTED_TYPES = ["video/mp4", "video/quicktime", "video/webm", "video/x-msvideo"];
 
 const FONTS = [
+  { value: "Tajawal/Tajawal-ExtraBold.ttf", label: "Tajawal Bold (Arabic)" },
   { value: "Poppins/Poppins-ExtraBold.ttf", label: "Poppins Bold" },
   { value: "Roboto/Roboto-Bold.ttf", label: "Roboto Bold" },
   { value: "Montserrat/Montserrat-ExtraBold.ttf", label: "Montserrat Bold" },
   { value: "Bangers/Bangers-Regular.ttf", label: "Bangers" },
   { value: "Oswald/Oswald-Bold.ttf", label: "Oswald Bold" },
+];
+
+const LANGUAGES = [
+  { code: "ar", name: "Arabic (العربية)" },
+  { code: "en", name: "English" },
+  { code: "fr", name: "French (Français)" },
+  { code: "es", name: "Spanish (Español)" },
+  { code: "de", name: "German (Deutsch)" },
+  { code: "hi", name: "Hindi (हिन्दी)" },
+  { code: "ur", name: "Urdu (اردو)" },
+  { code: "tr", name: "Turkish (Türkçe)" },
+  { code: "id", name: "Indonesian" },
+  { code: "pt", name: "Portuguese (Português)" },
 ];
 
 const TEXT_COLORS = [
