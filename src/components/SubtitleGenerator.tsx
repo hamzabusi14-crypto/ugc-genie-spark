@@ -197,7 +197,7 @@ export default function SubtitleGenerator() {
     if (!videoUrl.trim()) return;
     const settings: SubtitleSettings = {
       font, color, highlightColor, fontsize, maxChars, subsPosition,
-      opacity, strokeColor, strokeWidth, rightToLeft, translate,
+      opacity, strokeColor, strokeWidth, rightToLeft, translate, languageCode,
     };
     const jobId = await generateSubtitles(videoUrl.trim(), settings);
     if (jobId) {
