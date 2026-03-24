@@ -157,6 +157,62 @@ export type Database = {
           },
         ]
       }
+      subtitle_jobs: {
+        Row: {
+          completed_at: string | null
+          created_at: string | null
+          error_message: string | null
+          id: string
+          original_video_url: string
+          replicate_prediction_id: string | null
+          settings: Json | null
+          status: string
+          subtitled_video_url: string | null
+          transcript_url: string | null
+          updated_at: string | null
+          user_id: string
+          video_id: string | null
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string | null
+          error_message?: string | null
+          id?: string
+          original_video_url: string
+          replicate_prediction_id?: string | null
+          settings?: Json | null
+          status?: string
+          subtitled_video_url?: string | null
+          transcript_url?: string | null
+          updated_at?: string | null
+          user_id: string
+          video_id?: string | null
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string | null
+          error_message?: string | null
+          id?: string
+          original_video_url?: string
+          replicate_prediction_id?: string | null
+          settings?: Json | null
+          status?: string
+          subtitled_video_url?: string | null
+          transcript_url?: string | null
+          updated_at?: string | null
+          user_id?: string
+          video_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subtitle_jobs_video_id_fkey"
+            columns: ["video_id"]
+            isOneToOne: false
+            referencedRelation: "videos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       transactions: {
         Row: {
           amount: number
