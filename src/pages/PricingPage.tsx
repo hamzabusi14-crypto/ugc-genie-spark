@@ -349,6 +349,32 @@ export default function PricingPage() {
         </div>
       </section>
 
+      {/* Divider */}
+      <div className="container max-w-5xl py-10">
+        <div className="h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+      </div>
+
+      {/* Credit Conversion Table */}
+      <section className="py-12 px-4">
+        <div className="container max-w-4xl">
+          <h2 className="font-display text-2xl md:text-3xl font-bold text-center mb-2">How Credits Work</h2>
+          <p className="text-center text-muted-foreground mb-8">Use your credits for any product</p>
+          <div className="glass-card overflow-hidden">
+            {creditTable.map((row, i) => (
+              <div
+                key={row.product}
+                className={`flex items-center justify-between px-6 py-4 ${i < creditTable.length - 1 ? "border-b border-border" : ""}`}
+              >
+                <span className="text-foreground font-medium">{row.product}</span>
+                <span className={`font-bold ${row.credits.includes("FREE") ? "text-primary" : "text-foreground"}`}>
+                  {row.credits}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* FAQ */}
       <section className="py-16 px-4">
         <div className="container max-w-3xl">
