@@ -517,7 +517,81 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Features */}
+      {/* How It Works */}
+      <section className="py-20 px-4 relative">
+        <div className="container max-w-5xl relative z-10">
+          <motion.div className="text-center mb-14" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} custom={0}>
+            <h3 className="font-display text-3xl md:text-4xl font-bold mb-4">
+              {lang === "ar" ? (
+                <>كيف <span className="gradient-text">يعمل</span></>
+              ) : (
+                <>How It <span className="gradient-text">Works</span></>
+              )}
+            </h3>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              {lang === "ar"
+                ? "من المنتج إلى فيديو احترافي في 3 خطوات بسيطة"
+                : "From product to viral video in 3 simple steps"}
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-6 relative">
+            <div className="hidden md:block absolute top-16 left-[20%] right-[20%] h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent z-0" />
+
+            {[
+              {
+                icon: Upload,
+                num: "1",
+                title: lang === "ar" ? "ارفع منتجك" : "Upload Your Product",
+                desc: lang === "ar" ? "أضف صورة وتفاصيل أساسية عن منتجك" : "Add a photo and basic details about your product",
+              },
+              {
+                icon: Sparkles,
+                num: "2",
+                title: lang === "ar" ? "الذكاء الاصطناعي يصنع فيديوك" : "AI Creates Your Video",
+                desc: lang === "ar"
+                  ? "الذكاء الاصطناعي يكتب السيناريو ويختار المقدم المثالي وينتج الفيديو"
+                  : "Our AI writes the script, selects the perfect creator, and generates your video",
+              },
+              {
+                icon: Download,
+                num: "3",
+                title: lang === "ar" ? "حمّل وانشر" : "Download & Post",
+                desc: lang === "ar" ? "احصل على فيديوك فوراً وانشره في أي مكان" : "Get your video instantly and post it anywhere",
+              },
+            ].map((step, i) => (
+              <motion.div
+                key={step.num}
+                className="relative z-10 glass-card p-6 text-center hover:border-primary/20 transition-colors"
+                custom={i}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={fadeIn}
+              >
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-7 h-7 rounded-full btn-primary-gradient flex items-center justify-center text-xs font-bold text-primary-foreground shadow-lg">
+                  {step.num}
+                </div>
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center mx-auto mt-2 mb-4">
+                  <step.icon className="h-7 w-7 text-primary" />
+                </div>
+                <h4 className="font-display text-lg font-semibold mb-2">{step.title}</h4>
+                <p className="text-sm text-muted-foreground leading-relaxed">{step.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.div className="text-center mt-12" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} custom={3}>
+            <Button variant="gradient" size="lg" asChild>
+              <Link to="/signup">
+                {lang === "ar" ? "ابدأ الإنشاء الآن" : "Start Creating Now"}
+                <ArrowRight className="h-5 w-5 ms-2" />
+              </Link>
+            </Button>
+          </motion.div>
+        </div>
+      </section>
+
       <section className="py-20 px-4 relative">
         <div className="bg-orb bg-orb-pink w-80 h-80 top-0 right-10" style={{ animationDelay: "1s" }} />
         <div className="container max-w-5xl relative z-10">
