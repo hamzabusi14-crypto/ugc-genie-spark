@@ -100,6 +100,93 @@ const planFeatures: Record<string, string[]> = {
   ultimate: ["1,500 credits/month", "Everything in Premium", "White-label", "Custom integrations", "Account manager"],
 };
 
+function LandingPageCard({ page, lang }: { page: typeof landingPageExamples[0]; lang: string }) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const handleMouseEnter = useCallback(() => {
+    setCurrentIndex(1);
+    let idx = 1;
+    intervalRef.current = setInterval(() => {
+      idx = (idx + 1) % page.sections.length;
+      setCurrentIndex(idx);
+    }, 1500);
+  }, [page.sections.length]);
+
+  const handleMouseLeave = useCallback(() => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    intervalRef.current = null;
+    setCurrentIndex(0);
+  }, []);
+
+  useEffect(() => {
+    return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
+  }, []);
+
+  return (
+    <div
+      className="glass-card overflow-hidden cursor-pointer hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10 transition-all duration-300"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      {/* Phone mockup frame */}
+      <div className="relative aspect-[9/16] overflow-hidden bg-black rounded-t-lg border-x-[6px] border-t-[6px] border-border/50">
+        {page.sections.map((src, idx) => (
+          <img
+            key={idx}
+            src={src}
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
+            style={{ opacity: idx === currentIndex ? 1 : 0 }}
+            loading="lazy"
+          />
+        ))}
+
+        {/* Category badge */}
+        <span className="absolute top-3 left-3 z-10 px-3 py-1.5 rounded-lg text-xs font-semibold bg-primary/90 text-primary-foreground backdrop-blur-sm shadow-lg">
+          {lang === "ar" ? page.categoryAr : page.category}
+        </span>
+
+        {/* Conversion badge */}
+        <div className="absolute top-3 right-3 z-10 px-3 py-1.5 rounded-lg text-xs font-semibold bg-success text-success-foreground backdrop-blur-sm shadow-lg flex items-center gap-1">
+          <TrendingUp className="h-3 w-3" />
+          {page.conversion}
+        </div>
+
+        {/* Hover to preview hint */}
+        <div className={`absolute bottom-10 left-1/2 -translate-x-1/2 z-10 px-4 py-2 rounded-full bg-black/70 backdrop-blur-md text-white text-xs flex items-center gap-2 shadow-lg transition-opacity duration-300 ${currentIndex === 0 ? 'opacity-100' : 'opacity-0'}`}>
+          <MousePointer2 className="h-3.5 w-3.5" />
+          {lang === "ar" ? "مرر للمعاينة" : "Hover to preview"}
+        </div>
+
+        {/* Progress dots */}
+        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 flex gap-1.5">
+          {page.sections.map((_, idx) => (
+            <div
+              key={idx}
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${idx === currentIndex ? 'bg-primary scale-125' : 'bg-white/40'}`}
+            />
+          ))}
+        </div>
+
+        {/* Gradient overlays */}
+        <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-black/40 to-transparent z-[5] pointer-events-none" />
+        <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/40 to-transparent z-[5] pointer-events-none" />
+      </div>
+
+      {/* Info */}
+      <div className="p-4">
+        <h4 className="font-display font-semibold text-foreground mb-0.5">
+          {lang === "ar" ? page.titleAr : page.title}
+        </h4>
+        <p className="text-sm text-muted-foreground">
+          {lang === "ar" ? "صفحة هبوط بالذكاء الاصطناعي" : "AI-Generated Landing Page"}
+        </p>
+      </div>
+    </div>
+  );
+}
+
 export default function LandingPage() {
   const { t, lang, setLang } = useI18n();
   const [openFaq, setOpenFaq] = useState<number | null>(null);
