@@ -428,7 +428,7 @@ export default function LandingPage() {
                 </div>
                 <div className="p-3">
                   <h4 className="text-sm font-medium truncate">{video.title}</h4>
-                  <p className="text-xs text-muted-foreground">{video.views} views</p>
+                  <p className="text-xs text-muted-foreground">{video.views}</p>
                 </div>
               </motion.div>
             ))}
