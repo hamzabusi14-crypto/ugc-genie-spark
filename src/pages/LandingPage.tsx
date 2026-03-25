@@ -513,6 +513,18 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* About OFA */}
+      <section className="py-12 px-4 border-t border-border/50">
+        <div className="container max-w-4xl text-center">
+          <h3 className="text-2xl font-bold mb-4">
+            {t("aboutOfaTitle" as any)} <span className="gradient-text">OFA AI</span>?
+          </h3>
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+            {t("aboutOfaDesc" as any)}
+          </p>
+        </div>
+      </section>
+
       <AppFooter />
     </div>
   );
