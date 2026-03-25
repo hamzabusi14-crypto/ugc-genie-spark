@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   Upload, Sparkles, Download, ChevronDown, Globe, Video, Star,
-  Play, Check, ShoppingBag, Smartphone, BarChart3, ArrowRight, Zap,
+  Play, Check, ShoppingBag, Smartphone, BarChart3, ArrowRight, Zap, X,
   MousePointer2, TrendingUp,
 } from "lucide-react";
 
@@ -202,10 +202,34 @@ export default function LandingPage() {
   ];
 
 
+  const [bannerDismissed, setBannerDismissed] = useState(() => {
+    if (typeof window !== "undefined") return localStorage.getItem("promo_banner_dismissed") === "1";
+    return false;
+  });
+
+  const dismissBanner = () => {
+    setBannerDismissed(true);
+    localStorage.setItem("promo_banner_dismissed", "1");
+  };
+
   return (
     <div className={`min-h-screen bg-background overflow-hidden ${lang === 'ar' ? 'rtl' : ''}`}>
+      {/* Announcement Bar */}
+      {!bannerDismissed && (
+        <div className="fixed top-0 inset-x-0 z-[60] h-10 flex items-center justify-center text-sm text-white"
+          style={{ background: "linear-gradient(90deg, #e94560, #8b5cf6)" }}>
+          <span>🎉 Limited time: Get 50 FREE credits when you sign up!</span>
+          <Link to="/pricing" className="ml-3 underline underline-offset-2 font-medium hover:opacity-80">
+            See Pricing →
+          </Link>
+          <button onClick={dismissBanner} className="absolute right-3 p-1 hover:opacity-70">
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+      )}
+
       {/* Navbar */}
-      <header className="fixed top-0 inset-x-0 z-50 border-b border-border bg-background/80 backdrop-blur-sm">
+      <header className={`fixed inset-x-0 z-50 border-b border-border bg-background/80 backdrop-blur-sm ${!bannerDismissed ? "top-10" : "top-0"}`}>
         <div className="container flex items-center justify-between h-16">
           <Link to="/" className="flex items-center gap-2">
             <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
@@ -217,9 +241,13 @@ export default function LandingPage() {
             </div>
           </Link>
           <div className="flex items-center gap-3">
-            <Button variant="ghost" size="sm" asChild>
-              <Link to="/pricing">Pricing</Link>
-            </Button>
+            <Link
+              to="/pricing"
+              className="relative px-3.5 py-1.5 rounded-full text-sm font-medium bg-gradient-to-r from-primary/20 to-secondary/20 border border-primary/30 text-primary hover:from-primary/30 hover:to-secondary/30 transition-all"
+            >
+              Pricing
+              <span className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-secondary animate-pulse" />
+            </Link>
             <button
               onClick={() => setLang(lang === "en" ? "ar" : "en")}
               className="flex items-center gap-2 px-3 py-1.5 rounded-full glass-card text-sm hover:bg-white/10 transition"
@@ -238,7 +266,7 @@ export default function LandingPage() {
       </header>
 
       {/* Hero */}
-      <section className="relative pt-32 pb-20 px-4">
+      <section className={`relative ${!bannerDismissed ? "pt-[8.5rem]" : "pt-32"} pb-20 px-4`}>
         {/* Orbs */}
         <div className="bg-orb bg-orb-purple w-72 h-72 top-20 -left-20" />
         <div className="bg-orb bg-orb-pink w-96 h-96 top-40 right-0" style={{ animationDelay: "2s" }} />
@@ -390,6 +418,31 @@ export default function LandingPage() {
               </motion.div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Pricing Teaser */}
+      <section className="py-6 px-4">
+        <div className="container max-w-5xl">
+          <Link to="/pricing" className="block">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="glass-card gradient-border p-5 md:p-6 flex flex-col md:flex-row items-center justify-between gap-4 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/10 transition-all duration-300 group"
+            >
+              <div className="flex items-center gap-3">
+                <span className="text-2xl">💰</span>
+                <span className="font-display font-bold text-lg text-foreground">Plans starting at $9</span>
+              </div>
+              <p className="text-sm text-muted-foreground text-center">
+                100 credits • 3 UGC videos • No subscription
+              </p>
+              <Button variant="gradient" size="sm" className="shrink-0 group-hover:scale-105 transition-transform">
+                View Pricing <ArrowRight className="h-4 w-4" />
+              </Button>
+            </motion.div>
+          </Link>
         </div>
       </section>
 
