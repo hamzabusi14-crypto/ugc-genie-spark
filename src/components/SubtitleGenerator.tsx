@@ -31,11 +31,11 @@ const ENGLISH_FONTS = [
 ];
 
 const TEXT_COLORS = [
-  { value: "white", label: "White", hex: "#ffffff" },
-  { value: "yellow", label: "Yellow", hex: "#facc15" },
-  { value: "cyan", label: "Cyan", hex: "#22d3ee" },
-  { value: "lime", label: "Lime", hex: "#a3e635" },
-  { value: "pink", label: "Pink", hex: "#f472b6" },
+  { value: "#ffffff", label: "White", hex: "#ffffff" },
+  { value: "#facc15", label: "Yellow", hex: "#facc15" },
+  { value: "#22d3ee", label: "Cyan", hex: "#22d3ee" },
+  { value: "#a3e635", label: "Lime", hex: "#a3e635" },
+  { value: "#f472b6", label: "Pink", hex: "#f472b6" },
 ];
 
 const HIGHLIGHT_COLORS = [
