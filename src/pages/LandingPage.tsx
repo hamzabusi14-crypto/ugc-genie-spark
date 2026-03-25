@@ -293,6 +293,16 @@ export default function LandingPage() {
                 </Button>
               </motion.div>
 
+              <motion.p
+                className="text-sm text-primary/80 mb-6"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.6 }}
+              >
+                ✨ Get 50 free credits when you sign up — no credit card required
+              </motion.p>
+
+
               <motion.div
                 className="flex items-center gap-3"
                 initial={{ opacity: 0 }}

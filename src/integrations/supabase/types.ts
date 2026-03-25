@@ -246,6 +246,33 @@ export type Database = {
         }
         Relationships: []
       }
+      user_credits: {
+        Row: {
+          created_at: string | null
+          credits: number
+          id: string
+          lifetime_credits: number
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          credits?: number
+          id?: string
+          lifetime_credits?: number
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          credits?: number
+          id?: string
+          lifetime_credits?: number
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       videos: {
         Row: {
           aspect_ratio: string

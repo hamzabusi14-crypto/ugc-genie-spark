@@ -1,5 +1,7 @@
 import { useAuth } from "@/lib/auth";
+import { useCredits } from "@/hooks/useCredits";
 import { useI18n } from "@/lib/i18n";
+import WelcomeModal from "@/components/WelcomeModal";
 import { Navigate, useLocation } from "react-router-dom";
 import {
   LayoutDashboard,
@@ -100,6 +102,7 @@ function SidebarNav({ lang, onNavigate }: { lang: string; onNavigate?: () => voi
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const { user, profile, loading, signOut } = useAuth();
+  const { credits } = useCredits();
   const { t, lang, setLang } = useI18n();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -167,7 +170,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2 glass-card px-4 py-2 rounded-full">
               <Coins className="h-4 w-4 text-primary" />
-              <span className="font-display font-semibold text-foreground">{profile?.credits ?? 0}</span>
+              <span className="font-display font-semibold text-foreground">{credits ?? profile?.credits ?? 0}</span>
               <span className="text-xs text-muted-foreground">{t("credits")}</span>
             </div>
             <div className="lg:hidden">
@@ -182,6 +185,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           {children}
         </main>
         <AppFooter />
+        <WelcomeModal />
       </div>
 
       {/* Mobile bottom nav */}

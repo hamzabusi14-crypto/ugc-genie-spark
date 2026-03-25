@@ -31,6 +31,7 @@ export default function SignupPage() {
     if (error) {
       toast.error(error.message);
     } else if (data.session) {
+      sessionStorage.setItem("just_signed_up", "1");
       toast.success("Account created!");
       navigate("/dashboard");
     } else {
