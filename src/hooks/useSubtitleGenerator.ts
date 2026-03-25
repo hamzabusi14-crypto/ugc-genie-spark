@@ -12,8 +12,6 @@ export interface SubtitleSettings {
   opacity?: number;
   strokeColor?: string;
   strokeWidth?: number;
-  rightToLeft?: boolean;
-  translate?: boolean;
   languageCode?: string;
 }
 
