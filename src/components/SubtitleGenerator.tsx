@@ -74,8 +74,6 @@ export default function SubtitleGenerator() {
   const [opacity, setOpacity] = useState(0.7);
   const [strokeColor, setStrokeColor] = useState("black");
   const [strokeWidth, setStrokeWidth] = useState(1.5);
-  const [rightToLeft, setRightToLeft] = useState(true);
-  const [translate, setTranslate] = useState(false);
   const [languageCode, setLanguageCode] = useState<'ar' | 'en'>("ar");
 
   const [activeJobId, setActiveJobId] = useState<string | null>(null);
