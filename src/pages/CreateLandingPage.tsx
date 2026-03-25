@@ -493,7 +493,8 @@ export default function CreateLandingPage() {
           {/* Description */}
           <div>
             <Label>{t("additionalDesc")}</Label>
-            <Textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder={t("additionalDescPlaceholder")} className="mt-1 bg-muted border-border" rows={3} />
+            <Textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="e.g. Marketing angle: luxury/budget-friendly, Model: woman holding product, Setting: modern kitchen, Style: minimalist, Colors: gold & white theme, Urgency: limited time offer..." className="mt-1 bg-muted border-border" rows={3} />
+            <p className="text-xs text-muted-foreground mt-1.5">💡 Tips: Describe the vibe, who should hold the product (man/woman/hands only), background setting, color preferences, or any marketing angle you want.</p>
           </div>
 
           {/* Generate button */}
