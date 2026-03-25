@@ -102,6 +102,7 @@ function SidebarNav({ lang, onNavigate }: { lang: string; onNavigate?: () => voi
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const { user, profile, loading, signOut } = useAuth();
+  const { credits } = useCredits();
   const { t, lang, setLang } = useI18n();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
