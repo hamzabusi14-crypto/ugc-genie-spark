@@ -19,11 +19,11 @@ const fadeIn = {
 };
 
 const videoExamples = [
-  { category: "Beauty", title: "Glow Serum Ad", views: "12.4K", img: "https://images.pexels.com/photos/3785147/pexels-photo-3785147.jpeg?auto=compress&cs=tinysrgb&w=400" },
-  { category: "Fashion", title: "Summer Collection", views: "8.2K", img: "https://images.pexels.com/photos/5709661/pexels-photo-5709661.jpeg?auto=compress&cs=tinysrgb&w=400" },
-  { category: "Food", title: "Restaurant Promo", views: "15.1K", img: "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=400" },
-  { category: "Tech", title: "Gadget Review", views: "9.7K", img: "https://images.pexels.com/photos/3945683/pexels-photo-3945683.jpeg?auto=compress&cs=tinysrgb&w=400" },
-  { category: "Fitness", title: "Workout Gear", views: "6.8K", img: "https://images.pexels.com/photos/4397840/pexels-photo-4397840.jpeg?auto=compress&cs=tinysrgb&w=400" },
+  { category: "Beauty", title: "Glow Serum Ad", views: "12.4K", video: "https://res.cloudinary.com/da2zkmtcn/video/upload/v1774409250/0624_62_oauif4.mov", thumbnail: "https://res.cloudinary.com/da2zkmtcn/video/upload/so_0/v1774409250/0624_62_oauif4.jpg" },
+  { category: "Fashion", title: "Summer Collection", views: "8.2K", video: "https://res.cloudinary.com/da2zkmtcn/video/upload/v1774409251/0624_61_vwbbrx.mov", thumbnail: "https://res.cloudinary.com/da2zkmtcn/video/upload/so_0/v1774409251/0624_61_vwbbrx.jpg" },
+  { category: "Food", title: "Restaurant Promo", views: "15.1K", video: "https://res.cloudinary.com/da2zkmtcn/video/upload/v1774409250/0624_65_n1egnt.mov", thumbnail: "https://res.cloudinary.com/da2zkmtcn/video/upload/so_0/v1774409250/0624_65_n1egnt.jpg" },
+  { category: "Tech", title: "Gadget Review", views: "9.7K", video: "https://res.cloudinary.com/da2zkmtcn/video/upload/v1774409250/0624_64_rigdka.mov", thumbnail: "https://res.cloudinary.com/da2zkmtcn/video/upload/so_0/v1774409250/0624_64_rigdka.jpg" },
+  { category: "Fitness", title: "Workout Gear", views: "6.8K", video: "https://res.cloudinary.com/da2zkmtcn/video/upload/v1774409251/0624_63_npcbpl.mov", thumbnail: "https://res.cloudinary.com/da2zkmtcn/video/upload/so_0/v1774409251/0624_63_npcbpl.jpg" },
 ];
 
 const categories = ["All", "Beauty", "Fashion", "Food", "Tech", "Fitness"];
