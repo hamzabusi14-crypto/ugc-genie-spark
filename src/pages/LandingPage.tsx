@@ -378,7 +378,7 @@ export default function LandingPage() {
         <div className="container max-w-5xl relative z-10">
           <motion.div className="text-center mb-16" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} custom={0}>
             <h3 className="font-display text-3xl md:text-4xl font-bold mb-4">
-              Trusted by <span className="gradient-text">Thousands</span>
+              {t("trustedBy" as any)} <span className="gradient-text">{t("thousands" as any)}</span>
             </h3>
           </motion.div>
 
