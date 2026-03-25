@@ -1,11 +1,10 @@
 import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import {
   LayoutDashboard,
   Video,
   Film,
-  FastForward,
   CreditCard,
   Settings,
   FileText,
@@ -14,21 +13,90 @@ import {
   Coins,
   Globe,
   Captions,
+  Sparkles,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import AppFooter from "@/components/AppFooter";
+import { toast } from "sonner";
 
 const navItems = [
   { key: "dashboard" as const, path: "/dashboard", icon: LayoutDashboard },
-  { key: "createVideo" as const, path: "/create", icon: Video },
+  { key: "createVideo" as const, path: "/create", icon: Video, subItems: [
+    { key: "ugcVideo" as const, path: "/create", icon: Film, enabled: true },
+    { key: "facelessContent" as const, path: "#", icon: Sparkles, enabled: false, badge: "Soon" },
+  ]},
   { key: "myVideos" as const, path: "/videos", icon: Film },
   { key: "landingPages" as const, path: "/landing-pages", icon: FileText },
   { key: "subtitles" as const, path: "/subtitles", icon: Captions },
   { key: "billing" as const, path: "/billing", icon: CreditCard },
   { key: "settings" as const, path: "/settings", icon: Settings },
 ];
+
+const SUB_LABELS: Record<string, { en: string; ar: string }> = {
+  ugcVideo: { en: "UGC Video", ar: "فيديو UGC" },
+  facelessContent: { en: "Faceless Content", ar: "فيديو أنيميشن" },
+};
+
+function SidebarNav({ lang, onNavigate }: { lang: string; onNavigate?: () => void }) {
+  const { t } = useI18n();
+  const location = useLocation();
+  const isCreateActive = location.pathname === "/create";
+
+  return (
+    <>
+      {navItems.map((item) => (
+        <div key={item.key}>
+          <NavLink
+            to={item.path}
+            end={item.path === "/dashboard" || item.path === "/create"}
+            className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-muted-foreground transition-colors hover:bg-sidebar-accent hover:text-foreground"
+            activeClassName="bg-sidebar-accent text-foreground font-medium"
+            onClick={onNavigate}
+          >
+            <item.icon className="h-5 w-5" />
+            <span>{t(item.key)}</span>
+          </NavLink>
+
+          {/* Sub-items for Create Video */}
+          {item.subItems && isCreateActive && (
+            <div className="ml-5 mt-0.5 space-y-0.5 border-l border-border pl-3">
+              {item.subItems.map((sub) =>
+                sub.enabled ? (
+                  <NavLink
+                    key={sub.key}
+                    to={sub.path}
+                    end
+                    className="flex items-center gap-2 rounded-md px-2.5 py-1.5 text-xs text-muted-foreground transition-colors hover:bg-sidebar-accent hover:text-foreground"
+                    activeClassName="text-foreground font-medium"
+                    onClick={onNavigate}
+                  >
+                    <sub.icon className="h-3.5 w-3.5" />
+                    <span>{SUB_LABELS[sub.key]?.[lang as "en" | "ar"] ?? sub.key}</span>
+                  </NavLink>
+                ) : (
+                  <button
+                    key={sub.key}
+                    type="button"
+                    className="flex w-full items-center gap-2 rounded-md px-2.5 py-1.5 text-xs text-muted-foreground/50 cursor-not-allowed"
+                    onClick={() => toast.info(lang === "ar" ? "قريباً!" : "Coming soon!")}
+                  >
+                    <sub.icon className="h-3.5 w-3.5" />
+                    <span>{SUB_LABELS[sub.key]?.[lang as "en" | "ar"] ?? sub.key}</span>
+                    <span className="ml-auto text-[10px] font-semibold rounded-full bg-primary/15 text-primary px-1.5 py-0.5 leading-none">
+                      {sub.badge}
+                    </span>
+                  </button>
+                )
+              )}
+            </div>
+          )}
+        </div>
+      ))}
+    </>
+  );
+}
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const { user, profile, loading, signOut } = useAuth();
@@ -55,18 +123,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </div>
 
         <nav className="flex-1 space-y-1">
-          {navItems.map((item) => (
-            <NavLink
-              key={item.key}
-              to={item.path}
-              end={item.path === "/dashboard"}
-              className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-muted-foreground transition-colors hover:bg-sidebar-accent hover:text-foreground"
-              activeClassName="bg-sidebar-accent text-foreground font-medium"
-            >
-              <item.icon className="h-5 w-5" />
-              <span>{t(item.key)}</span>
-            </NavLink>
-          ))}
+          <SidebarNav lang={lang} />
         </nav>
 
         <div className="mt-auto space-y-2">
@@ -90,19 +147,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               <h1 className="font-display text-2xl font-bold gradient-text">OFA AI</h1>
             </div>
             <nav className="flex-1 space-y-1">
-              {navItems.map((item) => (
-                <NavLink
-                  key={item.key}
-                  to={item.path}
-                  end={item.path === "/dashboard"}
-                  className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-muted-foreground transition-colors hover:bg-sidebar-accent hover:text-foreground"
-                  activeClassName="bg-sidebar-accent text-foreground font-medium"
-                  onClick={() => setSidebarOpen(false)}
-                >
-                  <item.icon className="h-5 w-5" />
-                  <span>{t(item.key)}</span>
-                </NavLink>
-              ))}
+              <SidebarNav lang={lang} onNavigate={() => setSidebarOpen(false)} />
             </nav>
             <Button variant="ghost" size="sm" className="w-full justify-start gap-2 text-destructive mt-auto" onClick={signOut}>
               <LogOut className="h-4 w-4" />
@@ -114,14 +159,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
       {/* Main content */}
       <div className="flex-1 lg:ms-64 flex flex-col">
-        {/* Top navbar */}
         <header className="sticky top-0 z-20 flex items-center justify-between border-b border-border bg-background/80 backdrop-blur-sm px-4 lg:px-6 h-16">
           <Button variant="ghost" size="icon" className="lg:hidden" onClick={() => setSidebarOpen(true)}>
             <Menu className="h-5 w-5" />
           </Button>
-
           <div className="hidden lg:block" />
-
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2 glass-card px-4 py-2 rounded-full">
               <Coins className="h-4 w-4 text-primary" />
@@ -144,7 +186,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
       {/* Mobile bottom nav */}
       <nav className="fixed bottom-0 inset-x-0 z-30 flex lg:hidden border-t border-border bg-background/90 backdrop-blur-sm">
-        {navItems.slice(0, 4).map((item) => (
+        {navItems.filter(i => !i.subItems).slice(0, 4).map((item) => (
           <NavLink
             key={item.key}
             to={item.path}
@@ -156,6 +198,15 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <span>{t(item.key)}</span>
           </NavLink>
         ))}
+        <NavLink
+          to="/create"
+          end
+          className="flex-1 flex flex-col items-center gap-1 py-2 text-muted-foreground text-xs transition-colors"
+          activeClassName="text-primary"
+        >
+          <Video className="h-5 w-5" />
+          <span>{t("createVideo" as const)}</span>
+        </NavLink>
       </nav>
     </div>
   );
