@@ -31,20 +31,20 @@ const ENGLISH_FONTS = [
 ];
 
 const TEXT_COLORS = [
-  { value: "white", label: "White", hex: "#ffffff" },
-  { value: "yellow", label: "Yellow", hex: "#facc15" },
-  { value: "cyan", label: "Cyan", hex: "#22d3ee" },
-  { value: "lime", label: "Lime", hex: "#a3e635" },
-  { value: "pink", label: "Pink", hex: "#f472b6" },
+  { value: "#ffffff", label: "White", hex: "#ffffff" },
+  { value: "#facc15", label: "Yellow", hex: "#facc15" },
+  { value: "#22d3ee", label: "Cyan", hex: "#22d3ee" },
+  { value: "#a3e635", label: "Lime", hex: "#a3e635" },
+  { value: "#f472b6", label: "Pink", hex: "#f472b6" },
 ];
 
 const HIGHLIGHT_COLORS = [
-  { value: "yellow", label: "Yellow", hex: "#facc15" },
-  { value: "cyan", label: "Cyan", hex: "#22d3ee" },
-  { value: "lime", label: "Lime", hex: "#a3e635" },
-  { value: "red", label: "Red", hex: "#ef4444" },
-  { value: "orange", label: "Orange", hex: "#f97316" },
-  { value: "white", label: "White", hex: "#ffffff" },
+  { value: "#facc15", label: "Yellow", hex: "#facc15" },
+  { value: "#22d3ee", label: "Cyan", hex: "#22d3ee" },
+  { value: "#a3e635", label: "Lime", hex: "#a3e635" },
+  { value: "#ef4444", label: "Red", hex: "#ef4444" },
+  { value: "#f97316", label: "Orange", hex: "#f97316" },
+  { value: "#ffffff", label: "White", hex: "#ffffff" },
 ];
 
 const POSITIONS = [
@@ -66,8 +66,8 @@ export default function SubtitleGenerator() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [font, setFont] = useState(ARABIC_FONTS[0].value);
-  const [color, setColor] = useState("white");
-  const [highlightColor, setHighlightColor] = useState("yellow");
+  const [color, setColor] = useState("#ffffff");
+  const [highlightColor, setHighlightColor] = useState("#facc15");
   const [fontsize, setFontsize] = useState(5);
   const [maxChars, setMaxChars] = useState(12);
   const [subsPosition, setSubsPosition] = useState("center");
