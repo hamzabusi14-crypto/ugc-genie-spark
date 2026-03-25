@@ -246,7 +246,7 @@ export default function LandingPage() {
                 variants={fadeIn}
               >
                 <div className="font-display text-3xl font-bold gradient-text">{stat.value}</div>
-                <div className="text-sm text-muted-foreground mt-1">{stat.label}</div>
+                <div className="text-sm text-muted-foreground mt-1">{t((`stats${stat.label.replace(/\s/g, '')}`) as any) || stat.label}</div>
               </motion.div>
             ))}
           </div>
