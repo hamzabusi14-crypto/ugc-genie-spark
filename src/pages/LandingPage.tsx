@@ -364,7 +364,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Landing Pages Examples */}
+      {/* Landing Pages Section */}
       <section className="py-20 px-4 bg-muted/30">
         <div className="container max-w-6xl">
           <motion.div className="text-center mb-12" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} custom={0}>
@@ -381,110 +381,89 @@ export default function LandingPage() {
             </h3>
             <p className="text-muted-foreground max-w-2xl mx-auto">
               {lang === "ar"
-                ? "صفحات منتجات احترافية يتم إنشاؤها تلقائياً مع كل فيديو - جاهزة للبيع مباشرة"
-                : "AI-generated product pages created automatically with every video — ready to sell instantly"
+                ? "صفحات منتجات احترافية مع فيديو UGC مدمج - جاهزة للبيع مباشرة"
+                : "AI-generated product pages with embedded UGC video — ready to sell instantly"
               }
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-6">
-            {[
-              {
-                title: lang === "ar" ? "سيروم العناية بالبشرة" : "Skincare Serum",
-                category: lang === "ar" ? "جمال" : "Beauty",
-                price: "$49.99",
-                img: "https://images.pexels.com/photos/3785147/pexels-photo-3785147.jpeg?auto=compress&cs=tinysrgb&w=400",
-                sales: "2.4K",
-                conversion: "12.3%"
-              },
-              {
-                title: lang === "ar" ? "سماعات لاسلكية" : "Wireless Earbuds",
-                category: lang === "ar" ? "تقنية" : "Tech",
-                price: "$79.99",
-                img: "https://images.pexels.com/photos/3945683/pexels-photo-3945683.jpeg?auto=compress&cs=tinysrgb&w=400",
-                sales: "1.8K",
-                conversion: "9.7%"
-              },
-              {
-                title: lang === "ar" ? "مكمل غذائي" : "Fitness Supplement",
-                category: lang === "ar" ? "لياقة" : "Fitness",
-                price: "$34.99",
-                img: "https://images.pexels.com/photos/4397840/pexels-photo-4397840.jpeg?auto=compress&cs=tinysrgb&w=400",
-                sales: "3.1K",
-                conversion: "15.2%"
-              }
-            ].map((product, i) => (
+          {/* Horizontal Scrollable Container */}
+          <div className="flex gap-6 overflow-x-auto pb-6 snap-x snap-mandatory scrollbar-hide px-4 -mx-4 md:justify-center md:flex-wrap md:overflow-visible">
+            {landingPageExamples.map((page, i) => (
               <motion.div
-                key={product.title}
-                className="glass-card overflow-hidden group cursor-pointer hover:border-primary/30 transition-all"
+                key={page.title}
+                className="flex-shrink-0 w-[280px] md:w-[320px] snap-center"
                 custom={i}
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
                 variants={fadeIn}
               >
-                <div className="relative aspect-[4/3] overflow-hidden">
-                  <img src={product.img} alt={product.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-                  <div className="absolute top-3 right-3 w-10 h-10 rounded-full bg-white/20 backdrop-blur flex items-center justify-center">
-                    <Play className="h-5 w-5 text-white fill-white" />
-                  </div>
-                  <span className="absolute top-3 left-3 px-2 py-1 rounded-md text-xs font-semibold bg-primary/80 text-white">
-                    {product.category}
-                  </span>
-                  <div className="absolute bottom-3 left-3">
-                    <span className="text-2xl font-bold text-white">{product.price}</span>
-                  </div>
-                </div>
-                <div className="p-4">
-                  <h4 className="font-display text-lg font-semibold mb-3">{product.title}</h4>
-                  <div className="flex items-center justify-between text-sm">
-                    <div className="flex items-center gap-4">
-                      <div>
-                        <span className="text-muted-foreground">{lang === "ar" ? "المبيعات" : "Sales"}: </span>
-                        <span className="font-semibold text-success">{product.sales}</span>
-                      </div>
-                      <div>
-                        <span className="text-muted-foreground">{lang === "ar" ? "التحويل" : "Conv"}: </span>
-                        <span className="font-semibold text-primary">{product.conversion}</span>
-                      </div>
+                <div className="glass-card overflow-hidden group cursor-pointer hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10 transition-all duration-300">
+                  {/* Phone Frame with Scrolling Images */}
+                  <div className="relative h-[480px] overflow-hidden bg-black rounded-t-lg">
+                    <div className="absolute inset-x-0 top-0 transition-transform duration-[5s] ease-in-out group-hover:-translate-y-[calc(100%-480px)]">
+                      {page.images.map((img, idx) => (
+                        <img key={idx} src={img} alt="" className="w-full h-auto block" loading="lazy" />
+                      ))}
                     </div>
+
+                    {/* Category badge */}
+                    <span className="absolute top-3 left-3 z-10 px-3 py-1.5 rounded-lg text-xs font-semibold bg-primary/90 text-white backdrop-blur-sm shadow-lg">
+                      {lang === "ar" ? page.categoryAr : page.category}
+                    </span>
+
+                    {/* Conversion badge */}
+                    <div className="absolute top-3 right-3 z-10 px-3 py-1.5 rounded-lg text-xs font-semibold bg-success text-white backdrop-blur-sm shadow-lg flex items-center gap-1">
+                      <TrendingUp className="h-3 w-3" />
+                      {page.conversion}
+                    </div>
+
+                    {/* Scroll hint */}
+                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 px-4 py-2 rounded-full bg-black/70 backdrop-blur-md text-white text-xs opacity-100 group-hover:opacity-0 transition-opacity duration-300 flex items-center gap-2 shadow-lg">
+                      <MousePointer2 className="h-3.5 w-3.5" />
+                      {lang === "ar" ? "مرر للمعاينة" : "Hover to preview"}
+                    </div>
+
+                    {/* Gradient overlays */}
+                    <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/50 to-transparent z-[5] pointer-events-none" />
+                    <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/50 to-transparent z-[5] pointer-events-none" />
                   </div>
-                  <Button variant="glass" size="sm" className="w-full mt-4 group-hover:bg-primary/20">
-                    {lang === "ar" ? "عرض الصفحة" : "View Page"}
-                    <ArrowRight className="h-4 w-4 ms-1" />
-                  </Button>
+
+                  {/* Info */}
+                  <div className="p-5">
+                    <h4 className="font-display font-semibold text-lg text-foreground mb-1">
+                      {lang === "ar" ? page.titleAr : page.title}
+                    </h4>
+                    <p className="text-sm text-muted-foreground">
+                      {lang === "ar" ? "صفحة هبوط بالذكاء الاصطناعي" : "AI-Generated Landing Page"}
+                    </p>
+                  </div>
                 </div>
               </motion.div>
             ))}
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12">
+          {/* Feature highlights */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12 max-w-3xl mx-auto">
             {[
               { icon: Zap, label: lang === "ar" ? "إنشاء فوري" : "Instant Creation" },
               { icon: Smartphone, label: lang === "ar" ? "متوافق مع الجوال" : "Mobile Optimized" },
               { icon: BarChart3, label: lang === "ar" ? "تتبع التحويلات" : "Conversion Tracking" },
               { icon: Globe, label: lang === "ar" ? "نطاق مخصص" : "Custom Domain" }
-            ].map((feat, i) => (
-              <motion.div
-                key={feat.label}
-                className="glass-card p-4 text-center"
-                custom={i}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={fadeIn}
-              >
-                <feat.icon className="h-6 w-6 text-primary mx-auto mb-2" />
-                <span className="text-sm text-muted-foreground">{feat.label}</span>
-              </motion.div>
+            ].map((feat) => (
+              <div key={feat.label} className="glass-card p-4 text-center">
+                <feat.icon className="h-5 w-5 text-primary mx-auto mb-2" />
+                <span className="text-xs text-muted-foreground">{feat.label}</span>
+              </div>
             ))}
           </div>
 
+          {/* CTA */}
           <div className="text-center mt-12">
             <Button variant="gradient" size="lg" asChild>
               <Link to="/signup">
-                {lang === "ar" ? "أنشئ صفحة منتجك الأولى" : "Create Your First Landing Page"}
+                {lang === "ar" ? "أنشئ صفحة منتجك" : "Create Your Landing Page"}
                 <ArrowRight className="h-5 w-5 ms-2" />
               </Link>
             </Button>
