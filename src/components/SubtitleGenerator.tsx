@@ -17,26 +17,17 @@ import { toast } from "sonner";
 const MAX_FILE_SIZE = 100 * 1024 * 1024; // 100MB
 const ACCEPTED_TYPES = ["video/mp4", "video/quicktime", "video/webm", "video/x-msvideo"];
 
-const FONTS = [
-  { value: "Tajawal/Tajawal-ExtraBold.ttf", label: "Tajawal Bold (Arabic)" },
-  { value: "Poppins/Poppins-ExtraBold.ttf", label: "Poppins Bold" },
-  { value: "Roboto/Roboto-Bold.ttf", label: "Roboto Bold" },
-  { value: "Montserrat/Montserrat-ExtraBold.ttf", label: "Montserrat Bold" },
-  { value: "Bangers/Bangers-Regular.ttf", label: "Bangers" },
-  { value: "Oswald/Oswald-Bold.ttf", label: "Oswald Bold" },
+const ARABIC_FONTS = [
+  { value: "Arial/Arial_Bold.ttf", label: "Arial Bold" },
 ];
 
-const LANGUAGES = [
-  { code: "ar", name: "Arabic (العربية)" },
-  { code: "en", name: "English" },
-  { code: "fr", name: "French (Français)" },
-  { code: "es", name: "Spanish (Español)" },
-  { code: "de", name: "German (Deutsch)" },
-  { code: "hi", name: "Hindi (हिन्दी)" },
-  { code: "ur", name: "Urdu (اردو)" },
-  { code: "tr", name: "Turkish (Türkçe)" },
-  { code: "id", name: "Indonesian" },
-  { code: "pt", name: "Portuguese (Português)" },
+const ENGLISH_FONTS = [
+  { value: "Poppins/Poppins-Bold.ttf", label: "Poppins Bold" },
+  { value: "Poppins/Poppins-ExtraBold.ttf", label: "Poppins Extra Bold" },
+  { value: "Poppins/Poppins-Black.ttf", label: "Poppins Black" },
+  { value: "Poppins/Poppins-BoldItalic.ttf", label: "Poppins Bold Italic" },
+  { value: "Atkinson_Hyperlegible/AtkinsonHyperlegible-Bold.ttf", label: "Atkinson Bold" },
+  { value: "M_PLUS_Rounded_1c/MPLUSRounded1c-ExtraBold.ttf", label: "M PLUS Rounded" },
 ];
 
 const TEXT_COLORS = [
@@ -74,7 +65,7 @@ export default function SubtitleGenerator() {
   const [urlOpen, setUrlOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const [font, setFont] = useState(FONTS[0].value);
+  const [font, setFont] = useState(ARABIC_FONTS[0].value);
   const [color, setColor] = useState("white");
   const [highlightColor, setHighlightColor] = useState("yellow");
   const [fontsize, setFontsize] = useState(5);
@@ -85,12 +76,21 @@ export default function SubtitleGenerator() {
   const [strokeWidth, setStrokeWidth] = useState(1.5);
   const [rightToLeft, setRightToLeft] = useState(true);
   const [translate, setTranslate] = useState(false);
-  const [languageCode, setLanguageCode] = useState("ar");
+  const [languageCode, setLanguageCode] = useState<'ar' | 'en'>("ar");
 
   const [activeJobId, setActiveJobId] = useState<string | null>(null);
   const [activeJob, setActiveJob] = useState<SubtitleJob | null>(null);
   const [recentJobs, setRecentJobs] = useState<SubtitleJob[]>([]);
   const [playVideo, setPlayVideo] = useState<string | null>(null);
+
+  // Reset font when language changes
+  useEffect(() => {
+    if (languageCode === 'ar') {
+      setFont('Arial/Arial_Bold.ttf');
+    } else {
+      setFont('Poppins/Poppins-Bold.ttf');
+    }
+  }, [languageCode]);
 
   useEffect(() => {
     getUserJobs().then(setRecentJobs);
@@ -301,13 +301,38 @@ export default function SubtitleGenerator() {
             </Collapsible>
           )}
 
-          {/* Language selector */}
-          <div>
+          {/* Language Selection */}
+          <div className="space-y-2">
             <Label>{lang === "ar" ? "لغة الفيديو" : "Video Language"}</Label>
-            <Select value={languageCode} onValueChange={setLanguageCode}>
-              <SelectTrigger className="mt-1 bg-muted border-border"><SelectValue placeholder="Select language" /></SelectTrigger>
+            <div className="flex gap-2">
+              <Button
+                type="button"
+                variant={languageCode === 'ar' ? 'default' : 'outline'}
+                onClick={() => setLanguageCode('ar')}
+                className={languageCode === 'ar' ? 'btn-primary-gradient' : ''}
+              >
+                العربية
+              </Button>
+              <Button
+                type="button"
+                variant={languageCode === 'en' ? 'default' : 'outline'}
+                onClick={() => setLanguageCode('en')}
+                className={languageCode === 'en' ? 'btn-primary-gradient' : ''}
+              >
+                English
+              </Button>
+            </div>
+          </div>
+
+          {/* Font Selection */}
+          <div className="space-y-2">
+            <Label>{lang === "ar" ? "نوع الخط" : "Font Style"}</Label>
+            <Select value={font} onValueChange={setFont}>
+              <SelectTrigger className="bg-muted border-border"><SelectValue /></SelectTrigger>
               <SelectContent>
-                {LANGUAGES.map((l) => (<SelectItem key={l.code} value={l.code}>{l.name}</SelectItem>))}
+                {(languageCode === 'ar' ? ARABIC_FONTS : ENGLISH_FONTS).map((f) => (
+                  <SelectItem key={f.value} value={f.value}>{f.label}</SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
@@ -315,11 +340,11 @@ export default function SubtitleGenerator() {
           {/* 2-col grid for settings */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <Label>{lang === "ar" ? "الخط" : "Font"}</Label>
-              <Select value={font} onValueChange={setFont}>
+              <Label>{lang === "ar" ? "الموقع" : "Position"}</Label>
+              <Select value={subsPosition} onValueChange={setSubsPosition}>
                 <SelectTrigger className="mt-1 bg-muted border-border"><SelectValue /></SelectTrigger>
                 <SelectContent>
-                  {FONTS.map((f) => (<SelectItem key={f.value} value={f.value}>{f.label}</SelectItem>))}
+                  {POSITIONS.map((p) => (<SelectItem key={p.value} value={p.value}>{p.label}</SelectItem>))}
                 </SelectContent>
               </Select>
             </div>
