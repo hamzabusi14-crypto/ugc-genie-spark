@@ -384,17 +384,6 @@ export default function SubtitleGenerator() {
             <Slider value={[maxChars]} onValueChange={([v]) => setMaxChars(v)} min={10} max={40} step={1} className="mt-2" />
           </div>
 
-          {/* Toggles */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="flex items-center justify-between gap-3 glass-card p-3 rounded-lg">
-              <Label className="cursor-pointer">{lang === "ar" ? "يمين إلى يسار (عربي)" : "Right-to-Left (Arabic)"}</Label>
-              <Switch checked={rightToLeft} onCheckedChange={setRightToLeft} />
-            </div>
-            <div className="flex items-center justify-between gap-3 glass-card p-3 rounded-lg">
-              <Label className="cursor-pointer">{lang === "ar" ? "ترجمة إلى الإنجليزية" : "Translate to English"}</Label>
-              <Switch checked={translate} onCheckedChange={setTranslate} />
-            </div>
-          </div>
 
           {/* Generate Button */}
           <Button variant="gradient" size="xl" className="w-full" onClick={handleGenerate} disabled={isLoading || !hasVideo || uploading}>
