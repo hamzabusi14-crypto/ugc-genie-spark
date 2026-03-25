@@ -8,7 +8,7 @@ import {
   MousePointer2, TrendingUp,
 } from "lucide-react";
 import { PLANS } from "@/lib/types";
-import { useState } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import AppFooter from "@/components/AppFooter";
 
 const fadeIn = {
