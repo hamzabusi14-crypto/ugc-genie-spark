@@ -278,33 +278,7 @@ export default function PricingPage() {
         </div>
       </section>
 
-      {/* Section 2: Credit Conversion Table */}
-      <section className="py-12 px-4">
-        <div className="container max-w-4xl">
-          <h2 className="font-display text-2xl md:text-3xl font-bold text-center mb-2">How Credits Work</h2>
-          <p className="text-center text-muted-foreground mb-8">Use your credits for any product</p>
-          <div className="glass-card overflow-hidden">
-            {creditTable.map((row, i) => (
-              <div
-                key={row.product}
-                className={`flex items-center justify-between px-6 py-4 ${i < creditTable.length - 1 ? "border-b border-border" : ""}`}
-              >
-                <span className="text-foreground font-medium">{row.product}</span>
-                <span className={`font-bold ${row.credits.includes("FREE") ? "text-primary" : "text-foreground"}`}>
-                  {row.credits}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Section 3: Divider */}
-      <div className="container max-w-5xl py-10">
-        <div className="h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
-      </div>
-
-      {/* Section 4: E-commerce Bundles */}
+      {/* Section 2: E-commerce Bundles */}
       <section className="relative py-12 px-4">
         <div className="absolute inset-0 bg-gradient-to-b from-primary/[0.03] via-secondary/[0.05] to-transparent pointer-events-none" />
         <div className="container max-w-5xl relative z-10">
@@ -369,6 +343,32 @@ export default function PricingPage() {
                 <span className="text-3xl mb-3 block">{card.emoji}</span>
                 <h3 className="font-display font-bold text-foreground mb-2">{card.title}</h3>
                 <p className="text-sm text-muted-foreground">{card.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Divider */}
+      <div className="container max-w-5xl py-10">
+        <div className="h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+      </div>
+
+      {/* Credit Conversion Table */}
+      <section className="py-12 px-4">
+        <div className="container max-w-4xl">
+          <h2 className="font-display text-2xl md:text-3xl font-bold text-center mb-2">How Credits Work</h2>
+          <p className="text-center text-muted-foreground mb-8">Use your credits for any product</p>
+          <div className="glass-card overflow-hidden">
+            {creditTable.map((row, i) => (
+              <div
+                key={row.product}
+                className={`flex items-center justify-between px-6 py-4 ${i < creditTable.length - 1 ? "border-b border-border" : ""}`}
+              >
+                <span className="text-foreground font-medium">{row.product}</span>
+                <span className={`font-bold ${row.credits.includes("FREE") ? "text-primary" : "text-foreground"}`}>
+                  {row.credits}
+                </span>
               </div>
             ))}
           </div>
