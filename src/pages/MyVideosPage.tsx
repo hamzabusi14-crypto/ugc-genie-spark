@@ -151,13 +151,21 @@ export default function MyVideosPage() {
                     </div>
                     <div className="flex gap-2 mt-3 flex-wrap">
                       {video.status === "done" && video.video_url && (
-                        <Button variant="glass" size="sm" onClick={() => {
-                          const a = document.createElement('a');
-                          a.href = video.video_url + '?fl_attachment=true';
-                          a.download = 'video.mp4';
-                          document.body.appendChild(a);
-                          a.click();
-                          document.body.removeChild(a);
+                        <Button variant="glass" size="sm" onClick={async () => {
+                          try {
+                            const response = await fetch(video.video_url!);
+                            const blob = await response.blob();
+                            const url = window.URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.href = url;
+                            a.download = 'video.mp4';
+                            document.body.appendChild(a);
+                            a.click();
+                            document.body.removeChild(a);
+                            window.URL.revokeObjectURL(url);
+                          } catch (error) {
+                            console.error('Download failed:', error);
+                          }
                         }}>
                           <Download className="h-3.5 w-3.5" />
                           {t("download")}
