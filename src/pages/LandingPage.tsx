@@ -387,59 +387,17 @@ export default function LandingPage() {
             </p>
           </motion.div>
 
-          {/* Horizontal Scrollable Container */}
-          <div className="flex gap-6 overflow-x-auto pb-6 snap-x snap-mandatory scrollbar-hide px-4 -mx-4 md:justify-center md:flex-wrap md:overflow-visible">
+          <div className="grid md:grid-cols-3 gap-6">
             {landingPageExamples.map((page, i) => (
               <motion.div
                 key={page.title}
-                className="flex-shrink-0 w-[280px] md:w-[320px] snap-center"
                 custom={i}
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
                 variants={fadeIn}
               >
-                <div className="glass-card overflow-hidden group cursor-pointer hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10 transition-all duration-300">
-                  {/* Phone Frame with Scrolling Images */}
-                  <div className="relative h-[480px] overflow-hidden bg-black rounded-t-lg">
-                    <div className="absolute inset-x-0 top-0 transition-transform duration-[5s] ease-in-out group-hover:-translate-y-[calc(100%-480px)]">
-                      {page.images.map((img, idx) => (
-                        <img key={idx} src={img} alt="" className="w-full h-auto block" loading="lazy" />
-                      ))}
-                    </div>
-
-                    {/* Category badge */}
-                    <span className="absolute top-3 left-3 z-10 px-3 py-1.5 rounded-lg text-xs font-semibold bg-primary/90 text-white backdrop-blur-sm shadow-lg">
-                      {lang === "ar" ? page.categoryAr : page.category}
-                    </span>
-
-                    {/* Conversion badge */}
-                    <div className="absolute top-3 right-3 z-10 px-3 py-1.5 rounded-lg text-xs font-semibold bg-success text-white backdrop-blur-sm shadow-lg flex items-center gap-1">
-                      <TrendingUp className="h-3 w-3" />
-                      {page.conversion}
-                    </div>
-
-                    {/* Scroll hint */}
-                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 px-4 py-2 rounded-full bg-black/70 backdrop-blur-md text-white text-xs opacity-100 group-hover:opacity-0 transition-opacity duration-300 flex items-center gap-2 shadow-lg">
-                      <MousePointer2 className="h-3.5 w-3.5" />
-                      {lang === "ar" ? "مرر للمعاينة" : "Hover to preview"}
-                    </div>
-
-                    {/* Gradient overlays */}
-                    <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/50 to-transparent z-[5] pointer-events-none" />
-                    <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/50 to-transparent z-[5] pointer-events-none" />
-                  </div>
-
-                  {/* Info */}
-                  <div className="p-5">
-                    <h4 className="font-display font-semibold text-lg text-foreground mb-1">
-                      {lang === "ar" ? page.titleAr : page.title}
-                    </h4>
-                    <p className="text-sm text-muted-foreground">
-                      {lang === "ar" ? "صفحة هبوط بالذكاء الاصطناعي" : "AI-Generated Landing Page"}
-                    </p>
-                  </div>
-                </div>
+                <LandingPageCard page={page} lang={lang} />
               </motion.div>
             ))}
           </div>
