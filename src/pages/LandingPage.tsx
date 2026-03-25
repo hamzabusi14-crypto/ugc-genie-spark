@@ -421,30 +421,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Pricing Teaser */}
-      <section className="py-6 px-4">
-        <div className="container max-w-5xl">
-          <Link to="/pricing" className="block">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="glass-card gradient-border p-5 md:p-6 flex flex-col md:flex-row items-center justify-between gap-4 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/10 transition-all duration-300 group"
-            >
-              <div className="flex items-center gap-3">
-                <span className="text-2xl">💰</span>
-                <span className="font-display font-bold text-lg text-foreground">Plans starting at $9</span>
-              </div>
-              <p className="text-sm text-muted-foreground text-center">
-                100 credits • 3 UGC videos • No subscription
-              </p>
-              <Button variant="gradient" size="sm" className="shrink-0 group-hover:scale-105 transition-transform">
-                View Pricing <ArrowRight className="h-4 w-4" />
-              </Button>
-            </motion.div>
-          </Link>
-        </div>
-      </section>
 
       {/* Video Examples */}
       <section className="py-20 px-4">
@@ -620,6 +596,31 @@ export default function LandingPage() {
               </motion.div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Pricing Teaser */}
+      <section className="py-8 px-4">
+        <div className="container max-w-5xl">
+          <Link to="/pricing" className="block">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="glass-card gradient-border p-5 md:p-6 flex flex-col md:flex-row items-center justify-between gap-4 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/10 transition-all duration-300 group"
+            >
+              <div className="flex items-center gap-3">
+                <span className="text-2xl">💰</span>
+                <span className="font-display font-bold text-lg text-foreground">Plans starting at $9</span>
+              </div>
+              <p className="text-sm text-muted-foreground text-center">
+                100 credits • 3 UGC videos • No subscription
+              </p>
+              <Button variant="gradient" size="sm" className="shrink-0 group-hover:scale-105 transition-transform">
+                View Pricing <ArrowRight className="h-4 w-4" />
+              </Button>
+            </motion.div>
+          </Link>
         </div>
       </section>
 
