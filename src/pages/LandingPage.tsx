@@ -7,7 +7,7 @@ import {
   Play, Check, ShoppingBag, Smartphone, BarChart3, ArrowRight, Zap,
   MousePointer2, TrendingUp,
 } from "lucide-react";
-import { PLANS } from "@/lib/types";
+
 import { useState, useRef, useCallback, useEffect } from "react";
 import AppFooter from "@/components/AppFooter";
 
@@ -95,12 +95,6 @@ const stats = [
   { value: "3x", label: "Engagement" },
 ];
 
-const planFeatures: Record<string, string[]> = {
-  starter: ["50 credits/month", "8s & 16s videos", "3 languages", "Email support"],
-  pro: ["200 credits/month", "All durations", "All languages", "Priority support", "Landing pages"],
-  premium: ["600 credits/month", "All features", "API access", "Dedicated support", "Auto-posting"],
-  ultimate: ["1,500 credits/month", "Everything in Premium", "White-label", "Custom integrations", "Account manager"],
-};
 
 function LandingPageCard({ page, lang }: { page: typeof landingPageExamples[0]; lang: string }) {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -670,54 +664,6 @@ export default function LandingPage() {
             {testimonials.map((_, i) => (
               <div key={i} className="w-2 h-2 rounded-full bg-muted-foreground/30" />
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Pricing */}
-      <section className="py-20 px-4">
-        <div className="container max-w-5xl">
-          <motion.div className="text-center mb-16" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} custom={0}>
-            <h3 className="font-display text-3xl md:text-4xl font-bold mb-4">{t("pricing")}</h3>
-            <p className="text-muted-foreground">{t("pricingSubtitle")}</p>
-          </motion.div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {PLANS.map((plan, i) => {
-              const name = t(plan.key as any);
-              const popular = plan.key === "pro";
-              return (
-                <motion.div
-                  key={plan.key}
-                  className={`glass-card p-6 flex flex-col ${popular ? "gradient-border ring-1 ring-primary/20" : ""}`}
-                  custom={i}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true }}
-                  variants={fadeIn}
-                >
-                  {popular && (
-                    <span className="text-xs font-semibold gradient-text mb-2">MOST POPULAR</span>
-                  )}
-                  <h4 className="font-display text-xl font-semibold mb-1">{name}</h4>
-                  <div className="mb-4">
-                    <span className="font-display text-4xl font-bold">${plan.price}</span>
-                    <span className="text-muted-foreground">{t("month")}</span>
-                  </div>
-                  <ul className="space-y-2 mb-6 flex-1">
-                    {(planFeatures[plan.key] || []).map((feat) => (
-                      <li key={feat} className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <Check className="h-4 w-4 text-primary shrink-0" />
-                        {feat}
-                      </li>
-                    ))}
-                  </ul>
-                  <Button variant={popular ? "gradient" : "glass"} className="mt-auto" asChild>
-                    <Link to="/signup">{t("getStarted")}</Link>
-                  </Button>
-                </motion.div>
-              );
-            })}
           </div>
         </div>
       </section>
