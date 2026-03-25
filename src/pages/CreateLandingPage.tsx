@@ -9,7 +9,7 @@ import DashboardLayout from "@/components/DashboardLayout";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
-import { Upload, Loader2, FileText, Check, ChevronDown, Search } from "lucide-react";
+import { Upload, Loader2, FileText, Check, ChevronDown, Search, Plus, X } from "lucide-react";
 
 const PRODUCT_EXAMPLES = [
   "e.g. AirPods Pro",
@@ -105,6 +105,33 @@ const COUNTRIES = [
   { flag: "🇾🇪", name: "Yemen" },
 ].sort((a, b) => a.name.localeCompare(b.name));
 
+const CURRENCY_MAP: Record<string, string> = {
+  "Saudi Arabia": "SAR",
+  "UAE": "AED",
+  "Qatar": "QAR",
+  "Bahrain": "BHD",
+  "Oman": "OMR",
+  "Kuwait": "KWD",
+  "Egypt": "EGP",
+  "United States": "USD",
+  "United Kingdom": "GBP",
+  "Germany": "EUR", "France": "EUR", "Italy": "EUR", "Spain": "EUR",
+  "Netherlands": "EUR", "Belgium": "EUR", "Austria": "EUR", "Ireland": "EUR",
+  "Portugal": "EUR", "Greece": "EUR", "Finland": "EUR",
+  "Jordan": "USD", "Lebanon": "USD", "Iraq": "USD", "Syria": "USD",
+  "Yemen": "USD", "Libya": "USD", "Sudan": "USD", "Palestine": "USD",
+};
+
+function getCurrency(country: string): string {
+  return CURRENCY_MAP[country] || "USD";
+}
+
+interface PriceTier {
+  id: number;
+  quantity: string;
+  price: string;
+}
+
 export default function CreateLandingPage() {
   const { profile } = useAuth();
   const { t } = useI18n();
@@ -115,10 +142,16 @@ export default function CreateLandingPage() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [targetLocation, setTargetLocation] = useState("");
-  const [priceOffers, setPriceOffers] = useState("");
   const [description, setDescription] = useState("");
   const [uploading, setUploading] = useState(false);
   const [generating, setGenerating] = useState(false);
+
+  // Price tiers
+  const [priceTiers, setPriceTiers] = useState<PriceTier[]>([{ id: 1, quantity: "", price: "" }]);
+  const nextTierId = useRef(2);
+
+  // Touched state for validation
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
 
   // Country dropdown state
   const [countryOpen, setCountryOpen] = useState(false);
@@ -151,6 +184,47 @@ export default function CreateLandingPage() {
   );
 
   const selectedCountry = COUNTRIES.find((c) => c.name === targetLocation);
+  const currency = getCurrency(targetLocation);
+
+  // Validation helpers
+  const isProductNameValid = productName.trim().length > 2;
+  const isImageValid = !!imageUrl;
+  const isLocationValid = !!targetLocation;
+  const isPriceTiersValid = priceTiers.some(
+    (t) => Number(t.quantity) > 0 && Number(t.price) > 0
+  );
+
+  const markTouched = (field: string) => setTouched((prev) => ({ ...prev, [field]: true }));
+
+  const getFieldBorderClass = (field: string, isValid: boolean) => {
+    if (!touched[field]) return "";
+    return isValid ? "border-green-500/30" : "border-red-500/30";
+  };
+
+  // Price tier helpers
+  const addTier = () => {
+    if (priceTiers.length >= 5) return;
+    setPriceTiers((prev) => [...prev, { id: nextTierId.current++, quantity: "", price: "" }]);
+  };
+
+  const removeTier = (id: number) => {
+    if (priceTiers.length <= 1) return;
+    setPriceTiers((prev) => prev.filter((t) => t.id !== id));
+  };
+
+  const updateTier = (id: number, field: "quantity" | "price", value: string) => {
+    setPriceTiers((prev) =>
+      prev.map((t) => (t.id === id ? { ...t, [field]: value } : t))
+    );
+    markTouched("price");
+  };
+
+  const buildPriceString = (): string => {
+    return priceTiers
+      .filter((t) => Number(t.quantity) > 0 && Number(t.price) > 0)
+      .map((t) => `${t.quantity}pcs = ${t.price} ${currency}`)
+      .join(", ");
+  };
 
   const handleImageSelect = useCallback(async (file: File) => {
     if (file.size > 10 * 1024 * 1024) {
@@ -172,6 +246,7 @@ export default function CreateLandingPage() {
       const data = await res.json();
       if (data.secure_url) {
         setImageUrl(data.secure_url);
+        markTouched("image");
         toast.success("Image uploaded!");
       } else {
         throw new Error("Upload failed");
@@ -190,8 +265,10 @@ export default function CreateLandingPage() {
   }, [handleImageSelect]);
 
   const handleGenerate = async () => {
-    if (!productName.trim() || !imageUrl || !targetLocation.trim() || !priceOffers.trim()) {
+    const priceOffers = buildPriceString();
+    if (!productName.trim() || !imageUrl || !targetLocation.trim() || !priceOffers) {
       toast.error(t("fillRequired"));
+      setTouched({ productName: true, image: true, location: true, price: true });
       return;
     }
 
@@ -217,7 +294,7 @@ export default function CreateLandingPage() {
           productName: productName.trim(),
           productImage: imageUrl,
           targetLocation: targetLocation.trim(),
-          priceOffers: priceOffers.trim(),
+          priceOffers: priceOffers,
           description: description.trim() || undefined,
         }),
       });
@@ -233,6 +310,11 @@ export default function CreateLandingPage() {
     }
   };
 
+  const ValidCheck = ({ valid }: { valid: boolean }) =>
+    valid ? (
+      <Check className="h-4 w-4 text-green-500 inline-block ml-1 animate-in zoom-in-50 duration-200" />
+    ) : null;
+
   return (
     <DashboardLayout>
       <div className="max-w-2xl mx-auto space-y-6">
@@ -244,22 +326,31 @@ export default function CreateLandingPage() {
         <div className="glass-card p-6 space-y-6">
           {/* Product Name */}
           <div>
-            <Label htmlFor="lpProductName">{t("productName")} *</Label>
+            <Label htmlFor="lpProductName">
+              {t("productName")} *
+              <ValidCheck valid={isProductNameValid} />
+            </Label>
             <Input
               id="lpProductName"
               value={productName}
               onChange={(e) => setProductName(e.target.value)}
+              onBlur={() => markTouched("productName")}
               placeholder={PRODUCT_EXAMPLES[placeholderIdx]}
-              className="mt-1 bg-muted border-border"
+              className={`mt-1 bg-muted border-border ${getFieldBorderClass("productName", isProductNameValid)}`}
               required
             />
           </div>
 
           {/* Product Image */}
           <div>
-            <Label>{t("productImage")} *</Label>
+            <Label>
+              {t("productImage")} *
+              <ValidCheck valid={isImageValid} />
+            </Label>
             <div
-              className="mt-1 border-2 border-dashed border-border rounded-lg p-8 text-center cursor-pointer hover:border-primary/50 transition-colors"
+              className={`mt-1 border-2 border-dashed rounded-lg p-8 text-center cursor-pointer hover:border-primary/50 transition-colors ${
+                touched.image && !isImageValid ? "border-red-500/30" : isImageValid ? "border-green-500/30" : "border-border"
+              }`}
               onDrop={handleDrop}
               onDragOver={(e) => e.preventDefault()}
               onClick={() => document.getElementById("lpFileInput")?.click()}
@@ -289,12 +380,15 @@ export default function CreateLandingPage() {
 
           {/* Target Location - Country Dropdown */}
           <div>
-            <Label>{t("targetLocation")} *</Label>
+            <Label>
+              {t("targetLocation")} *
+              <ValidCheck valid={isLocationValid} />
+            </Label>
             <div className="relative mt-1" ref={countryRef}>
               <button
                 type="button"
-                onClick={() => setCountryOpen(!countryOpen)}
-                className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-muted px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                onClick={() => { setCountryOpen(!countryOpen); markTouched("location"); }}
+                className={`flex h-10 w-full items-center justify-between rounded-md border bg-muted px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 ${getFieldBorderClass("location", isLocationValid) || "border-input"}`}
               >
                 <span className={targetLocation ? "text-foreground" : "text-muted-foreground"}>
                   {selectedCountry ? `${selectedCountry.flag} ${selectedCountry.name}` : (t("targetLocationPlaceholder") || "Select country")}
@@ -326,6 +420,7 @@ export default function CreateLandingPage() {
                             setTargetLocation(c.name);
                             setCountryOpen(false);
                             setCountrySearch("");
+                            markTouched("location");
                           }}
                           className="flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-sm hover:bg-accent hover:text-accent-foreground transition-colors"
                         >
@@ -341,20 +436,58 @@ export default function CreateLandingPage() {
             </div>
           </div>
 
-          {/* Price & Offers */}
+          {/* Price Tiers Builder */}
           <div>
-            <Label>{t("priceOffers")} *</Label>
-            <Textarea
-              value={priceOffers}
-              onChange={(e) => setPriceOffers(e.target.value)}
-              placeholder="1pcs = 199, 2pcs = 299, 4pcs = 499"
-              className="mt-1 bg-muted border-border"
-              rows={3}
-              required
-            />
-            <p className="text-xs text-muted-foreground mt-1.5">
-              Format: quantity = price (e.g., 1pcs = 199, 2pcs = 299)
-            </p>
+            <Label>
+              {t("priceOffers")} *
+              <ValidCheck valid={isPriceTiersValid} />
+            </Label>
+            <div className="mt-2 space-y-2">
+              {priceTiers.map((tier) => (
+                <div key={tier.id} className="flex items-center gap-2">
+                  <Input
+                    type="number"
+                    min={1}
+                    placeholder="1"
+                    value={tier.quantity}
+                    onChange={(e) => updateTier(tier.id, "quantity", e.target.value)}
+                    className={`w-20 bg-muted border-border text-center ${getFieldBorderClass("price", isPriceTiersValid)}`}
+                  />
+                  <span className="text-sm text-muted-foreground whitespace-nowrap">pcs =</span>
+                  <Input
+                    type="number"
+                    min={0}
+                    placeholder="199"
+                    value={tier.price}
+                    onChange={(e) => updateTier(tier.id, "price", e.target.value)}
+                    className={`flex-1 bg-muted border-border ${getFieldBorderClass("price", isPriceTiersValid)}`}
+                  />
+                  <span className="text-sm font-medium text-muted-foreground w-10">{currency}</span>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8 text-muted-foreground hover:text-destructive shrink-0"
+                    onClick={() => removeTier(tier.id)}
+                    disabled={priceTiers.length <= 1}
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                </div>
+              ))}
+              {priceTiers.length < 5 && (
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={addTier}
+                  className="w-full border-dashed"
+                >
+                  <Plus className="h-4 w-4 mr-1" />
+                  Add Price Tier
+                </Button>
+              )}
+            </div>
           </div>
 
           {/* Description */}
