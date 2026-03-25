@@ -294,9 +294,18 @@ export default function LandingPage() {
                 variants={fadeIn}
               >
                 <div className="relative aspect-[9/16]">
-                  <img src={video.img} alt={video.title} className="w-full h-full object-cover" />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-center justify-center">
-                    <Play className="h-10 w-10 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <video
+                    src={video.video}
+                    poster={video.thumbnail}
+                    muted
+                    loop
+                    playsInline
+                    className="w-full h-full object-cover"
+                    onMouseEnter={(e) => e.currentTarget.play()}
+                    onMouseLeave={(e) => { e.currentTarget.pause(); e.currentTarget.currentTime = 0; }}
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center pointer-events-none">
+                    <Play className="h-12 w-12 text-white opacity-70 group-hover:opacity-0 transition-opacity" />
                   </div>
                   <span className="absolute top-2 left-2 px-2 py-0.5 rounded text-[10px] font-semibold bg-primary/80 text-primary-foreground">
                     {video.category}
