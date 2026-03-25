@@ -80,15 +80,27 @@ export default function LandingPage() {
     : videoExamples.filter((v) => v.category === activeCategory);
 
   return (
-    <div className="min-h-screen bg-background overflow-hidden">
+    <div className={`min-h-screen bg-background overflow-hidden ${lang === 'ar' ? 'rtl' : ''}`}>
       {/* Navbar */}
       <header className="fixed top-0 inset-x-0 z-50 border-b border-border bg-background/80 backdrop-blur-sm">
         <div className="container flex items-center justify-between h-16">
-          <h1 className="font-display text-xl font-bold gradient-text">OFA AI</h1>
+          <Link to="/" className="flex items-center gap-2">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+              <Sparkles className="h-5 w-5 text-white" />
+            </div>
+            <div>
+              <span className="font-display text-xl font-bold text-white">OFA AI</span>
+              <span className="hidden sm:block text-[10px] text-muted-foreground -mt-1">One For All AI</span>
+            </div>
+          </Link>
           <div className="flex items-center gap-3">
-            <Button variant="ghost" size="icon" onClick={() => setLang(lang === "en" ? "ar" : "en")}>
+            <button
+              onClick={() => setLang(lang === "en" ? "ar" : "en")}
+              className="flex items-center gap-2 px-3 py-1.5 rounded-full glass-card text-sm hover:bg-white/10 transition"
+            >
               <Globe className="h-4 w-4" />
-            </Button>
+              <span>{lang === "en" ? "العربية" : "English"}</span>
+            </button>
             <Button variant="ghost" size="sm" asChild>
               <Link to="/login">{t("login")}</Link>
             </Button>
@@ -116,7 +128,7 @@ export default function LandingPage() {
                 className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/10 text-sm text-primary mb-6"
               >
                 <Sparkles className="h-4 w-4" />
-                AI-Powered Video Generation
+                {t("heroTagline" as any)}
               </motion.div>
 
               <motion.h2
@@ -125,7 +137,7 @@ export default function LandingPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.1 }}
               >
-                Create <span className="gradient-text">Viral UGC Videos</span> in Seconds
+                {t("heroHeadline1" as any)} <span className="gradient-text">{t("heroHeadline2" as any)}</span> {t("heroHeadline3" as any)}
               </motion.h2>
 
               <motion.p
@@ -145,7 +157,7 @@ export default function LandingPage() {
               >
                 <Button variant="gradient" size="xl" asChild>
                   <Link to="/signup">
-                    Create Your First Video Free
+                    {t("createFirstVideo" as any)}
                     <ArrowRight className="h-5 w-5" />
                   </Link>
                 </Button>
@@ -177,7 +189,7 @@ export default function LandingPage() {
                     <Star key={i} className="h-4 w-4 fill-warning text-warning" />
                   ))}
                 </div>
-                <span className="text-sm text-muted-foreground">Loved by 10,000+ creators</span>
+                <span className="text-sm text-muted-foreground">{t("lovedBy" as any)}</span>
               </motion.div>
             </div>
 
@@ -234,7 +246,7 @@ export default function LandingPage() {
                 variants={fadeIn}
               >
                 <div className="font-display text-3xl font-bold gradient-text">{stat.value}</div>
-                <div className="text-sm text-muted-foreground mt-1">{stat.label}</div>
+                <div className="text-sm text-muted-foreground mt-1">{t((`stats${stat.label.replace(/\s/g, '')}`) as any) || stat.label}</div>
               </motion.div>
             ))}
           </div>
@@ -246,9 +258,9 @@ export default function LandingPage() {
         <div className="container max-w-6xl">
           <motion.div className="text-center mb-12" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} custom={0}>
             <h3 className="font-display text-3xl md:text-4xl font-bold mb-4">
-              See What <span className="gradient-text">OFA Creates</span>
+              {t("seeWhatOfa" as any)} <span className="gradient-text">{t("ofaCreates" as any)}</span>
             </h3>
-            <p className="text-muted-foreground max-w-2xl mx-auto">Real examples of AI-generated UGC videos across different industries.</p>
+            <p className="text-muted-foreground max-w-2xl mx-auto">{t("videoExamplesDesc" as any)}</p>
           </motion.div>
 
           <div className="flex flex-wrap justify-center gap-2 mb-10">
@@ -303,9 +315,9 @@ export default function LandingPage() {
         <div className="container max-w-5xl relative z-10">
           <motion.div className="text-center mb-16" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} custom={0}>
             <h3 className="font-display text-3xl md:text-4xl font-bold mb-4">
-              Everything You Need to <span className="gradient-text">Go Viral</span>
+              {t("everythingYouNeed" as any)} <span className="gradient-text">{t("goViral" as any)}</span>
             </h3>
-            <p className="text-muted-foreground max-w-2xl mx-auto">A complete AI video production toolkit built for modern creators and brands.</p>
+            <p className="text-muted-foreground max-w-2xl mx-auto">{t("featuresDesc" as any)}</p>
           </motion.div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -366,7 +378,7 @@ export default function LandingPage() {
         <div className="container max-w-5xl relative z-10">
           <motion.div className="text-center mb-16" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} custom={0}>
             <h3 className="font-display text-3xl md:text-4xl font-bold mb-4">
-              Trusted by <span className="gradient-text">Thousands</span>
+              {t("trustedBy" as any)} <span className="gradient-text">{t("thousands" as any)}</span>
             </h3>
           </motion.div>
 
@@ -485,10 +497,10 @@ export default function LandingPage() {
             custom={0}
           >
             <h3 className="font-display text-3xl md:text-4xl font-bold mb-4">
-              Ready to Create <span className="gradient-text">Viral UGC Videos</span>?
+              {t("readyToCreate" as any)}
             </h3>
             <p className="text-muted-foreground mb-8 max-w-lg mx-auto">
-              Join 10,000+ creators and brands using OFA AI to produce professional video content.
+              {t("joinCreators" as any)}
             </p>
             <Button variant="gradient" size="xl" asChild>
               <Link to="/signup">
@@ -496,8 +508,20 @@ export default function LandingPage() {
                 <ArrowRight className="h-5 w-5" />
               </Link>
             </Button>
-            <p className="text-xs text-muted-foreground mt-4">No credit card required</p>
+            <p className="text-xs text-muted-foreground mt-4">{t("noCreditCard" as any)}</p>
           </motion.div>
+        </div>
+      </section>
+
+      {/* About OFA */}
+      <section className="py-12 px-4 border-t border-border/50">
+        <div className="container max-w-4xl text-center">
+          <h3 className="text-2xl font-bold mb-4">
+            {t("aboutOfaTitle" as any)} <span className="gradient-text">OFA AI</span>?
+          </h3>
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+            {t("aboutOfaDesc" as any)}
+          </p>
         </div>
       </section>
 
