@@ -223,6 +223,9 @@ export default function LandingPage() {
             </div>
           </Link>
           <div className="flex items-center gap-3">
+            <Button variant="ghost" size="sm" asChild>
+              <Link to="/pricing">Pricing</Link>
+            </Button>
             <button
               onClick={() => setLang(lang === "en" ? "ar" : "en")}
               className="flex items-center gap-2 px-3 py-1.5 rounded-full glass-card text-sm hover:bg-white/10 transition"
