@@ -72,9 +72,15 @@ export default function DashboardPage() {
             </div>
             <div>
               <p className="text-sm text-muted-foreground">{t("creditBalance")}</p>
-              <p className="font-display text-4xl font-bold">{profile?.credits ?? 0}</p>
+              <p className="font-display text-4xl font-bold">{creditBalance}</p>
             </div>
           </div>
+          {creditBalance < 50 && (
+            <Link to="/billing" className="flex items-center gap-2 mt-4 text-sm text-primary hover:underline">
+              <Zap className="h-4 w-4" />
+              ⚡ Low on credits? Get more →
+            </Link>
+          )}
         </div>
 
         {/* Stats */}
