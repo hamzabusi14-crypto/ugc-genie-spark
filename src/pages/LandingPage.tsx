@@ -258,9 +258,9 @@ export default function LandingPage() {
         <div className="container max-w-6xl">
           <motion.div className="text-center mb-12" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} custom={0}>
             <h3 className="font-display text-3xl md:text-4xl font-bold mb-4">
-              See What <span className="gradient-text">OFA Creates</span>
+              {t("seeWhatOfa" as any)} <span className="gradient-text">{t("ofaCreates" as any)}</span>
             </h3>
-            <p className="text-muted-foreground max-w-2xl mx-auto">Real examples of AI-generated UGC videos across different industries.</p>
+            <p className="text-muted-foreground max-w-2xl mx-auto">{t("videoExamplesDesc" as any)}</p>
           </motion.div>
 
           <div className="flex flex-wrap justify-center gap-2 mb-10">
