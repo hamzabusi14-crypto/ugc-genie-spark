@@ -92,6 +92,7 @@ export default function DashboardPage() {
                 <span className="text-sm text-muted-foreground">{stat.label}</span>
               </div>
               <p className="font-display text-3xl font-bold">{stat.value}</p>
+              {stat.sub && <p className="text-xs text-muted-foreground mt-0.5">{stat.sub}</p>}
             </div>
           ))}
         </div>
