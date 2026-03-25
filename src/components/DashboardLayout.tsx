@@ -170,7 +170,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2 glass-card px-4 py-2 rounded-full">
               <Coins className="h-4 w-4 text-primary" />
-              <span className="font-display font-semibold text-foreground">{profile?.credits ?? 0}</span>
+              <span className="font-display font-semibold text-foreground">{credits ?? profile?.credits ?? 0}</span>
               <span className="text-xs text-muted-foreground">{t("credits")}</span>
             </div>
             <div className="lg:hidden">
