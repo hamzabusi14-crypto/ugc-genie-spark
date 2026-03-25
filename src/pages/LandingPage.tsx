@@ -33,39 +33,40 @@ const landingPageExamples = [
     titleAr: "عسل VIP الحيوي",
     category: "Health",
     categoryAr: "صحة",
-    conversion: "14.2%",
-    images: [
-      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1773865474/lp/806a2014-d01d-4881-ac71-70a228c7d7e8/hero_1773865473236.jpg",
-      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1773865475/lp/806a2014-d01d-4881-ac71-70a228c7d7e8/features_1773865474783.jpg",
-      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1773865479/lp/806a2014-d01d-4881-ac71-70a228c7d7e8/pricing_1773865478775.jpg"
-    ]
+    conversion: "+14.2%",
+    sections: [
+      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1774435512/lp/20af9617-515c-41a6-b6c3-219eb27f264d/hero_1774435511405.jpg",
+      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1774435513/lp/20af9617-515c-41a6-b6c3-219eb27f264d/features_1774435513088.jpg",
+      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1774435514/lp/20af9617-515c-41a6-b6c3-219eb27f264d/howto_1774435514232.jpg",
+      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1774435515/lp/20af9617-515c-41a6-b6c3-219eb27f264d/pricing_1774435515433.jpg",
+    ],
   },
   {
     title: "Beauty Skincare",
     titleAr: "العناية بالبشرة",
     category: "Beauty",
     categoryAr: "جمال",
-    conversion: "12.3%",
-    images: [
-      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1773863142/lp/d0ac4447-02dd-4610-ba80-c34379d5a6e8/hero_1773863141635.jpg",
-      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1773863143/lp/d0ac4447-02dd-4610-ba80-c34379d5a6e8/features_1773863142950.jpg",
-      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1773863145/lp/d0ac4447-02dd-4610-ba80-c34379d5a6e8/howto_1773863144258.jpg",
-      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1773863146/lp/d0ac4447-02dd-4610-ba80-c34379d5a6e8/pricing_1773863145704.jpg"
-    ]
+    conversion: "+12.3%",
+    sections: [
+      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1774434639/lp/75481cb5-eb93-4d89-8179-bb6ff0f07cd9/hero_1774434638507.jpg",
+      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1774434640/lp/75481cb5-eb93-4d89-8179-bb6ff0f07cd9/features_1774434640022.jpg",
+      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1774434642/lp/75481cb5-eb93-4d89-8179-bb6ff0f07cd9/howto_1774434641115.jpg",
+      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1774434644/lp/75481cb5-eb93-4d89-8179-bb6ff0f07cd9/pricing_1774434643145.jpg",
+    ],
   },
   {
-    title: "Premium Product",
-    titleAr: "منتج مميز",
+    title: "Electronic Safe",
+    titleAr: "خزنة إلكترونية",
     category: "Lifestyle",
     categoryAr: "لايف ستايل",
-    conversion: "11.8%",
-    images: [
-      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1773861940/lp/7c0a43fe-1f9f-402a-90f7-181ebe126616/hero_1773861939448.jpg",
-      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1773861941/lp/7c0a43fe-1f9f-402a-90f7-181ebe126616/features_1773861940825.jpg",
-      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1773861943/lp/7c0a43fe-1f9f-402a-90f7-181ebe126616/howto_1773861942581.jpg",
-      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1773861944/lp/7c0a43fe-1f9f-402a-90f7-181ebe126616/pricing_1773861943900.jpg"
-    ]
-  }
+    conversion: "+11.8%",
+    sections: [
+      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1774438445/WhatsApp_Image_2569-03-17_at_04.26.52_bluzny.jpg",
+      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1774438445/WhatsApp_Image_2569-03-17_at_04.26.59_fq6fc9.jpg",
+      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1774438445/WhatsApp_Image_2569-03-17_at_04.27.05_bpld7p.jpg",
+      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1774438445/WhatsApp_Image_2569-03-17_at_04.32.59_ror4va.jpg",
+    ],
+  },
 ];
 
 const categories = ["All", "Beauty", "Fashion", "Food", "Tech", "Fitness"];
