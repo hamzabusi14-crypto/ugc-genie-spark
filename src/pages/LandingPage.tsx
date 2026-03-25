@@ -309,6 +309,134 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* Landing Pages Examples */}
+      <section className="py-20 px-4 bg-muted/30">
+        <div className="container max-w-6xl">
+          <motion.div className="text-center mb-12" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} custom={0}>
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-success/30 bg-success/10 text-sm text-success mb-4">
+              <ShoppingBag className="h-4 w-4" />
+              {lang === "ar" ? "ميزة جديدة" : "New Feature"}
+            </div>
+            <h3 className="font-display text-3xl md:text-4xl font-bold mb-4">
+              {lang === "ar" ? (
+                <>صفحات هبوط <span className="gradient-text">تحقق مبيعات</span></>
+              ) : (
+                <>Landing Pages That <span className="gradient-text">Convert</span></>
+              )}
+            </h3>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              {lang === "ar"
+                ? "صفحات منتجات احترافية يتم إنشاؤها تلقائياً مع كل فيديو - جاهزة للبيع مباشرة"
+                : "AI-generated product pages created automatically with every video — ready to sell instantly"
+              }
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              {
+                title: lang === "ar" ? "سيروم العناية بالبشرة" : "Skincare Serum",
+                category: lang === "ar" ? "جمال" : "Beauty",
+                price: "$49.99",
+                img: "https://images.pexels.com/photos/3785147/pexels-photo-3785147.jpeg?auto=compress&cs=tinysrgb&w=400",
+                sales: "2.4K",
+                conversion: "12.3%"
+              },
+              {
+                title: lang === "ar" ? "سماعات لاسلكية" : "Wireless Earbuds",
+                category: lang === "ar" ? "تقنية" : "Tech",
+                price: "$79.99",
+                img: "https://images.pexels.com/photos/3945683/pexels-photo-3945683.jpeg?auto=compress&cs=tinysrgb&w=400",
+                sales: "1.8K",
+                conversion: "9.7%"
+              },
+              {
+                title: lang === "ar" ? "مكمل غذائي" : "Fitness Supplement",
+                category: lang === "ar" ? "لياقة" : "Fitness",
+                price: "$34.99",
+                img: "https://images.pexels.com/photos/4397840/pexels-photo-4397840.jpeg?auto=compress&cs=tinysrgb&w=400",
+                sales: "3.1K",
+                conversion: "15.2%"
+              }
+            ].map((product, i) => (
+              <motion.div
+                key={product.title}
+                className="glass-card overflow-hidden group cursor-pointer hover:border-primary/30 transition-all"
+                custom={i}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={fadeIn}
+              >
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  <img src={product.img} alt={product.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                  <div className="absolute top-3 right-3 w-10 h-10 rounded-full bg-white/20 backdrop-blur flex items-center justify-center">
+                    <Play className="h-5 w-5 text-white fill-white" />
+                  </div>
+                  <span className="absolute top-3 left-3 px-2 py-1 rounded-md text-xs font-semibold bg-primary/80 text-white">
+                    {product.category}
+                  </span>
+                  <div className="absolute bottom-3 left-3">
+                    <span className="text-2xl font-bold text-white">{product.price}</span>
+                  </div>
+                </div>
+                <div className="p-4">
+                  <h4 className="font-display text-lg font-semibold mb-3">{product.title}</h4>
+                  <div className="flex items-center justify-between text-sm">
+                    <div className="flex items-center gap-4">
+                      <div>
+                        <span className="text-muted-foreground">{lang === "ar" ? "المبيعات" : "Sales"}: </span>
+                        <span className="font-semibold text-success">{product.sales}</span>
+                      </div>
+                      <div>
+                        <span className="text-muted-foreground">{lang === "ar" ? "التحويل" : "Conv"}: </span>
+                        <span className="font-semibold text-primary">{product.conversion}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <Button variant="glass" size="sm" className="w-full mt-4 group-hover:bg-primary/20">
+                    {lang === "ar" ? "عرض الصفحة" : "View Page"}
+                    <ArrowRight className="h-4 w-4 ms-1" />
+                  </Button>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12">
+            {[
+              { icon: Zap, label: lang === "ar" ? "إنشاء فوري" : "Instant Creation" },
+              { icon: Smartphone, label: lang === "ar" ? "متوافق مع الجوال" : "Mobile Optimized" },
+              { icon: BarChart3, label: lang === "ar" ? "تتبع التحويلات" : "Conversion Tracking" },
+              { icon: Globe, label: lang === "ar" ? "نطاق مخصص" : "Custom Domain" }
+            ].map((feat, i) => (
+              <motion.div
+                key={feat.label}
+                className="glass-card p-4 text-center"
+                custom={i}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={fadeIn}
+              >
+                <feat.icon className="h-6 w-6 text-primary mx-auto mb-2" />
+                <span className="text-sm text-muted-foreground">{feat.label}</span>
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="text-center mt-12">
+            <Button variant="gradient" size="lg" asChild>
+              <Link to="/signup">
+                {lang === "ar" ? "أنشئ صفحة منتجك الأولى" : "Create Your First Landing Page"}
+                <ArrowRight className="h-5 w-5 ms-2" />
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
       {/* Features */}
       <section className="py-20 px-4 relative">
         <div className="bg-orb bg-orb-pink w-80 h-80 top-0 right-10" style={{ animationDelay: "1s" }} />
