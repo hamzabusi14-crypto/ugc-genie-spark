@@ -397,24 +397,8 @@ export default function LandingPage() {
             <p className="text-muted-foreground max-w-2xl mx-auto">{t("videoExamplesDesc" as any)}</p>
           </motion.div>
 
-          <div className="flex flex-wrap justify-center gap-2 mb-10">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                  activeCategory === cat
-                    ? "btn-primary-gradient"
-                    : "glass-card text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-            {filteredVideos.map((video, i) => (
+            {videoExamples.map((video, i) => (
               <motion.div
                 key={video.title}
                 className="glass-card overflow-hidden group cursor-pointer"
