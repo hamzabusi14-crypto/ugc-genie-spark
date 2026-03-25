@@ -301,13 +301,38 @@ export default function SubtitleGenerator() {
             </Collapsible>
           )}
 
-          {/* Language selector */}
-          <div>
+          {/* Language Selection */}
+          <div className="space-y-2">
             <Label>{lang === "ar" ? "لغة الفيديو" : "Video Language"}</Label>
-            <Select value={languageCode} onValueChange={setLanguageCode}>
-              <SelectTrigger className="mt-1 bg-muted border-border"><SelectValue placeholder="Select language" /></SelectTrigger>
+            <div className="flex gap-2">
+              <Button
+                type="button"
+                variant={languageCode === 'ar' ? 'default' : 'outline'}
+                onClick={() => setLanguageCode('ar')}
+                className={languageCode === 'ar' ? 'btn-primary-gradient' : ''}
+              >
+                العربية
+              </Button>
+              <Button
+                type="button"
+                variant={languageCode === 'en' ? 'default' : 'outline'}
+                onClick={() => setLanguageCode('en')}
+                className={languageCode === 'en' ? 'btn-primary-gradient' : ''}
+              >
+                English
+              </Button>
+            </div>
+          </div>
+
+          {/* Font Selection */}
+          <div className="space-y-2">
+            <Label>{lang === "ar" ? "نوع الخط" : "Font Style"}</Label>
+            <Select value={font} onValueChange={setFont}>
+              <SelectTrigger className="bg-muted border-border"><SelectValue /></SelectTrigger>
               <SelectContent>
-                {LANGUAGES.map((l) => (<SelectItem key={l.code} value={l.code}>{l.name}</SelectItem>))}
+                {(languageCode === 'ar' ? ARABIC_FONTS : ENGLISH_FONTS).map((f) => (
+                  <SelectItem key={f.value} value={f.value}>{f.label}</SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
@@ -315,11 +340,11 @@ export default function SubtitleGenerator() {
           {/* 2-col grid for settings */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <Label>{lang === "ar" ? "الخط" : "Font"}</Label>
-              <Select value={font} onValueChange={setFont}>
+              <Label>{lang === "ar" ? "الموقع" : "Position"}</Label>
+              <Select value={subsPosition} onValueChange={setSubsPosition}>
                 <SelectTrigger className="mt-1 bg-muted border-border"><SelectValue /></SelectTrigger>
                 <SelectContent>
-                  {FONTS.map((f) => (<SelectItem key={f.value} value={f.value}>{f.label}</SelectItem>))}
+                  {POSITIONS.map((p) => (<SelectItem key={p.value} value={p.value}>{p.label}</SelectItem>))}
                 </SelectContent>
               </Select>
             </div>
