@@ -315,9 +315,9 @@ export default function LandingPage() {
         <div className="container max-w-5xl relative z-10">
           <motion.div className="text-center mb-16" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} custom={0}>
             <h3 className="font-display text-3xl md:text-4xl font-bold mb-4">
-              Everything You Need to <span className="gradient-text">Go Viral</span>
+              {t("everythingYouNeed" as any)} <span className="gradient-text">{t("goViral" as any)}</span>
             </h3>
-            <p className="text-muted-foreground max-w-2xl mx-auto">A complete AI video production toolkit built for modern creators and brands.</p>
+            <p className="text-muted-foreground max-w-2xl mx-auto">{t("featuresDesc" as any)}</p>
           </motion.div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
