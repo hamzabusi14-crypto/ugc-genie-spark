@@ -20,11 +20,11 @@ const fadeIn = {
 };
 
 const videoExamples = [
-  { category: "Beauty", title: "Beauty Essentials", views: "14.2K views", video: "https://res.cloudinary.com/da2zkmtcn/video/upload/v1774437677/0624_68_npbycv.mov", thumbnail: "https://res.cloudinary.com/da2zkmtcn/video/upload/so_0,f_jpg/v1774437677/0624_68_npbycv.jpg" },
-  { category: "Fashion", title: "Fashion Lookbook", views: "11.5K views", video: "https://res.cloudinary.com/da2zkmtcn/video/upload/v1774437677/0624_66_ps8okk.mov", thumbnail: "https://res.cloudinary.com/da2zkmtcn/video/upload/so_0,f_jpg/v1774437677/0624_66_ps8okk.jpg" },
-  { category: "Food", title: "Food Review", views: "18.3K views", video: "https://res.cloudinary.com/da2zkmtcn/video/upload/v1774437677/0624_70_x2cdhd.mov", thumbnail: "https://res.cloudinary.com/da2zkmtcn/video/upload/so_0,f_jpg/v1774437677/0624_70_x2cdhd.jpg" },
-  { category: "Tech", title: "Tech Unboxing", views: "9.8K views", video: "https://res.cloudinary.com/da2zkmtcn/video/upload/v1774437677/0624_67_kj0uwk.mov", thumbnail: "https://res.cloudinary.com/da2zkmtcn/video/upload/so_0,f_jpg/v1774437677/0624_67_kj0uwk.jpg" },
-  { category: "Fitness", title: "Fitness Gear", views: "7.6K views", video: "https://res.cloudinary.com/da2zkmtcn/video/upload/v1774437677/0624_69_jcekqo.mov", thumbnail: "https://res.cloudinary.com/da2zkmtcn/video/upload/so_0,f_jpg/v1774437677/0624_69_jcekqo.jpg" },
+  { category: "Beauty", title: "Beauty Essentials", views: "144.2K views", video: "https://res.cloudinary.com/da2zkmtcn/video/upload/v1774437677/0624_68_npbycv.mov", thumbnail: "https://res.cloudinary.com/da2zkmtcn/video/upload/so_0,f_jpg/v1774437677/0624_68_npbycv.jpg" },
+  { category: "Health", title: "Health Products", views: "111.5K views", video: "https://res.cloudinary.com/da2zkmtcn/video/upload/v1774437677/0624_66_ps8okk.mov", thumbnail: "https://res.cloudinary.com/da2zkmtcn/video/upload/so_0,f_jpg/v1774437677/0624_66_ps8okk.jpg" },
+  { category: "Skincare", title: "Skincare Routine", views: "181.3K views", video: "https://res.cloudinary.com/da2zkmtcn/video/upload/v1774437677/0624_70_x2cdhd.mov", thumbnail: "https://res.cloudinary.com/da2zkmtcn/video/upload/so_0,f_jpg/v1774437677/0624_70_x2cdhd.jpg" },
+  { category: "Cosmetics", title: "Cosmetics Review", views: "9.8K views", video: "https://res.cloudinary.com/da2zkmtcn/video/upload/v1774437677/0624_67_kj0uwk.mov", thumbnail: "https://res.cloudinary.com/da2zkmtcn/video/upload/so_0,f_jpg/v1774437677/0624_67_kj0uwk.jpg" },
+  { category: "Tech", title: "Tech Gadgets", views: "700.6K views", video: "https://res.cloudinary.com/da2zkmtcn/video/upload/v1774437677/0624_69_jcekqo.mov", thumbnail: "https://res.cloudinary.com/da2zkmtcn/video/upload/so_0,f_jpg/v1774437677/0624_69_jcekqo.jpg" },
 ];
 
 const landingPageExamples = [
