@@ -566,36 +566,106 @@ export default function LandingPage() {
       {/* Testimonials */}
       <section className="py-20 px-4 relative">
         <div className="bg-orb bg-orb-purple w-72 h-72 top-10 left-0" style={{ animationDelay: "3s" }} />
-        <div className="container max-w-5xl relative z-10">
-          <motion.div className="text-center mb-16" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} custom={0}>
+        <div className="container max-w-6xl relative z-10">
+          <motion.div className="text-center mb-12" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} custom={0}>
             <h3 className="font-display text-3xl md:text-4xl font-bold mb-4">
-              {t("trustedBy" as any)} <span className="gradient-text">{t("thousands" as any)}</span>
+              {lang === "ar" ? (
+                <>موثوق من <span className="gradient-text">الآلاف</span></>
+              ) : (
+                <>Trusted by <span className="gradient-text">Thousands</span></>
+              )}
             </h3>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              {lang === "ar"
+                ? "نتائج حقيقية من صناع محتوى في الشرق الأوسط وأوروبا"
+                : "Real results from creators across the Middle East & Europe"}
+            </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-6">
-            {testimonials.map((t, i) => (
-              <motion.div
-                key={t.name}
-                className="glass-card p-6"
-                custom={i}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={fadeIn}
-              >
-                <div className="flex items-center gap-3 mb-4">
-                  <img src={t.avatar} alt={t.name} className="w-10 h-10 rounded-full object-cover" />
-                  <div>
-                    <div className="font-medium text-sm">{t.name}</div>
-                    <div className="text-xs text-muted-foreground">{t.role}</div>
+          <div className="relative group/scroll">
+            {/* Scroll arrows */}
+            <button
+              onClick={(e) => {
+                const container = (e.currentTarget as HTMLElement).parentElement?.querySelector('.testimonial-scroll');
+                container?.scrollBy({ left: -340, behavior: 'smooth' });
+              }}
+              className="hidden md:flex absolute -left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-card/80 border border-border backdrop-blur-sm items-center justify-center text-muted-foreground hover:text-foreground hover:border-primary/30 transition-all opacity-0 group-hover/scroll:opacity-100"
+            >
+              <ArrowRight className="h-4 w-4 rotate-180" />
+            </button>
+            <button
+              onClick={(e) => {
+                const container = (e.currentTarget as HTMLElement).parentElement?.querySelector('.testimonial-scroll');
+                container?.scrollBy({ left: 340, behavior: 'smooth' });
+              }}
+              className="hidden md:flex absolute -right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-card/80 border border-border backdrop-blur-sm items-center justify-center text-muted-foreground hover:text-foreground hover:border-primary/30 transition-all opacity-0 group-hover/scroll:opacity-100"
+            >
+              <ArrowRight className="h-4 w-4" />
+            </button>
+
+            <div className="testimonial-scroll flex gap-5 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide">
+              {testimonials.map((item, i) => (
+                <motion.div
+                  key={item.name}
+                  className="flex-shrink-0 w-[300px] md:w-[340px] snap-center glass-card p-6 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10 transition-all duration-300 hover:-translate-y-1"
+                  custom={i}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  variants={fadeIn}
+                >
+                  {/* Stars */}
+                  <div className="flex gap-0.5 mb-3">
+                    {[...Array(5)].map((_, s) => (
+                      <Star key={s} className="h-4 w-4 fill-warning text-warning" />
+                    ))}
                   </div>
-                </div>
-                <p className="text-sm text-muted-foreground mb-4">"{t.quote}"</p>
-                <span className="inline-block px-3 py-1 rounded-full bg-success/20 text-success text-xs font-semibold">
-                  {t.metric}
-                </span>
-              </motion.div>
+
+                  {/* Quote */}
+                  <div className="mb-4 min-h-[80px]">
+                    <p className={`text-sm text-foreground/90 leading-relaxed ${item.isArabic ? 'text-right' : ''}`} dir={item.isArabic ? 'rtl' : 'ltr'}>
+                      "{item.quote}"
+                    </p>
+                    {item.isArabic && item.quoteEn && (
+                      <p className="text-xs text-muted-foreground italic mt-2">"{item.quoteEn}"</p>
+                    )}
+                  </div>
+
+                  {/* Metric badge */}
+                  <div className="mb-4">
+                    <span className="inline-block px-4 py-1.5 rounded-full bg-success/20 text-success text-sm font-bold">
+                      {item.metric}
+                    </span>
+                  </div>
+
+                  {/* Author */}
+                  <div className="flex items-center gap-3 pt-3 border-t border-border/50">
+                    <div className="w-10 h-10 rounded-full btn-primary-gradient flex items-center justify-center text-sm font-bold text-primary-foreground">
+                      {item.name.charAt(0)}
+                    </div>
+                    <div className="flex-1">
+                      <div className="font-medium text-sm">{item.name}</div>
+                      <div className="text-xs text-muted-foreground">{item.role}</div>
+                      <div className="text-xs text-muted-foreground">{item.country}</div>
+                    </div>
+                  </div>
+
+                  {/* Verified */}
+                  <div className="flex items-center gap-1 mt-3">
+                    <Check className="h-3 w-3 text-success" />
+                    <span className="text-[10px] text-muted-foreground">
+                      {lang === "ar" ? "عميل موثق" : "Verified Customer"}
+                    </span>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          {/* Scroll dots */}
+          <div className="flex justify-center gap-1.5 mt-4">
+            {testimonials.map((_, i) => (
+              <div key={i} className="w-2 h-2 rounded-full bg-muted-foreground/30" />
             ))}
           </div>
         </div>
