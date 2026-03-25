@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef, useEffect, useMemo } from "react";
 import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
@@ -9,7 +9,101 @@ import DashboardLayout from "@/components/DashboardLayout";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
-import { Upload, Loader2, FileText } from "lucide-react";
+import { Upload, Loader2, FileText, Check, ChevronDown, Search } from "lucide-react";
+
+const PRODUCT_EXAMPLES = [
+  "e.g. AirPods Pro",
+  "e.g. Samsung Galaxy Cover",
+  "e.g. Nike Sneakers",
+  "e.g. Dyson Hair Dryer",
+  "e.g. Apple Watch Band",
+  "e.g. PlayStation Controller",
+  "e.g. Bose Headphones",
+  "e.g. Ray-Ban Sunglasses",
+  "e.g. iPhone Case",
+  "e.g. Wireless Earbuds",
+  "e.g. Smart Watch",
+];
+
+const COUNTRIES = [
+  { flag: "🇦🇫", name: "Afghanistan" },
+  { flag: "🇦🇱", name: "Albania" },
+  { flag: "🇩🇿", name: "Algeria" },
+  { flag: "🇦🇷", name: "Argentina" },
+  { flag: "🇦🇺", name: "Australia" },
+  { flag: "🇦🇹", name: "Austria" },
+  { flag: "🇧🇭", name: "Bahrain" },
+  { flag: "🇧🇩", name: "Bangladesh" },
+  { flag: "🇧🇪", name: "Belgium" },
+  { flag: "🇧🇷", name: "Brazil" },
+  { flag: "🇧🇳", name: "Brunei" },
+  { flag: "🇧🇬", name: "Bulgaria" },
+  { flag: "🇨🇦", name: "Canada" },
+  { flag: "🇨🇱", name: "Chile" },
+  { flag: "🇨🇳", name: "China" },
+  { flag: "🇨🇴", name: "Colombia" },
+  { flag: "🇭🇷", name: "Croatia" },
+  { flag: "🇨🇾", name: "Cyprus" },
+  { flag: "🇨🇿", name: "Czech Republic" },
+  { flag: "🇩🇰", name: "Denmark" },
+  { flag: "🇪🇬", name: "Egypt" },
+  { flag: "🇪🇹", name: "Ethiopia" },
+  { flag: "🇫🇮", name: "Finland" },
+  { flag: "🇫🇷", name: "France" },
+  { flag: "🇩🇪", name: "Germany" },
+  { flag: "🇬🇭", name: "Ghana" },
+  { flag: "🇬🇷", name: "Greece" },
+  { flag: "🇭🇰", name: "Hong Kong" },
+  { flag: "🇭🇺", name: "Hungary" },
+  { flag: "🇮🇳", name: "India" },
+  { flag: "🇮🇩", name: "Indonesia" },
+  { flag: "🇮🇶", name: "Iraq" },
+  { flag: "🇮🇪", name: "Ireland" },
+  { flag: "🇮🇹", name: "Italy" },
+  { flag: "🇯🇵", name: "Japan" },
+  { flag: "🇯🇴", name: "Jordan" },
+  { flag: "🇰🇿", name: "Kazakhstan" },
+  { flag: "🇰🇪", name: "Kenya" },
+  { flag: "🇰🇼", name: "Kuwait" },
+  { flag: "🇱🇧", name: "Lebanon" },
+  { flag: "🇱🇾", name: "Libya" },
+  { flag: "🇲🇾", name: "Malaysia" },
+  { flag: "🇲🇽", name: "Mexico" },
+  { flag: "🇲🇦", name: "Morocco" },
+  { flag: "🇳🇱", name: "Netherlands" },
+  { flag: "🇳🇿", name: "New Zealand" },
+  { flag: "🇳🇬", name: "Nigeria" },
+  { flag: "🇳🇴", name: "Norway" },
+  { flag: "🇴🇲", name: "Oman" },
+  { flag: "🇵🇰", name: "Pakistan" },
+  { flag: "🇵🇸", name: "Palestine" },
+  { flag: "🇵🇪", name: "Peru" },
+  { flag: "🇵🇭", name: "Philippines" },
+  { flag: "🇵🇱", name: "Poland" },
+  { flag: "🇵🇹", name: "Portugal" },
+  { flag: "🇶🇦", name: "Qatar" },
+  { flag: "🇷🇴", name: "Romania" },
+  { flag: "🇷🇺", name: "Russia" },
+  { flag: "🇸🇦", name: "Saudi Arabia" },
+  { flag: "🇸🇳", name: "Senegal" },
+  { flag: "🇸🇬", name: "Singapore" },
+  { flag: "🇿🇦", name: "South Africa" },
+  { flag: "🇰🇷", name: "South Korea" },
+  { flag: "🇪🇸", name: "Spain" },
+  { flag: "🇸🇩", name: "Sudan" },
+  { flag: "🇸🇪", name: "Sweden" },
+  { flag: "🇨🇭", name: "Switzerland" },
+  { flag: "🇸🇾", name: "Syria" },
+  { flag: "🇹🇼", name: "Taiwan" },
+  { flag: "🇹🇭", name: "Thailand" },
+  { flag: "🇹🇳", name: "Tunisia" },
+  { flag: "🇹🇷", name: "Turkey" },
+  { flag: "🇦🇪", name: "UAE" },
+  { flag: "🇬🇧", name: "United Kingdom" },
+  { flag: "🇺🇸", name: "United States" },
+  { flag: "🇻🇳", name: "Vietnam" },
+  { flag: "🇾🇪", name: "Yemen" },
+].sort((a, b) => a.name.localeCompare(b.name));
 
 export default function CreateLandingPage() {
   const { profile } = useAuth();
@@ -25,6 +119,38 @@ export default function CreateLandingPage() {
   const [description, setDescription] = useState("");
   const [uploading, setUploading] = useState(false);
   const [generating, setGenerating] = useState(false);
+
+  // Country dropdown state
+  const [countryOpen, setCountryOpen] = useState(false);
+  const [countrySearch, setCountrySearch] = useState("");
+  const countryRef = useRef<HTMLDivElement>(null);
+
+  // Rotating placeholder
+  const [placeholderIdx, setPlaceholderIdx] = useState(0);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setPlaceholderIdx((i) => (i + 1) % PRODUCT_EXAMPLES.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Close country dropdown on outside click
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (countryRef.current && !countryRef.current.contains(e.target as Node)) {
+        setCountryOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+  const filteredCountries = useMemo(
+    () => COUNTRIES.filter((c) => c.name.toLowerCase().includes(countrySearch.toLowerCase())),
+    [countrySearch]
+  );
+
+  const selectedCountry = COUNTRIES.find((c) => c.name === targetLocation);
 
   const handleImageSelect = useCallback(async (file: File) => {
     if (file.size > 10 * 1024 * 1024) {
@@ -71,7 +197,6 @@ export default function CreateLandingPage() {
 
     setGenerating(true);
     try {
-      // Create record first
       const { data: record, error: dbError } = await supabase
         .from("landing_pages")
         .insert({
@@ -84,7 +209,6 @@ export default function CreateLandingPage() {
 
       if (dbError || !record) throw dbError || new Error("Failed to create record");
 
-      // POST to n8n
       const res = await fetch("https://snap-automation1.app.n8n.cloud/webhook/67a9c4a5-ceec-470d-9313-bf407b093522", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -121,7 +245,14 @@ export default function CreateLandingPage() {
           {/* Product Name */}
           <div>
             <Label htmlFor="lpProductName">{t("productName")} *</Label>
-            <Input id="lpProductName" value={productName} onChange={(e) => setProductName(e.target.value)} placeholder={t("productNamePlaceholder")} className="mt-1 bg-muted border-border" required />
+            <Input
+              id="lpProductName"
+              value={productName}
+              onChange={(e) => setProductName(e.target.value)}
+              placeholder={PRODUCT_EXAMPLES[placeholderIdx]}
+              className="mt-1 bg-muted border-border"
+              required
+            />
           </div>
 
           {/* Product Image */}
@@ -156,16 +287,74 @@ export default function CreateLandingPage() {
             </div>
           </div>
 
-          {/* Target Location */}
+          {/* Target Location - Country Dropdown */}
           <div>
             <Label>{t("targetLocation")} *</Label>
-            <Input value={targetLocation} onChange={(e) => setTargetLocation(e.target.value)} placeholder={t("targetLocationPlaceholder")} className="mt-1 bg-muted border-border" required />
+            <div className="relative mt-1" ref={countryRef}>
+              <button
+                type="button"
+                onClick={() => setCountryOpen(!countryOpen)}
+                className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-muted px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+              >
+                <span className={targetLocation ? "text-foreground" : "text-muted-foreground"}>
+                  {selectedCountry ? `${selectedCountry.flag} ${selectedCountry.name}` : (t("targetLocationPlaceholder") || "Select country")}
+                </span>
+                <ChevronDown className={`h-4 w-4 opacity-50 transition-transform ${countryOpen ? "rotate-180" : ""}`} />
+              </button>
+
+              {countryOpen && (
+                <div className="absolute z-50 mt-1 w-full rounded-md border border-border bg-popover shadow-md">
+                  <div className="flex items-center border-b border-border px-3 py-2">
+                    <Search className="h-4 w-4 text-muted-foreground mr-2 shrink-0" />
+                    <input
+                      autoFocus
+                      value={countrySearch}
+                      onChange={(e) => setCountrySearch(e.target.value)}
+                      placeholder="Search countries..."
+                      className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+                    />
+                  </div>
+                  <div className="max-h-60 overflow-y-auto p-1">
+                    {filteredCountries.length === 0 ? (
+                      <p className="py-4 text-center text-sm text-muted-foreground">No country found</p>
+                    ) : (
+                      filteredCountries.map((c) => (
+                        <button
+                          key={c.name}
+                          type="button"
+                          onClick={() => {
+                            setTargetLocation(c.name);
+                            setCountryOpen(false);
+                            setCountrySearch("");
+                          }}
+                          className="flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-sm hover:bg-accent hover:text-accent-foreground transition-colors"
+                        >
+                          <span className="text-base">{c.flag}</span>
+                          <span className="flex-1 text-start">{c.name}</span>
+                          {targetLocation === c.name && <Check className="h-4 w-4 text-primary" />}
+                        </button>
+                      ))
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Price & Offers */}
           <div>
             <Label>{t("priceOffers")} *</Label>
-            <Textarea value={priceOffers} onChange={(e) => setPriceOffers(e.target.value)} placeholder="2 tins = 199 SAR, 5 tins = 299 SAR" className="mt-1 bg-muted border-border" rows={3} required />
+            <Textarea
+              value={priceOffers}
+              onChange={(e) => setPriceOffers(e.target.value)}
+              placeholder="1pcs = 199, 2pcs = 299, 4pcs = 499"
+              className="mt-1 bg-muted border-border"
+              rows={3}
+              required
+            />
+            <p className="text-xs text-muted-foreground mt-1.5">
+              Format: quantity = price (e.g., 1pcs = 199, 2pcs = 299)
+            </p>
           </div>
 
           {/* Description */}
