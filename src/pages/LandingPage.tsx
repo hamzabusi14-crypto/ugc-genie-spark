@@ -8,7 +8,7 @@ import {
   MousePointer2, TrendingUp,
 } from "lucide-react";
 import { PLANS } from "@/lib/types";
-import { useState } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import AppFooter from "@/components/AppFooter";
 
 const fadeIn = {
@@ -33,39 +33,40 @@ const landingPageExamples = [
     titleAr: "عسل VIP الحيوي",
     category: "Health",
     categoryAr: "صحة",
-    conversion: "14.2%",
-    images: [
-      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1773865474/lp/806a2014-d01d-4881-ac71-70a228c7d7e8/hero_1773865473236.jpg",
-      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1773865475/lp/806a2014-d01d-4881-ac71-70a228c7d7e8/features_1773865474783.jpg",
-      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1773865479/lp/806a2014-d01d-4881-ac71-70a228c7d7e8/pricing_1773865478775.jpg"
-    ]
+    conversion: "+14.2%",
+    sections: [
+      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1774435512/lp/20af9617-515c-41a6-b6c3-219eb27f264d/hero_1774435511405.jpg",
+      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1774435513/lp/20af9617-515c-41a6-b6c3-219eb27f264d/features_1774435513088.jpg",
+      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1774435514/lp/20af9617-515c-41a6-b6c3-219eb27f264d/howto_1774435514232.jpg",
+      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1774435515/lp/20af9617-515c-41a6-b6c3-219eb27f264d/pricing_1774435515433.jpg",
+    ],
   },
   {
     title: "Beauty Skincare",
     titleAr: "العناية بالبشرة",
     category: "Beauty",
     categoryAr: "جمال",
-    conversion: "12.3%",
-    images: [
-      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1773863142/lp/d0ac4447-02dd-4610-ba80-c34379d5a6e8/hero_1773863141635.jpg",
-      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1773863143/lp/d0ac4447-02dd-4610-ba80-c34379d5a6e8/features_1773863142950.jpg",
-      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1773863145/lp/d0ac4447-02dd-4610-ba80-c34379d5a6e8/howto_1773863144258.jpg",
-      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1773863146/lp/d0ac4447-02dd-4610-ba80-c34379d5a6e8/pricing_1773863145704.jpg"
-    ]
+    conversion: "+12.3%",
+    sections: [
+      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1774434639/lp/75481cb5-eb93-4d89-8179-bb6ff0f07cd9/hero_1774434638507.jpg",
+      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1774434640/lp/75481cb5-eb93-4d89-8179-bb6ff0f07cd9/features_1774434640022.jpg",
+      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1774434642/lp/75481cb5-eb93-4d89-8179-bb6ff0f07cd9/howto_1774434641115.jpg",
+      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1774434644/lp/75481cb5-eb93-4d89-8179-bb6ff0f07cd9/pricing_1774434643145.jpg",
+    ],
   },
   {
-    title: "Premium Product",
-    titleAr: "منتج مميز",
+    title: "Electronic Safe",
+    titleAr: "خزنة إلكترونية",
     category: "Lifestyle",
     categoryAr: "لايف ستايل",
-    conversion: "11.8%",
-    images: [
-      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1773861940/lp/7c0a43fe-1f9f-402a-90f7-181ebe126616/hero_1773861939448.jpg",
-      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1773861941/lp/7c0a43fe-1f9f-402a-90f7-181ebe126616/features_1773861940825.jpg",
-      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1773861943/lp/7c0a43fe-1f9f-402a-90f7-181ebe126616/howto_1773861942581.jpg",
-      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1773861944/lp/7c0a43fe-1f9f-402a-90f7-181ebe126616/pricing_1773861943900.jpg"
-    ]
-  }
+    conversion: "+11.8%",
+    sections: [
+      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1774438445/WhatsApp_Image_2569-03-17_at_04.26.52_bluzny.jpg",
+      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1774438445/WhatsApp_Image_2569-03-17_at_04.26.59_fq6fc9.jpg",
+      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1774438445/WhatsApp_Image_2569-03-17_at_04.27.05_bpld7p.jpg",
+      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1774438445/WhatsApp_Image_2569-03-17_at_04.32.59_ror4va.jpg",
+    ],
+  },
 ];
 
 const categories = ["All", "Beauty", "Fashion", "Food", "Tech", "Fitness"];
@@ -98,6 +99,93 @@ const planFeatures: Record<string, string[]> = {
   premium: ["600 credits/month", "All features", "API access", "Dedicated support", "Auto-posting"],
   ultimate: ["1,500 credits/month", "Everything in Premium", "White-label", "Custom integrations", "Account manager"],
 };
+
+function LandingPageCard({ page, lang }: { page: typeof landingPageExamples[0]; lang: string }) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const handleMouseEnter = useCallback(() => {
+    setCurrentIndex(1);
+    let idx = 1;
+    intervalRef.current = setInterval(() => {
+      idx = (idx + 1) % page.sections.length;
+      setCurrentIndex(idx);
+    }, 1500);
+  }, [page.sections.length]);
+
+  const handleMouseLeave = useCallback(() => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    intervalRef.current = null;
+    setCurrentIndex(0);
+  }, []);
+
+  useEffect(() => {
+    return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
+  }, []);
+
+  return (
+    <div
+      className="glass-card overflow-hidden cursor-pointer hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10 transition-all duration-300"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      {/* Phone mockup frame */}
+      <div className="relative aspect-[9/16] overflow-hidden bg-black rounded-t-lg border-x-[6px] border-t-[6px] border-border/50">
+        {page.sections.map((src, idx) => (
+          <img
+            key={idx}
+            src={src}
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
+            style={{ opacity: idx === currentIndex ? 1 : 0 }}
+            loading="lazy"
+          />
+        ))}
+
+        {/* Category badge */}
+        <span className="absolute top-3 left-3 z-10 px-3 py-1.5 rounded-lg text-xs font-semibold bg-primary/90 text-primary-foreground backdrop-blur-sm shadow-lg">
+          {lang === "ar" ? page.categoryAr : page.category}
+        </span>
+
+        {/* Conversion badge */}
+        <div className="absolute top-3 right-3 z-10 px-3 py-1.5 rounded-lg text-xs font-semibold bg-success text-success-foreground backdrop-blur-sm shadow-lg flex items-center gap-1">
+          <TrendingUp className="h-3 w-3" />
+          {page.conversion}
+        </div>
+
+        {/* Hover to preview hint */}
+        <div className={`absolute bottom-10 left-1/2 -translate-x-1/2 z-10 px-4 py-2 rounded-full bg-black/70 backdrop-blur-md text-white text-xs flex items-center gap-2 shadow-lg transition-opacity duration-300 ${currentIndex === 0 ? 'opacity-100' : 'opacity-0'}`}>
+          <MousePointer2 className="h-3.5 w-3.5" />
+          {lang === "ar" ? "مرر للمعاينة" : "Hover to preview"}
+        </div>
+
+        {/* Progress dots */}
+        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 flex gap-1.5">
+          {page.sections.map((_, idx) => (
+            <div
+              key={idx}
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${idx === currentIndex ? 'bg-primary scale-125' : 'bg-white/40'}`}
+            />
+          ))}
+        </div>
+
+        {/* Gradient overlays */}
+        <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-black/40 to-transparent z-[5] pointer-events-none" />
+        <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/40 to-transparent z-[5] pointer-events-none" />
+      </div>
+
+      {/* Info */}
+      <div className="p-4">
+        <h4 className="font-display font-semibold text-foreground mb-0.5">
+          {lang === "ar" ? page.titleAr : page.title}
+        </h4>
+        <p className="text-sm text-muted-foreground">
+          {lang === "ar" ? "صفحة هبوط بالذكاء الاصطناعي" : "AI-Generated Landing Page"}
+        </p>
+      </div>
+    </div>
+  );
+}
 
 export default function LandingPage() {
   const { t, lang, setLang } = useI18n();
@@ -386,59 +474,17 @@ export default function LandingPage() {
             </p>
           </motion.div>
 
-          {/* Horizontal Scrollable Container */}
-          <div className="flex gap-6 overflow-x-auto pb-6 snap-x snap-mandatory scrollbar-hide px-4 -mx-4 md:justify-center md:flex-wrap md:overflow-visible">
+          <div className="grid md:grid-cols-3 gap-6">
             {landingPageExamples.map((page, i) => (
               <motion.div
                 key={page.title}
-                className="flex-shrink-0 w-[280px] md:w-[320px] snap-center"
                 custom={i}
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
                 variants={fadeIn}
               >
-                <div className="glass-card overflow-hidden group cursor-pointer hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10 transition-all duration-300">
-                  {/* Phone Frame with Scrolling Images */}
-                  <div className="relative h-[480px] overflow-hidden bg-black rounded-t-lg">
-                    <div className="absolute inset-x-0 top-0 transition-transform duration-[5s] ease-in-out group-hover:-translate-y-[calc(100%-480px)]">
-                      {page.images.map((img, idx) => (
-                        <img key={idx} src={img} alt="" className="w-full h-auto block" loading="lazy" />
-                      ))}
-                    </div>
-
-                    {/* Category badge */}
-                    <span className="absolute top-3 left-3 z-10 px-3 py-1.5 rounded-lg text-xs font-semibold bg-primary/90 text-white backdrop-blur-sm shadow-lg">
-                      {lang === "ar" ? page.categoryAr : page.category}
-                    </span>
-
-                    {/* Conversion badge */}
-                    <div className="absolute top-3 right-3 z-10 px-3 py-1.5 rounded-lg text-xs font-semibold bg-success text-white backdrop-blur-sm shadow-lg flex items-center gap-1">
-                      <TrendingUp className="h-3 w-3" />
-                      {page.conversion}
-                    </div>
-
-                    {/* Scroll hint */}
-                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 px-4 py-2 rounded-full bg-black/70 backdrop-blur-md text-white text-xs opacity-100 group-hover:opacity-0 transition-opacity duration-300 flex items-center gap-2 shadow-lg">
-                      <MousePointer2 className="h-3.5 w-3.5" />
-                      {lang === "ar" ? "مرر للمعاينة" : "Hover to preview"}
-                    </div>
-
-                    {/* Gradient overlays */}
-                    <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/50 to-transparent z-[5] pointer-events-none" />
-                    <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/50 to-transparent z-[5] pointer-events-none" />
-                  </div>
-
-                  {/* Info */}
-                  <div className="p-5">
-                    <h4 className="font-display font-semibold text-lg text-foreground mb-1">
-                      {lang === "ar" ? page.titleAr : page.title}
-                    </h4>
-                    <p className="text-sm text-muted-foreground">
-                      {lang === "ar" ? "صفحة هبوط بالذكاء الاصطناعي" : "AI-Generated Landing Page"}
-                    </p>
-                  </div>
-                </div>
+                <LandingPageCard page={page} lang={lang} />
               </motion.div>
             ))}
           </div>
