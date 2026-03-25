@@ -201,14 +201,17 @@ export default function LandingPage() {
               transition={{ delay: 0.4, duration: 0.7 }}
             >
               <div className="relative mx-auto w-[280px] aspect-[9/16] rounded-3xl overflow-hidden border-2 border-border bg-card shadow-2xl">
-                <img
-                  src="https://images.pexels.com/photos/3785147/pexels-photo-3785147.jpeg?auto=compress&cs=tinysrgb&w=400"
-                  alt="AI Video Preview"
+                <video
+                  src="https://res.cloudinary.com/da2zkmtcn/video/upload/0624_60_tec0fs.mp4"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
                 <div className="absolute bottom-4 left-4 right-4">
-                  <div className="text-sm font-medium text-white">Beauty Product Ad</div>
+                  <div className="text-sm font-medium text-white">UGC Product Ad</div>
                   <div className="text-xs text-white/70">Generated with OFA AI</div>
                 </div>
               </div>
