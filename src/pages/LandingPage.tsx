@@ -81,9 +81,11 @@ const features = [
 ];
 
 const testimonials = [
-  { name: "Sarah M.", role: "E-commerce Owner", quote: "OFA AI completely transformed our ad strategy. We went from spending $5K on agencies to creating better content ourselves.", metric: "+340% Sales", avatar: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=100" },
-  { name: "Ahmed K.", role: "Digital Marketer", quote: "The Arabic support is incredible. Finally an AI tool that understands RTL languages and Middle Eastern markets.", metric: "10x Faster", avatar: "https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=100" },
-  { name: "Lisa T.", role: "Brand Manager", quote: "We produce 50+ videos per month now. The quality rivals professional production at a fraction of the cost.", metric: "-80% Cost", avatar: "https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=100" },
+  { name: "Mohammed Al-Rashid", role: "E-commerce Owner", country: "🇸🇦 Saudi Arabia", quote: "كنت أدفع ٥٠٠٠ ريال للوكالات. الآن أنتج فيديوهات أفضل بنفسي في دقائق!", quoteEn: "I used to pay 5000 SAR to agencies. Now I create better videos myself in minutes!", metric: "+340% Sales", isArabic: true },
+  { name: "Fatima Hassan", role: "Beauty Brand Owner", country: "🇦🇪 UAE", quote: "أفضل أداة للتسويق بالعربي. الفيديوهات تبدو احترافية جداً!", quoteEn: "Best tool for Arabic marketing. The videos look so professional!", metric: "10x Faster", isArabic: true },
+  { name: "James Carter", role: "Shopify Store Owner", country: "🇬🇧 United Kingdom", quote: "Absolutely brilliant! We've cut our content production costs by 80% and our TikTok engagement has gone through the roof.", metric: "-80% Cost", isArabic: false },
+  { name: "Youssef Mahmoud", role: "Digital Marketer", country: "🇪🇬 Egypt", quote: "ننتج ٥٠ فيديو شهرياً الآن. الجودة تنافس الإنتاج الاحترافي!", quoteEn: "We produce 50+ videos monthly now. Quality rivals professional production!", metric: "50+ Videos/Month", isArabic: true },
+  { name: "Sophie Williams", role: "Marketing Agency Director", country: "🇬🇧 United Kingdom", quote: "Game changer for our clients. We now offer UGC video services without hiring creators. Our margins have doubled!", metric: "2x Margins", isArabic: false },
 ];
 
 const stats = [
