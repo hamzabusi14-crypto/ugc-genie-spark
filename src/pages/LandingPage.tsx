@@ -266,7 +266,7 @@ export default function LandingPage() {
       </header>
 
       {/* Hero */}
-      <section className="relative pt-32 pb-20 px-4">
+      <section className={`relative ${!bannerDismissed ? "pt-[8.5rem]" : "pt-32"} pb-20 px-4`}>
         {/* Orbs */}
         <div className="bg-orb bg-orb-purple w-72 h-72 top-20 -left-20" />
         <div className="bg-orb bg-orb-pink w-96 h-96 top-40 right-0" style={{ animationDelay: "2s" }} />
