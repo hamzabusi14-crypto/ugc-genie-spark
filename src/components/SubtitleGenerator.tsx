@@ -202,7 +202,7 @@ export default function SubtitleGenerator() {
       setActiveJobId(jobId);
       setActiveJob({ id: jobId, status: "processing" } as SubtitleJob);
     }
-  }, [videoUrl, font, color, highlightColor, fontsize, maxChars, subsPosition, opacity, strokeColor, strokeWidth, rightToLeft, translate, languageCode, generateSubtitles]);
+  }, [videoUrl, font, color, highlightColor, fontsize, maxChars, subsPosition, opacity, strokeColor, strokeWidth, languageCode, generateSubtitles]);
 
   const hasVideo = !!videoUrl.trim();
 
