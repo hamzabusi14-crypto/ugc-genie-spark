@@ -29,10 +29,10 @@ const videoExamples = [
 
 const landingPageExamples = [
   {
-    title: "VIP Vital Honey",
-    titleAr: "عسل VIP الحيوي",
-    category: "Health",
-    categoryAr: "صحة",
+    title: "GPS Tracker",
+    titleAr: "جهاز تتبع GPS",
+    category: "Tech",
+    categoryAr: "تقنية",
     conversion: "+14.2%",
     sections: [
       "https://res.cloudinary.com/da2zkmtcn/image/upload/v1774435512/lp/20af9617-515c-41a6-b6c3-219eb27f264d/hero_1774435511405.jpg",
