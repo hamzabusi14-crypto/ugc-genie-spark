@@ -349,13 +349,8 @@ export default function SubtitleGenerator() {
               </Select>
             </div>
             <div>
-              <Label>{lang === "ar" ? "الموقع" : "Position"}</Label>
-              <Select value={subsPosition} onValueChange={setSubsPosition}>
-                <SelectTrigger className="mt-1 bg-muted border-border"><SelectValue /></SelectTrigger>
-                <SelectContent>
-                  {POSITIONS.map((p) => (<SelectItem key={p.value} value={p.value}>{p.label}</SelectItem>))}
-                </SelectContent>
-              </Select>
+              <Label>{lang === "ar" ? "شفافية الخلفية" : "Background Opacity"}: {Math.round(opacity * 100)}%</Label>
+              <Slider value={[opacity]} onValueChange={([v]) => setOpacity(v)} min={0} max={1} step={0.1} className="mt-3" />
             </div>
           </div>
 
