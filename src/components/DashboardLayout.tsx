@@ -1,5 +1,7 @@
 import { useAuth } from "@/lib/auth";
+import { useCredits } from "@/hooks/useCredits";
 import { useI18n } from "@/lib/i18n";
+import WelcomeModal from "@/components/WelcomeModal";
 import { Navigate, useLocation } from "react-router-dom";
 import {
   LayoutDashboard,
