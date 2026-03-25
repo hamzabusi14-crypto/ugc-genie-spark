@@ -20,11 +20,11 @@ const fadeIn = {
 };
 
 const videoExamples = [
-  { category: "Beauty", title: "Beauty Essentials", views: "14.2K views", video: "https://res.cloudinary.com/da2zkmtcn/video/upload/v1774437677/0624_68_npbycv.mov", thumbnail: "https://res.cloudinary.com/da2zkmtcn/video/upload/so_0,f_jpg/v1774437677/0624_68_npbycv.jpg" },
-  { category: "Fashion", title: "Fashion Lookbook", views: "11.5K views", video: "https://res.cloudinary.com/da2zkmtcn/video/upload/v1774437677/0624_66_ps8okk.mov", thumbnail: "https://res.cloudinary.com/da2zkmtcn/video/upload/so_0,f_jpg/v1774437677/0624_66_ps8okk.jpg" },
-  { category: "Food", title: "Food Review", views: "18.3K views", video: "https://res.cloudinary.com/da2zkmtcn/video/upload/v1774437677/0624_70_x2cdhd.mov", thumbnail: "https://res.cloudinary.com/da2zkmtcn/video/upload/so_0,f_jpg/v1774437677/0624_70_x2cdhd.jpg" },
-  { category: "Tech", title: "Tech Unboxing", views: "9.8K views", video: "https://res.cloudinary.com/da2zkmtcn/video/upload/v1774437677/0624_67_kj0uwk.mov", thumbnail: "https://res.cloudinary.com/da2zkmtcn/video/upload/so_0,f_jpg/v1774437677/0624_67_kj0uwk.jpg" },
-  { category: "Fitness", title: "Fitness Gear", views: "7.6K views", video: "https://res.cloudinary.com/da2zkmtcn/video/upload/v1774437677/0624_69_jcekqo.mov", thumbnail: "https://res.cloudinary.com/da2zkmtcn/video/upload/so_0,f_jpg/v1774437677/0624_69_jcekqo.jpg" },
+  { category: "Beauty", title: "Beauty Essentials", views: "144.2K views", video: "https://res.cloudinary.com/da2zkmtcn/video/upload/v1774437677/0624_68_npbycv.mov", thumbnail: "https://res.cloudinary.com/da2zkmtcn/video/upload/so_0,f_jpg/v1774437677/0624_68_npbycv.jpg" },
+  { category: "Health", title: "Health Products", views: "111.5K views", video: "https://res.cloudinary.com/da2zkmtcn/video/upload/v1774437677/0624_66_ps8okk.mov", thumbnail: "https://res.cloudinary.com/da2zkmtcn/video/upload/so_0,f_jpg/v1774437677/0624_66_ps8okk.jpg" },
+  { category: "Skincare", title: "Skincare Routine", views: "181.3K views", video: "https://res.cloudinary.com/da2zkmtcn/video/upload/v1774437677/0624_70_x2cdhd.mov", thumbnail: "https://res.cloudinary.com/da2zkmtcn/video/upload/so_0,f_jpg/v1774437677/0624_70_x2cdhd.jpg" },
+  { category: "Cosmetics", title: "Cosmetics Review", views: "9.8K views", video: "https://res.cloudinary.com/da2zkmtcn/video/upload/v1774437677/0624_67_kj0uwk.mov", thumbnail: "https://res.cloudinary.com/da2zkmtcn/video/upload/so_0,f_jpg/v1774437677/0624_67_kj0uwk.jpg" },
+  { category: "Tech", title: "Tech Gadgets", views: "700.6K views", video: "https://res.cloudinary.com/da2zkmtcn/video/upload/v1774437677/0624_69_jcekqo.mov", thumbnail: "https://res.cloudinary.com/da2zkmtcn/video/upload/so_0,f_jpg/v1774437677/0624_69_jcekqo.jpg" },
 ];
 
 const landingPageExamples = [
@@ -69,7 +69,7 @@ const landingPageExamples = [
   },
 ];
 
-const categories = ["All", "Beauty", "Fashion", "Food", "Tech", "Fitness"];
+
 
 const features = [
   { icon: Video, title: "AI UGC Videos", desc: "Generate professional UGC video ads with AI actors and scripts." },
@@ -190,7 +190,7 @@ function LandingPageCard({ page, lang }: { page: typeof landingPageExamples[0]; 
 export default function LandingPage() {
   const { t, lang, setLang } = useI18n();
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const [activeCategory, setActiveCategory] = useState("All");
+  
 
   const steps = [
     { icon: Upload, title: t("step1Title"), desc: t("step1Desc") },
@@ -205,9 +205,6 @@ export default function LandingPage() {
     { q: t("faqQ4"), a: t("faqA4") },
   ];
 
-  const filteredVideos = activeCategory === "All"
-    ? videoExamples
-    : videoExamples.filter((v) => v.category === activeCategory);
 
   return (
     <div className={`min-h-screen bg-background overflow-hidden ${lang === 'ar' ? 'rtl' : ''}`}>
@@ -397,24 +394,8 @@ export default function LandingPage() {
             <p className="text-muted-foreground max-w-2xl mx-auto">{t("videoExamplesDesc" as any)}</p>
           </motion.div>
 
-          <div className="flex flex-wrap justify-center gap-2 mb-10">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                  activeCategory === cat
-                    ? "btn-primary-gradient"
-                    : "glass-card text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-            {filteredVideos.map((video, i) => (
+            {videoExamples.map((video, i) => (
               <motion.div
                 key={video.title}
                 className="glass-card overflow-hidden group cursor-pointer"
@@ -444,7 +425,7 @@ export default function LandingPage() {
                 </div>
                 <div className="p-3">
                   <h4 className="text-sm font-medium truncate">{video.title}</h4>
-                  <p className="text-xs text-muted-foreground">{video.views} views</p>
+                  <p className="text-xs text-muted-foreground">{video.views}</p>
                 </div>
               </motion.div>
             ))}
