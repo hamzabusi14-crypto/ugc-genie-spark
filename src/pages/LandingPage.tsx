@@ -69,7 +69,7 @@ const landingPageExamples = [
   },
 ];
 
-const categories = ["All", "Beauty", "Fashion", "Food", "Tech", "Fitness"];
+
 
 const features = [
   { icon: Video, title: "AI UGC Videos", desc: "Generate professional UGC video ads with AI actors and scripts." },
