@@ -157,7 +157,7 @@ export default function LandingPage() {
               >
                 <Button variant="gradient" size="xl" asChild>
                   <Link to="/signup">
-                    Create Your First Video Free
+                    {t("createFirstVideo" as any)}
                     <ArrowRight className="h-5 w-5" />
                   </Link>
                 </Button>
