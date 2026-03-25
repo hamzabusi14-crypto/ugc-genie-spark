@@ -7,7 +7,7 @@ import {
   Play, Check, ShoppingBag, Smartphone, BarChart3, ArrowRight, Zap,
   MousePointer2, TrendingUp,
 } from "lucide-react";
-import { PLANS } from "@/lib/types";
+
 import { useState, useRef, useCallback, useEffect } from "react";
 import AppFooter from "@/components/AppFooter";
 
