@@ -83,6 +83,15 @@ export default function SubtitleGenerator() {
   const [recentJobs, setRecentJobs] = useState<SubtitleJob[]>([]);
   const [playVideo, setPlayVideo] = useState<string | null>(null);
 
+  // Reset font when language changes
+  useEffect(() => {
+    if (languageCode === 'ar') {
+      setFont('Arial/Arial_Bold.ttf');
+    } else {
+      setFont('Poppins/Poppins-Bold.ttf');
+    }
+  }, [languageCode]);
+
   useEffect(() => {
     getUserJobs().then(setRecentJobs);
   }, [getUserJobs]);
