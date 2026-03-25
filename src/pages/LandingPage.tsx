@@ -332,7 +332,8 @@ export default function LandingPage() {
             >
               <div className="relative mx-auto w-[280px] aspect-[9/16] rounded-3xl overflow-hidden border-2 border-border bg-card shadow-2xl">
                 <video
-                  src="https://res.cloudinary.com/da2zkmtcn/video/upload/0624_60_tec0fs.mp4"
+                  src="https://res.cloudinary.com/da2zkmtcn/video/upload/v1774438831/0624_71_resrdx.mov"
+                  poster="https://res.cloudinary.com/da2zkmtcn/video/upload/so_0,f_jpg/v1774438831/0624_71_resrdx.jpg"
                   autoPlay
                   muted
                   loop
