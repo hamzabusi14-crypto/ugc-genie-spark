@@ -205,9 +205,6 @@ export default function LandingPage() {
     { q: t("faqQ4"), a: t("faqA4") },
   ];
 
-  const filteredVideos = activeCategory === "All"
-    ? videoExamples
-    : videoExamples.filter((v) => v.category === activeCategory);
 
   return (
     <div className={`min-h-screen bg-background overflow-hidden ${lang === 'ar' ? 'rtl' : ''}`}>
