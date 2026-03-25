@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
-import { Switch } from "@/components/ui/switch";
 import { Progress } from "@/components/ui/progress";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -14,7 +13,7 @@ import { Loader2, Download, Play, X, CheckCircle2, AlertCircle, Captions, Upload
 import { useI18n } from "@/lib/i18n";
 import { toast } from "sonner";
 
-const MAX_FILE_SIZE = 100 * 1024 * 1024; // 100MB
+const MAX_FILE_SIZE = 100 * 1024 * 1024;
 const ACCEPTED_TYPES = ["video/mp4", "video/quicktime", "video/webm", "video/x-msvideo"];
 
 const ARABIC_FONTS = [
@@ -53,6 +52,45 @@ const POSITIONS = [
   { value: "top25", label: "Top" },
 ];
 
+const STYLE_PRESETS = [
+  { 
+    name: "TikTok", 
+    nameAr: "تيك توك",
+    color: "#ffffff", 
+    highlightColor: "#facc15", 
+    fontsize: 7, 
+    maxChars: 10,
+    subsPosition: "center"
+  },
+  { 
+    name: "Clean", 
+    nameAr: "بسيط",
+    color: "#ffffff", 
+    highlightColor: "#ffffff", 
+    fontsize: 5, 
+    maxChars: 15,
+    subsPosition: "bottom75"
+  },
+  { 
+    name: "Bold", 
+    nameAr: "عريض",
+    color: "#facc15", 
+    highlightColor: "#ef4444", 
+    fontsize: 8, 
+    maxChars: 8,
+    subsPosition: "center"
+  },
+  { 
+    name: "Neon", 
+    nameAr: "نيون",
+    color: "#22d3ee", 
+    highlightColor: "#f472b6", 
+    fontsize: 6, 
+    maxChars: 12,
+    subsPosition: "center"
+  },
+];
+
 export default function SubtitleGenerator() {
   const { lang } = useI18n();
   const { isLoading, generateSubtitles, getJobStatus, getUserJobs } = useSubtitleGenerator();
@@ -68,20 +106,20 @@ export default function SubtitleGenerator() {
   const [font, setFont] = useState(ARABIC_FONTS[0].value);
   const [color, setColor] = useState("#ffffff");
   const [highlightColor, setHighlightColor] = useState("#facc15");
-  const [fontsize, setFontsize] = useState(5);
-  const [maxChars, setMaxChars] = useState(12);
+  const [fontsize, setFontsize] = useState(7);
+  const [maxChars, setMaxChars] = useState(10);
   const [subsPosition, setSubsPosition] = useState("center");
   const [opacity, setOpacity] = useState(0.7);
   const [strokeColor, setStrokeColor] = useState("black");
   const [strokeWidth, setStrokeWidth] = useState(1.5);
   const [languageCode, setLanguageCode] = useState<'ar' | 'en'>("ar");
+  const [selectedPreset, setSelectedPreset] = useState<string | null>("TikTok");
 
   const [activeJobId, setActiveJobId] = useState<string | null>(null);
   const [activeJob, setActiveJob] = useState<SubtitleJob | null>(null);
   const [recentJobs, setRecentJobs] = useState<SubtitleJob[]>([]);
   const [playVideo, setPlayVideo] = useState<string | null>(null);
 
-  // Reset font when language changes
   useEffect(() => {
     if (languageCode === 'ar') {
       setFont('Arial/Arial_Bold.ttf');
@@ -114,6 +152,15 @@ export default function SubtitleGenerator() {
     }, 5000);
     return () => clearInterval(interval);
   }, [activeJobId, activeJob?.status, getJobStatus]);
+
+  const applyPreset = (preset: typeof STYLE_PRESETS[0]) => {
+    setColor(preset.color);
+    setHighlightColor(preset.highlightColor);
+    setFontsize(preset.fontsize);
+    setMaxChars(preset.maxChars);
+    setSubsPosition(preset.subsPosition);
+    setSelectedPreset(preset.name);
+  };
 
   const uploadToCloudinary = useCallback(async (file: File): Promise<string | null> => {
     setUploading(true);
@@ -219,17 +266,17 @@ export default function SubtitleGenerator() {
           {/* Upload Dropzone */}
           {!uploadedFile && !videoUrl && (
             <div
-              className="border-2 border-dashed border-border rounded-lg p-8 text-center cursor-pointer hover:border-primary/50 transition-colors"
+              className="border-2 border-dashed border-border rounded-xl p-8 text-center cursor-pointer hover:border-primary/50 transition-colors bg-muted/30"
               onDrop={handleDrop}
               onDragOver={(e) => e.preventDefault()}
               onClick={() => fileInputRef.current?.click()}
             >
-              <Upload className="h-10 w-10 text-muted-foreground mx-auto mb-3" />
-              <p className="text-foreground font-medium">
+              <Upload className="h-12 w-12 text-muted-foreground mx-auto mb-3" />
+              <p className="text-foreground font-medium text-lg">
                 {lang === "ar" ? "اسحب وأفلت فيديو هنا" : "Drag & drop your video here"}
               </p>
-              <p className="text-xs text-muted-foreground mt-1">
-                {lang === "ar" ? "أو انقر للاستعراض • MP4, MOV, WebM, AVI • حد أقصى 100MB" : "or click to browse • MP4, MOV, WebM, AVI • Max 100MB"}
+              <p className="text-sm text-muted-foreground mt-2">
+                {lang === "ar" ? "أو انقر للاستعراض • MP4, MOV, WebM • حد أقصى 100MB" : "or click to browse • MP4, MOV, WebM • Max 100MB"}
               </p>
               <input
                 ref={fileInputRef}
@@ -260,11 +307,11 @@ export default function SubtitleGenerator() {
 
           {/* Uploaded Video Preview */}
           {uploadedFile && uploadPreview && !uploading && (
-            <div className="rounded-lg overflow-hidden border border-border relative">
+            <div className="rounded-xl overflow-hidden border border-border relative">
               <video
                 src={uploadPreview}
                 controls
-                className="w-full max-h-64 object-contain bg-black"
+                className="w-full max-h-48 object-contain bg-black"
               />
               <div className="p-3 flex items-center justify-between bg-muted/50">
                 <div className="min-w-0">
@@ -280,7 +327,7 @@ export default function SubtitleGenerator() {
             </div>
           )}
 
-          {/* URL Alternative (collapsed) */}
+          {/* URL Alternative */}
           {!uploadedFile && (
             <Collapsible open={urlOpen} onOpenChange={setUrlOpen}>
               <CollapsibleTrigger className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors w-full">
@@ -292,105 +339,263 @@ export default function SubtitleGenerator() {
                 <Input
                   value={videoUrl}
                   onChange={(e) => setVideoUrl(e.target.value)}
-                  placeholder="https://res.cloudinary.com/... or any video URL"
+                  placeholder="https://..."
                   className="bg-muted border-border"
                 />
               </CollapsibleContent>
             </Collapsible>
           )}
 
-          {/* Language Selection */}
-          <div className="space-y-2">
-            <Label>{lang === "ar" ? "لغة الفيديو" : "Video Language"}</Label>
-            <div className="flex gap-2">
-              <Button
-                type="button"
-                variant={languageCode === 'ar' ? 'default' : 'outline'}
-                onClick={() => setLanguageCode('ar')}
-                className={languageCode === 'ar' ? 'btn-primary-gradient' : ''}
-              >
-                العربية
-              </Button>
-              <Button
-                type="button"
-                variant={languageCode === 'en' ? 'default' : 'outline'}
-                onClick={() => setLanguageCode('en')}
-                className={languageCode === 'en' ? 'btn-primary-gradient' : ''}
-              >
-                English
-              </Button>
-            </div>
-          </div>
-
-          {/* Font Selection */}
-          <div className="space-y-2">
-            <Label>{lang === "ar" ? "نوع الخط" : "Font Style"}</Label>
-            <Select value={font} onValueChange={setFont}>
-              <SelectTrigger className="bg-muted border-border"><SelectValue /></SelectTrigger>
-              <SelectContent>
-                {(languageCode === 'ar' ? ARABIC_FONTS : ENGLISH_FONTS).map((f) => (
-                  <SelectItem key={f.value} value={f.value}>{f.label}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          {/* 2-col grid for settings */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <Label>{lang === "ar" ? "الموقع" : "Position"}</Label>
-              <Select value={subsPosition} onValueChange={setSubsPosition}>
-                <SelectTrigger className="mt-1 bg-muted border-border"><SelectValue /></SelectTrigger>
-                <SelectContent>
-                  {POSITIONS.map((p) => (<SelectItem key={p.value} value={p.value}>{p.label}</SelectItem>))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div>
-              <Label>{lang === "ar" ? "شفافية الخلفية" : "Background Opacity"}: {Math.round(opacity * 100)}%</Label>
-              <Slider value={[opacity]} onValueChange={([v]) => setOpacity(v)} min={0} max={1} step={0.1} className="mt-3" />
-            </div>
-          </div>
-
-          {/* Text Color */}
-          <div>
-            <Label className="mb-2 block">{lang === "ar" ? "لون النص" : "Text Color"}</Label>
-            <div className="flex gap-2">
-              {TEXT_COLORS.map((c) => (
-                <button key={c.value} className={`w-8 h-8 rounded-full border-2 transition-all ${color === c.value ? "border-primary scale-110" : "border-transparent"}`} style={{ backgroundColor: c.hex }} onClick={() => setColor(c.value)} title={c.label} />
+          {/* Style Presets */}
+          <div className="space-y-3">
+            <Label className="text-sm font-medium">{lang === "ar" ? "أنماط سريعة" : "Quick Styles"}</Label>
+            <div className="grid grid-cols-4 gap-2">
+              {STYLE_PRESETS.map((preset) => (
+                <button
+                  key={preset.name}
+                  onClick={() => applyPreset(preset)}
+                  className={`p-3 rounded-xl border-2 transition-all text-center ${
+                    selectedPreset === preset.name
+                      ? "border-primary bg-primary/10 shadow-lg shadow-primary/20"
+                      : "border-border hover:border-primary/50 bg-muted/30"
+                  }`}
+                >
+                  <div 
+                    className="w-full h-8 rounded-lg mb-2 flex items-center justify-center text-sm font-bold"
+                    style={{ 
+                      backgroundColor: "#0a0a0a",
+                      color: preset.highlightColor,
+                      textShadow: "0 0 10px currentColor"
+                    }}
+                  >
+                    Aa
+                  </div>
+                  <span className="text-xs font-medium">
+                    {lang === "ar" ? preset.nameAr : preset.name}
+                  </span>
+                </button>
               ))}
             </div>
           </div>
 
-          {/* Highlight Color */}
-          <div>
-            <Label className="mb-2 block">{lang === "ar" ? "لون التمييز" : "Highlight Color"}</Label>
-            <div className="flex gap-2">
-              {HIGHLIGHT_COLORS.map((c) => (
-                <button key={c.value} className={`w-8 h-8 rounded-full border-2 transition-all ${highlightColor === c.value ? "border-primary scale-110" : "border-transparent"}`} style={{ backgroundColor: c.hex }} onClick={() => setHighlightColor(c.value)} title={c.label} />
-              ))}
+          {/* Live Preview */}
+          <div className="space-y-2">
+            <Label className="text-sm font-medium">{lang === "ar" ? "معاينة مباشرة" : "Live Preview"}</Label>
+            <div 
+              className="relative rounded-xl overflow-hidden bg-gradient-to-br from-purple-900/50 to-pink-900/50 aspect-video flex items-center justify-center"
+            >
+              <div className="absolute inset-0 bg-[url('https://images.pexels.com/photos/3785147/pexels-photo-3785147.jpeg?auto=compress&cs=tinysrgb&w=600')] bg-cover bg-center opacity-40" />
+              <div 
+                className="relative text-center px-6 py-3 rounded-lg"
+                style={{ backgroundColor: `rgba(0,0,0,${opacity})` }}
+              >
+                <span 
+                  className="font-bold"
+                  style={{ 
+                    color: color,
+                    fontSize: `${fontsize * 4}px`,
+                    textShadow: `2px 2px 4px ${strokeColor}, -1px -1px 2px ${strokeColor}`
+                  }}
+                >
+                  {languageCode === "ar" ? "مرحباً " : "Hello "}
+                </span>
+                <span 
+                  className="font-bold"
+                  style={{ 
+                    color: highlightColor,
+                    fontSize: `${fontsize * 4}px`,
+                    textShadow: `2px 2px 4px ${strokeColor}, -1px -1px 2px ${strokeColor}, 0 0 20px ${highlightColor}`
+                  }}
+                >
+                  {languageCode === "ar" ? "بالعالم" : "World"}
+                </span>
+              </div>
             </div>
           </div>
 
-          {/* Font Size */}
-          <div>
-            <Label>{lang === "ar" ? "حجم الخط" : "Font Size"}: {fontsize}</Label>
-            <Slider value={[fontsize]} onValueChange={([v]) => setFontsize(v)} min={4} max={12} step={1} className="mt-2" />
+          {/* Language & Font Section */}
+          <div className="glass-card p-4 space-y-4 rounded-xl">
+            <Label className="text-sm font-semibold">{lang === "ar" ? "اللغة والخط" : "Language & Font"}</Label>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label className="text-xs text-muted-foreground mb-2 block">
+                  {lang === "ar" ? "لغة الفيديو" : "Video Language"}
+                </Label>
+                <div className="flex gap-2">
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant={languageCode === 'ar' ? 'default' : 'outline'}
+                    onClick={() => setLanguageCode('ar')}
+                    className={`flex-1 ${languageCode === 'ar' ? 'btn-primary-gradient' : ''}`}
+                  >
+                    العربية
+                  </Button>
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant={languageCode === 'en' ? 'default' : 'outline'}
+                    onClick={() => setLanguageCode('en')}
+                    className={`flex-1 ${languageCode === 'en' ? 'btn-primary-gradient' : ''}`}
+                  >
+                    English
+                  </Button>
+                </div>
+              </div>
+              <div>
+                <Label className="text-xs text-muted-foreground mb-2 block">
+                  {lang === "ar" ? "نوع الخط" : "Font"}
+                </Label>
+                <Select value={font} onValueChange={setFont}>
+                  <SelectTrigger className="bg-muted border-border h-9">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {(languageCode === 'ar' ? ARABIC_FONTS : ENGLISH_FONTS).map((f) => (
+                      <SelectItem key={f.value} value={f.value}>{f.label}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
           </div>
 
-          {/* Max Characters */}
-          <div>
-            <Label>{lang === "ar" ? "أقصى عدد حروف" : "Max Characters per Line"}: {maxChars}</Label>
-            <Slider value={[maxChars]} onValueChange={([v]) => setMaxChars(v)} min={10} max={40} step={1} className="mt-2" />
+          {/* Colors Section */}
+          <div className="glass-card p-4 space-y-4 rounded-xl">
+            <Label className="text-sm font-semibold">{lang === "ar" ? "الألوان" : "Colors"}</Label>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label className="text-xs text-muted-foreground mb-2 block">
+                  {lang === "ar" ? "لون النص" : "Text Color"}
+                </Label>
+                <div className="flex gap-2">
+                  {TEXT_COLORS.map((c) => (
+                    <button 
+                      key={c.value} 
+                      className={`w-8 h-8 rounded-full border-2 transition-all ${
+                        color === c.value ? "border-primary scale-110 ring-2 ring-primary/30" : "border-border hover:scale-105"
+                      }`} 
+                      style={{ backgroundColor: c.hex }} 
+                      onClick={() => { setColor(c.value); setSelectedPreset(null); }} 
+                      title={c.label} 
+                    />
+                  ))}
+                </div>
+              </div>
+              <div>
+                <Label className="text-xs text-muted-foreground mb-2 block">
+                  {lang === "ar" ? "لون التمييز" : "Highlight"}
+                </Label>
+                <div className="flex gap-2 flex-wrap">
+                  {HIGHLIGHT_COLORS.map((c) => (
+                    <button 
+                      key={c.value} 
+                      className={`w-8 h-8 rounded-full border-2 transition-all ${
+                        highlightColor === c.value ? "border-primary scale-110 ring-2 ring-primary/30" : "border-border hover:scale-105"
+                      }`} 
+                      style={{ backgroundColor: c.hex }} 
+                      onClick={() => { setHighlightColor(c.value); setSelectedPreset(null); }} 
+                      title={c.label} 
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
 
+          {/* Size & Position Section - Collapsible */}
+          <Collapsible>
+            <div className="glass-card rounded-xl overflow-hidden">
+              <CollapsibleTrigger className="w-full p-4 flex items-center justify-between hover:bg-muted/50 transition-colors">
+                <Label className="text-sm font-semibold cursor-pointer">
+                  {lang === "ar" ? "الحجم والموقع" : "Size & Position"}
+                </Label>
+                <ChevronDown className="h-4 w-4 text-muted-foreground transition-transform" />
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <div className="px-4 pb-4 space-y-4">
+                  {/* Position */}
+                  <div>
+                    <Label className="text-xs text-muted-foreground mb-2 block">
+                      {lang === "ar" ? "الموقع" : "Position"}
+                    </Label>
+                    <div className="flex gap-2">
+                      {POSITIONS.map((p) => (
+                        <Button
+                          key={p.value}
+                          type="button"
+                          size="sm"
+                          variant={subsPosition === p.value ? 'default' : 'outline'}
+                          onClick={() => setSubsPosition(p.value)}
+                          className={`flex-1 ${subsPosition === p.value ? 'btn-primary-gradient' : ''}`}
+                        >
+                          {p.label}
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Font Size */}
+                  <div>
+                    <div className="flex justify-between mb-2">
+                      <Label className="text-xs text-muted-foreground">{lang === "ar" ? "حجم الخط" : "Font Size"}</Label>
+                      <span className="text-xs font-semibold text-primary">{fontsize}</span>
+                    </div>
+                    <Slider 
+                      value={[fontsize]} 
+                      onValueChange={([v]) => { setFontsize(v); setSelectedPreset(null); }} 
+                      min={4} max={12} step={1} 
+                    />
+                  </div>
+
+                  {/* Max Characters */}
+                  <div>
+                    <div className="flex justify-between mb-2">
+                      <Label className="text-xs text-muted-foreground">{lang === "ar" ? "أقصى حروف بالسطر" : "Max Chars/Line"}</Label>
+                      <span className="text-xs font-semibold text-primary">{maxChars}</span>
+                    </div>
+                    <Slider 
+                      value={[maxChars]} 
+                      onValueChange={([v]) => { setMaxChars(v); setSelectedPreset(null); }} 
+                      min={8} max={25} step={1} 
+                    />
+                  </div>
+
+                  {/* Background Opacity */}
+                  <div>
+                    <div className="flex justify-between mb-2">
+                      <Label className="text-xs text-muted-foreground">{lang === "ar" ? "خلفية النص" : "Text Background"}</Label>
+                      <span className="text-xs font-semibold text-primary">{Math.round(opacity * 100)}%</span>
+                    </div>
+                    <Slider 
+                      value={[opacity]} 
+                      onValueChange={([v]) => setOpacity(v)} 
+                      min={0} max={1} step={0.1} 
+                    />
+                  </div>
+                </div>
+              </CollapsibleContent>
+            </div>
+          </Collapsible>
 
           {/* Generate Button */}
-          <Button variant="gradient" size="xl" className="w-full" onClick={handleGenerate} disabled={isLoading || !hasVideo || uploading}>
+          <Button 
+            variant="gradient" 
+            size="xl" 
+            className="w-full" 
+            onClick={handleGenerate} 
+            disabled={isLoading || !hasVideo || uploading}
+          >
             {isLoading ? (
-              <><Loader2 className="h-5 w-5 animate-spin" />{lang === "ar" ? "جارٍ المعالجة..." : "Processing..."}</>
+              <>
+                <Loader2 className="h-5 w-5 animate-spin" />
+                {lang === "ar" ? "جارٍ المعالجة..." : "Processing..."}
+              </>
             ) : (
-              <><Captions className="h-5 w-5" />{lang === "ar" ? "إنشاء الترجمة" : "Generate Subtitles"}</>
+              <>
+                <Captions className="h-5 w-5" />
+                {lang === "ar" ? "إنشاء الترجمة" : "Generate Subtitles"}
+              </>
             )}
           </Button>
         </CardContent>
