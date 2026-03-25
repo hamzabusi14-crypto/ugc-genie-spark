@@ -80,15 +80,27 @@ export default function LandingPage() {
     : videoExamples.filter((v) => v.category === activeCategory);
 
   return (
-    <div className="min-h-screen bg-background overflow-hidden">
+    <div className={`min-h-screen bg-background overflow-hidden ${lang === 'ar' ? 'rtl' : ''}`}>
       {/* Navbar */}
       <header className="fixed top-0 inset-x-0 z-50 border-b border-border bg-background/80 backdrop-blur-sm">
         <div className="container flex items-center justify-between h-16">
-          <h1 className="font-display text-xl font-bold gradient-text">OFA AI</h1>
+          <Link to="/" className="flex items-center gap-2">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+              <Sparkles className="h-5 w-5 text-white" />
+            </div>
+            <div>
+              <span className="font-display text-xl font-bold text-white">OFA AI</span>
+              <span className="hidden sm:block text-[10px] text-muted-foreground -mt-1">One For All AI</span>
+            </div>
+          </Link>
           <div className="flex items-center gap-3">
-            <Button variant="ghost" size="icon" onClick={() => setLang(lang === "en" ? "ar" : "en")}>
+            <button
+              onClick={() => setLang(lang === "en" ? "ar" : "en")}
+              className="flex items-center gap-2 px-3 py-1.5 rounded-full glass-card text-sm hover:bg-white/10 transition"
+            >
               <Globe className="h-4 w-4" />
-            </Button>
+              <span>{lang === "en" ? "العربية" : "English"}</span>
+            </button>
             <Button variant="ghost" size="sm" asChild>
               <Link to="/login">{t("login")}</Link>
             </Button>
