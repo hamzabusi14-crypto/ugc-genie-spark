@@ -189,7 +189,7 @@ export default function LandingPage() {
                     <Star key={i} className="h-4 w-4 fill-warning text-warning" />
                   ))}
                 </div>
-                <span className="text-sm text-muted-foreground">Loved by 10,000+ creators</span>
+                <span className="text-sm text-muted-foreground">{t("lovedBy" as any)}</span>
               </motion.div>
             </div>
 
