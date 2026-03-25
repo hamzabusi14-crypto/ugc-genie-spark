@@ -185,6 +185,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           {children}
         </main>
         <AppFooter />
+        <WelcomeModal />
       </div>
 
       {/* Mobile bottom nav */}

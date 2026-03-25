@@ -204,7 +204,7 @@ export default function PricingPage() {
             transition={{ delay: 0.1 }}
             className="text-muted-foreground text-lg mb-8"
           >
-            Choose the plan that fits your needs. Cancel anytime.
+            Start with 50 FREE credits. Choose a plan when you need more.
           </motion.p>
 
           {/* Currency toggle */}
