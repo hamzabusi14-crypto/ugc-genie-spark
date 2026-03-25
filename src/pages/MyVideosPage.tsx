@@ -306,8 +306,8 @@ export default function MyVideosPage() {
                         duration: extendVideo?.duration ?? "8s",
                       }),
                     });
-                    toast.success("Video extension started");
                     setExtendVideoId(null);
+                    navigate(`/extend-progress/${extendVideoId}?name=${encodeURIComponent(extendVideo?.product_name || "")}`);
                   } catch (err) {
                     toast.error("Failed to extend video");
                   } finally {
