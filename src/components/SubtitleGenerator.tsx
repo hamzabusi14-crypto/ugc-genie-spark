@@ -65,7 +65,7 @@ export default function SubtitleGenerator() {
   const [urlOpen, setUrlOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const [font, setFont] = useState(FONTS[0].value);
+  const [font, setFont] = useState(ARABIC_FONTS[0].value);
   const [color, setColor] = useState("white");
   const [highlightColor, setHighlightColor] = useState("yellow");
   const [fontsize, setFontsize] = useState(5);
