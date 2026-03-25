@@ -1,8 +1,9 @@
 import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n";
+import { useCredits } from "@/hooks/useCredits";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Video, Coins, Film, TrendingUp } from "lucide-react";
+import { Video, Coins, Film, TrendingUp, Zap } from "lucide-react";
 import DashboardLayout from "@/components/DashboardLayout";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -10,6 +11,9 @@ import { supabase } from "@/integrations/supabase/client";
 export default function DashboardPage() {
   const { profile } = useAuth();
   const { t } = useI18n();
+  const { credits: balance } = useCredits();
+
+  const creditBalance = balance ?? profile?.credits ?? 0;
 
   const { data: videos } = useQuery({
     queryKey: ["videos"],
@@ -34,10 +38,13 @@ export default function DashboardPage() {
     },
   });
 
+  const videosRemaining16s = Math.floor(creditBalance / 50);
+  const videosRemaining8s = Math.floor(creditBalance / 30);
+
   const statCards = [
-    { label: t("videosCreated"), value: stats?.total ?? 0, icon: Film, color: "text-primary" },
-    { label: t("creditsUsed"), value: stats?.creditsUsed ?? 0, icon: Coins, color: "text-secondary" },
-    { label: t("videosRemaining"), value: Math.floor((profile?.credits ?? 0) / 10), icon: TrendingUp, color: "text-success" },
+    { label: t("videosCreated"), value: String(stats?.total ?? 0), sub: "", icon: Film, color: "text-primary" },
+    { label: t("creditsUsed"), value: String(stats?.creditsUsed ?? 0), sub: "", icon: Coins, color: "text-secondary" },
+    { label: t("videosRemaining"), value: `~${videosRemaining16s} videos`, sub: `or ${videosRemaining8s}x 8s videos`, icon: TrendingUp, color: "text-success" },
   ];
 
   return (
