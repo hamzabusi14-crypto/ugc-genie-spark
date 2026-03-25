@@ -27,6 +27,48 @@ const videoExamples = [
   { category: "Fitness", title: "Workout Gear", views: "6.8K", video: "https://res.cloudinary.com/da2zkmtcn/video/upload/v1774409251/0624_63_npcbpl.mov", thumbnail: "https://res.cloudinary.com/da2zkmtcn/video/upload/so_0/v1774409251/0624_63_npcbpl.jpg" },
 ];
 
+const landingPageExamples = [
+  {
+    title: "VIP Vital Honey",
+    titleAr: "عسل VIP الحيوي",
+    category: "Health",
+    categoryAr: "صحة",
+    conversion: "14.2%",
+    images: [
+      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1773865474/1o/806a2014-d01d-48-81-ac71-70a228c7d7e8/hero_1773865473226.jpg",
+      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1773865475/1o/806a2014-d01d-48-81-ac71-70a228c7d7e8/features_1773865474783.jpg",
+      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1773865479/1o/806a2014-d01d-48-81-ac71-70a228c7d7e8/howto_1773865476541.jpg",
+      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1773865478/1o/806a2014-d01d-48-81-ac71-70a228c7d7e8/pricing_1773865478775.jpg"
+    ]
+  },
+  {
+    title: "Beauty Skincare",
+    titleAr: "العناية بالبشرة",
+    category: "Beauty",
+    categoryAr: "جمال",
+    conversion: "12.3%",
+    images: [
+      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1773863142/lp/d0ac4447-02dd-4610-ba80-c34379d5a6e8/hero_1773863141635.jpg",
+      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1773863143/lp/d0ac4447-02dd-4610-ba80-c34379d5a6e8/features_1773863142950.jpg",
+      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1773863145/lp/d0ac4447-02dd-4610-ba80-c34379d5a6e8/howto_1773863144258.jpg",
+      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1773863146/lp/d0ac4447-02dd-4610-ba80-c34379d5a6e8/pricing_1773863145704.jpg"
+    ]
+  },
+  {
+    title: "Premium Product",
+    titleAr: "منتج مميز",
+    category: "Lifestyle",
+    categoryAr: "لايف ستايل",
+    conversion: "11.8%",
+    images: [
+      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1773861940/lp/7c0a43fe-1f9f-402a-90f7-181ebe126616/hero_1773861939448.jpg",
+      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1773861941/lp/7c0a43fe-1f9f-402a-90f7-181ebe126616/features_1773861940825.jpg",
+      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1773861943/lp/7c0a43fe-1f9f-402a-90f7-181ebe126616/howto_1773861942581.jpg",
+      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1773861944/lp/7c0a43fe-1f9f-402a-90f7-181ebe126616/pricing_1773861943900.jpg"
+    ]
+  }
+];
+
 const categories = ["All", "Beauty", "Fashion", "Food", "Tech", "Fitness"];
 
 const features = [
