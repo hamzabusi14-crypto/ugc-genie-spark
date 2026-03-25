@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   Upload, Sparkles, Download, ChevronDown, Globe, Video, Star,
-  Play, Check, ShoppingBag, Smartphone, BarChart3, ArrowRight, Zap,
+  Play, Check, ShoppingBag, Smartphone, BarChart3, ArrowRight, Zap, X,
   MousePointer2, TrendingUp,
 } from "lucide-react";
 
