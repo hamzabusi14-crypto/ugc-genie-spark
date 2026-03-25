@@ -202,10 +202,34 @@ export default function LandingPage() {
   ];
 
 
+  const [bannerDismissed, setBannerDismissed] = useState(() => {
+    if (typeof window !== "undefined") return localStorage.getItem("promo_banner_dismissed") === "1";
+    return false;
+  });
+
+  const dismissBanner = () => {
+    setBannerDismissed(true);
+    localStorage.setItem("promo_banner_dismissed", "1");
+  };
+
   return (
     <div className={`min-h-screen bg-background overflow-hidden ${lang === 'ar' ? 'rtl' : ''}`}>
+      {/* Announcement Bar */}
+      {!bannerDismissed && (
+        <div className="fixed top-0 inset-x-0 z-[60] h-10 flex items-center justify-center text-sm text-white"
+          style={{ background: "linear-gradient(90deg, #e94560, #8b5cf6)" }}>
+          <span>🎉 Limited time: Get 50 FREE credits when you sign up!</span>
+          <Link to="/pricing" className="ml-3 underline underline-offset-2 font-medium hover:opacity-80">
+            See Pricing →
+          </Link>
+          <button onClick={dismissBanner} className="absolute right-3 p-1 hover:opacity-70">
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+      )}
+
       {/* Navbar */}
-      <header className="fixed top-0 inset-x-0 z-50 border-b border-border bg-background/80 backdrop-blur-sm">
+      <header className={`fixed inset-x-0 z-50 border-b border-border bg-background/80 backdrop-blur-sm ${!bannerDismissed ? "top-10" : "top-0"}`}>
         <div className="container flex items-center justify-between h-16">
           <Link to="/" className="flex items-center gap-2">
             <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
@@ -217,9 +241,13 @@ export default function LandingPage() {
             </div>
           </Link>
           <div className="flex items-center gap-3">
-            <Button variant="ghost" size="sm" asChild>
-              <Link to="/pricing">Pricing</Link>
-            </Button>
+            <Link
+              to="/pricing"
+              className="relative px-3.5 py-1.5 rounded-full text-sm font-medium bg-gradient-to-r from-primary/20 to-secondary/20 border border-primary/30 text-primary hover:from-primary/30 hover:to-secondary/30 transition-all"
+            >
+              Pricing
+              <span className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-secondary animate-pulse" />
+            </Link>
             <button
               onClick={() => setLang(lang === "en" ? "ar" : "en")}
               className="flex items-center gap-2 px-3 py-1.5 rounded-full glass-card text-sm hover:bg-white/10 transition"
