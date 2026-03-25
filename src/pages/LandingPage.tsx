@@ -95,12 +95,6 @@ const stats = [
   { value: "3x", label: "Engagement" },
 ];
 
-const planFeatures: Record<string, string[]> = {
-  starter: ["50 credits/month", "8s & 16s videos", "3 languages", "Email support"],
-  pro: ["200 credits/month", "All durations", "All languages", "Priority support", "Landing pages"],
-  premium: ["600 credits/month", "All features", "API access", "Dedicated support", "Auto-posting"],
-  ultimate: ["1,500 credits/month", "Everything in Premium", "White-label", "Custom integrations", "Account manager"],
-};
 
 function LandingPageCard({ page, lang }: { page: typeof landingPageExamples[0]; lang: string }) {
   const [currentIndex, setCurrentIndex] = useState(0);
