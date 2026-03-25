@@ -19,11 +19,11 @@ const fadeIn = {
 };
 
 const videoExamples = [
-  { category: "Beauty", title: "Glow Serum Ad", views: "12.4K", img: "https://images.pexels.com/photos/3785147/pexels-photo-3785147.jpeg?auto=compress&cs=tinysrgb&w=400" },
-  { category: "Fashion", title: "Summer Collection", views: "8.2K", img: "https://images.pexels.com/photos/5709661/pexels-photo-5709661.jpeg?auto=compress&cs=tinysrgb&w=400" },
-  { category: "Food", title: "Restaurant Promo", views: "15.1K", img: "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=400" },
-  { category: "Tech", title: "Gadget Review", views: "9.7K", img: "https://images.pexels.com/photos/3945683/pexels-photo-3945683.jpeg?auto=compress&cs=tinysrgb&w=400" },
-  { category: "Fitness", title: "Workout Gear", views: "6.8K", img: "https://images.pexels.com/photos/4397840/pexels-photo-4397840.jpeg?auto=compress&cs=tinysrgb&w=400" },
+  { category: "Beauty", title: "Glow Serum Ad", views: "12.4K", video: "https://res.cloudinary.com/da2zkmtcn/video/upload/v1774409250/0624_62_oauif4.mov", thumbnail: "https://res.cloudinary.com/da2zkmtcn/video/upload/so_0/v1774409250/0624_62_oauif4.jpg" },
+  { category: "Fashion", title: "Summer Collection", views: "8.2K", video: "https://res.cloudinary.com/da2zkmtcn/video/upload/v1774409251/0624_61_vwbbrx.mov", thumbnail: "https://res.cloudinary.com/da2zkmtcn/video/upload/so_0/v1774409251/0624_61_vwbbrx.jpg" },
+  { category: "Food", title: "Restaurant Promo", views: "15.1K", video: "https://res.cloudinary.com/da2zkmtcn/video/upload/v1774409250/0624_65_n1egnt.mov", thumbnail: "https://res.cloudinary.com/da2zkmtcn/video/upload/so_0/v1774409250/0624_65_n1egnt.jpg" },
+  { category: "Tech", title: "Gadget Review", views: "9.7K", video: "https://res.cloudinary.com/da2zkmtcn/video/upload/v1774409250/0624_64_rigdka.mov", thumbnail: "https://res.cloudinary.com/da2zkmtcn/video/upload/so_0/v1774409250/0624_64_rigdka.jpg" },
+  { category: "Fitness", title: "Workout Gear", views: "6.8K", video: "https://res.cloudinary.com/da2zkmtcn/video/upload/v1774409251/0624_63_npcbpl.mov", thumbnail: "https://res.cloudinary.com/da2zkmtcn/video/upload/so_0/v1774409251/0624_63_npcbpl.jpg" },
 ];
 
 const categories = ["All", "Beauty", "Fashion", "Food", "Tech", "Fitness"];
@@ -294,9 +294,18 @@ export default function LandingPage() {
                 variants={fadeIn}
               >
                 <div className="relative aspect-[9/16]">
-                  <img src={video.img} alt={video.title} className="w-full h-full object-cover" />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-center justify-center">
-                    <Play className="h-10 w-10 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <video
+                    src={video.video}
+                    poster={video.thumbnail}
+                    muted
+                    loop
+                    playsInline
+                    className="w-full h-full object-cover"
+                    onMouseEnter={(e) => e.currentTarget.play()}
+                    onMouseLeave={(e) => { e.currentTarget.pause(); e.currentTarget.currentTime = 0; }}
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center pointer-events-none">
+                    <Play className="h-12 w-12 text-white opacity-70 group-hover:opacity-0 transition-opacity" />
                   </div>
                   <span className="absolute top-2 left-2 px-2 py-0.5 rounded text-[10px] font-semibold bg-primary/80 text-primary-foreground">
                     {video.category}
