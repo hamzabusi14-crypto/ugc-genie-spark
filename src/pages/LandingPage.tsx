@@ -387,7 +387,8 @@ export default function LandingPage() {
         </div>
       </section>
 
-
+      {/* Video Examples */}
+      <section className="py-20 px-4">
         <div className="container max-w-6xl">
           <motion.div className="text-center mb-12" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} custom={0}>
             <h3 className="font-display text-3xl md:text-4xl font-bold mb-4">
