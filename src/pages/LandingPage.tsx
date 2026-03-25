@@ -35,10 +35,9 @@ const landingPageExamples = [
     categoryAr: "صحة",
     conversion: "14.2%",
     images: [
-      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1773865474/1o/806a2014-d01d-48-81-ac71-70a228c7d7e8/hero_1773865473226.jpg",
-      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1773865475/1o/806a2014-d01d-48-81-ac71-70a228c7d7e8/features_1773865474783.jpg",
-      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1773865479/1o/806a2014-d01d-48-81-ac71-70a228c7d7e8/howto_1773865476541.jpg",
-      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1773865478/1o/806a2014-d01d-48-81-ac71-70a228c7d7e8/pricing_1773865478775.jpg"
+      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1773865474/lp/806a2014-d01d-4881-ac71-70a228c7d7e8/hero_1773865473236.jpg",
+      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1773865475/lp/806a2014-d01d-4881-ac71-70a228c7d7e8/features_1773865474783.jpg",
+      "https://res.cloudinary.com/da2zkmtcn/image/upload/v1773865479/lp/806a2014-d01d-4881-ac71-70a228c7d7e8/pricing_1773865478775.jpg"
     ]
   },
   {
