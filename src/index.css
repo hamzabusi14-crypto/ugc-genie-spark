@@ -135,6 +135,15 @@
   .bg-orb-pink {
     background: hsla(330, 85%, 60%, 0.3);
   }
+
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }
 
 @keyframes gradient-rotate {
