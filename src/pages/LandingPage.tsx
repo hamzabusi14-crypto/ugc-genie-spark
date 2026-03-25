@@ -190,7 +190,7 @@ function LandingPageCard({ page, lang }: { page: typeof landingPageExamples[0]; 
 export default function LandingPage() {
   const { t, lang, setLang } = useI18n();
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const [activeCategory, setActiveCategory] = useState("All");
+  
 
   const steps = [
     { icon: Upload, title: t("step1Title"), desc: t("step1Desc") },
