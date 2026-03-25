@@ -497,10 +497,10 @@ export default function LandingPage() {
             custom={0}
           >
             <h3 className="font-display text-3xl md:text-4xl font-bold mb-4">
-              Ready to Create <span className="gradient-text">Viral UGC Videos</span>?
+              {t("readyToCreate" as any)}
             </h3>
             <p className="text-muted-foreground mb-8 max-w-lg mx-auto">
-              Join 10,000+ creators and brands using OFA AI to produce professional video content.
+              {t("joinCreators" as any)}
             </p>
             <Button variant="gradient" size="xl" asChild>
               <Link to="/signup">
@@ -508,7 +508,7 @@ export default function LandingPage() {
                 <ArrowRight className="h-5 w-5" />
               </Link>
             </Button>
-            <p className="text-xs text-muted-foreground mt-4">No credit card required</p>
+            <p className="text-xs text-muted-foreground mt-4">{t("noCreditCard" as any)}</p>
           </motion.div>
         </div>
       </section>
