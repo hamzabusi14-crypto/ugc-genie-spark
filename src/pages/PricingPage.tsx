@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Check, ChevronDown, Sparkles, Globe, Zap, Package, CreditCard, ShoppingCart, ArrowRight } from "lucide-react";
+import { Check, ChevronDown, Sparkles, Globe, ArrowRight, Star } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import AppFooter from "@/components/AppFooter";
 
@@ -136,7 +136,6 @@ const SAR_RATE = 3.75;
 
 export default function PricingPage() {
   const { t, lang, setLang } = useI18n();
-  const [pricingType, setPricingType] = useState<"credits" | "bundles">("bundles");
   const [currency, setCurrency] = useState<"USD" | "SAR">(() => {
     if (typeof window !== "undefined") {
       return (localStorage.getItem("pricing_currency") as "USD" | "SAR") || "USD";
@@ -171,7 +170,7 @@ export default function PricingPage() {
           <div className="flex items-center gap-3">
             <button
               onClick={() => setLang(lang === "en" ? "ar" : "en")}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-full glass-card text-sm hover:bg-white/10 transition"
+              className="flex items-center gap-2 px-3 py-1.5 rounded-full glass-card text-sm hover:bg-accent/10 transition"
             >
               <Globe className="h-4 w-4" />
               <span>{lang === "en" ? "العربية" : "English"}</span>
@@ -209,7 +208,7 @@ export default function PricingPage() {
           </motion.p>
 
           {/* Currency toggle */}
-          <div className="flex justify-center mb-6">
+          <div className="flex justify-center">
             <div className="inline-flex items-center gap-1 p-1 rounded-full glass-card text-sm">
               <button
                 onClick={() => setCurrency("USD")}
@@ -225,186 +224,154 @@ export default function PricingPage() {
               </button>
             </div>
           </div>
-
-          {/* Pricing type toggle */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="inline-flex items-stretch p-1.5 rounded-2xl glass-card"
-          >
-            <button
-              onClick={() => setPricingType("credits")}
-              className={`flex items-center gap-2 px-5 py-3 rounded-xl transition-all duration-300 ${pricingType === "credits" ? "btn-primary-gradient shadow-lg" : "text-muted-foreground hover:text-foreground"}`}
-            >
-              <CreditCard className="h-4 w-4" />
-              <div className="text-left">
-                <div className="font-semibold text-sm">💳 Credit Packs</div>
-                <div className="text-[11px] opacity-80">Flexible credits</div>
-              </div>
-            </button>
-            <button
-              onClick={() => setPricingType("bundles")}
-              className={`flex items-center gap-2 px-5 py-3 rounded-xl transition-all duration-300 relative ${pricingType === "bundles" ? "btn-primary-gradient shadow-lg" : "text-muted-foreground hover:text-foreground"}`}
-            >
-              <ShoppingCart className="h-4 w-4" />
-              <div className="text-left">
-                <div className="font-semibold text-sm">🛒 E-commerce Bundles</div>
-                <div className="text-[11px] opacity-80">Best value</div>
-              </div>
-              <span className="absolute -top-2 -right-2 px-2 py-0.5 rounded-full text-[10px] font-bold bg-secondary text-secondary-foreground">
-                POPULAR
-              </span>
-            </button>
-          </motion.div>
         </div>
       </section>
 
-      {/* Pricing Cards */}
+      {/* Section 1: Credit Packs */}
       <section className="py-12 px-4">
         <div className="container max-w-7xl">
-          <AnimatePresence mode="wait">
-            {pricingType === "credits" ? (
+          <div className="text-center mb-10">
+            <span className="inline-block px-3 py-1 rounded-full text-xs font-bold bg-primary/20 text-primary mb-4">
+              FLEXIBLE
+            </span>
+            <h2 className="font-display text-3xl md:text-4xl font-bold mb-3">
+              💳 Credit Packs
+            </h2>
+            <p className="text-muted-foreground text-lg">Pay for what you need, use credits for any product</p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
+            {creditPacks.map((pack, i) => (
               <motion.div
-                key="credits"
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 30 }}
-                transition={{ duration: 0.3 }}
-                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5"
+                key={pack.name}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.05 }}
+                className={`relative glass-card p-6 flex flex-col transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/10 ${pack.popular ? "gradient-border ring-1 ring-primary/30" : ""}`}
               >
-                {creditPacks.map((pack, i) => (
-                  <motion.div
-                    key={pack.name}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: i * 0.05 }}
-                    className={`relative glass-card p-6 flex flex-col transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/10 ${pack.popular ? "gradient-border ring-1 ring-primary/30" : ""}`}
-                  >
-                    {pack.popular && (
-                      <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-bold btn-primary-gradient">
-                        ⭐ POPULAR
-                      </span>
-                    )}
-                    <h3 className="font-display text-lg font-bold text-foreground">{pack.name}</h3>
-                    <p className="text-sm text-muted-foreground mb-4">{pack.tagline}</p>
-                    <div className="mb-1">
-                      <span className="font-display text-4xl font-bold text-foreground">{formatPrice(pack.price)}</span>
-                    </div>
-                    <p className="text-sm text-primary font-semibold mb-5">{pack.credits.toLocaleString()} credits</p>
-                    <ul className="space-y-2.5 mb-6 flex-1">
-                      {pack.features.map((f) => (
-                        <li key={f} className="flex items-start gap-2 text-sm text-muted-foreground">
-                          <Check className="h-4 w-4 text-primary shrink-0 mt-0.5" />
-                          {f}
-                        </li>
-                      ))}
-                    </ul>
-                    <Button variant={pack.popular ? "gradient" : "outline"} className="w-full" asChild>
-                      <Link to="/signup">{pack.cta}</Link>
-                    </Button>
-                  </motion.div>
-                ))}
+                {pack.popular && (
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-bold btn-primary-gradient">
+                    ⭐ POPULAR
+                  </span>
+                )}
+                <h3 className="font-display text-lg font-bold text-foreground">{pack.name}</h3>
+                <p className="text-sm text-muted-foreground mb-4">{pack.tagline}</p>
+                <div className="mb-1">
+                  <span className="font-display text-4xl font-bold text-foreground">{formatPrice(pack.price)}</span>
+                </div>
+                <p className="text-sm text-primary font-semibold mb-5">{pack.credits.toLocaleString()} credits</p>
+                <ul className="space-y-2.5 mb-6 flex-1">
+                  {pack.features.map((f) => (
+                    <li key={f} className="flex items-start gap-2 text-sm text-muted-foreground">
+                      <Check className="h-4 w-4 text-primary shrink-0 mt-0.5" />
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+                <Button variant={pack.popular ? "gradient" : "outline"} className="w-full" asChild>
+                  <Link to="/signup">{pack.cta}</Link>
+                </Button>
               </motion.div>
-            ) : (
-              <motion.div
-                key="bundles"
-                initial={{ opacity: 0, x: 30 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -30 }}
-                transition={{ duration: 0.3 }}
-                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto"
-              >
-                {bundles.map((bundle, i) => (
-                  <motion.div
-                    key={bundle.name}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: i * 0.05 }}
-                    className={`relative glass-card p-6 flex flex-col transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/10 ${bundle.popular ? "gradient-border ring-1 ring-primary/30" : ""}`}
-                  >
-                    {bundle.popular && (
-                      <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-bold btn-primary-gradient">
-                        ⭐ MOST POPULAR
-                      </span>
-                    )}
-                    <h3 className="font-display text-lg font-bold text-foreground">{bundle.name}</h3>
-                    <p className="text-sm text-muted-foreground mb-4">{bundle.tagline}</p>
-                    <div className="mb-5">
-                      <span className="font-display text-4xl font-bold text-foreground">{formatPrice(bundle.price)}</span>
-                    </div>
-                    <ul className="space-y-2.5 mb-4 flex-1">
-                      {bundle.items.map((item) => (
-                        <li key={item.text} className="flex items-center gap-2 text-sm text-muted-foreground">
-                          <span>{item.emoji}</span>
-                          {item.text}
-                        </li>
-                      ))}
-                    </ul>
-                    <p className="text-xs text-muted-foreground mb-4">Best for: <span className="text-foreground">{bundle.bestFor}</span></p>
-                    <Button variant={bundle.popular ? "gradient" : "outline"} className="w-full" asChild>
-                      <Link to="/signup">{bundle.cta}</Link>
-                    </Button>
-                  </motion.div>
-                ))}
-              </motion.div>
-            )}
-          </AnimatePresence>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Credit conversion table / Bundle value comparison */}
-      <section className="py-16 px-4">
+      {/* Section 2: Credit Conversion Table */}
+      <section className="py-12 px-4">
         <div className="container max-w-4xl">
-          <AnimatePresence mode="wait">
-            {pricingType === "credits" ? (
-              <motion.div
-                key="credit-table"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0 }}
+          <h2 className="font-display text-2xl md:text-3xl font-bold text-center mb-2">How Credits Work</h2>
+          <p className="text-center text-muted-foreground mb-8">Use your credits for any product</p>
+          <div className="glass-card overflow-hidden">
+            {creditTable.map((row, i) => (
+              <div
+                key={row.product}
+                className={`flex items-center justify-between px-6 py-4 ${i < creditTable.length - 1 ? "border-b border-border" : ""}`}
               >
-                <h2 className="font-display text-2xl md:text-3xl font-bold text-center mb-2">How Credits Work</h2>
-                <p className="text-center text-muted-foreground mb-8">Use your credits for any product</p>
-                <div className="glass-card overflow-hidden">
-                  {creditTable.map((row, i) => (
-                    <div
-                      key={row.product}
-                      className={`flex items-center justify-between px-6 py-4 ${i < creditTable.length - 1 ? "border-b border-border" : ""}`}
-                    >
-                      <span className="text-foreground font-medium">{row.product}</span>
-                      <span className={`font-bold ${row.credits.includes("FREE") ? "text-primary" : "text-foreground"}`}>
-                        {row.credits}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-            ) : (
+                <span className="text-foreground font-medium">{row.product}</span>
+                <span className={`font-bold ${row.credits.includes("FREE") ? "text-primary" : "text-foreground"}`}>
+                  {row.credits}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Section 3: Divider */}
+      <div className="container max-w-5xl py-10">
+        <div className="h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+      </div>
+
+      {/* Section 4: E-commerce Bundles */}
+      <section className="relative py-12 px-4">
+        <div className="absolute inset-0 bg-gradient-to-b from-primary/[0.03] via-secondary/[0.05] to-transparent pointer-events-none" />
+        <div className="container max-w-5xl relative z-10">
+          <div className="text-center mb-10">
+            <span className="inline-block px-3 py-1 rounded-full text-xs font-bold btn-primary-gradient mb-4">
+              BEST VALUE
+            </span>
+            <h2 className="font-display text-3xl md:text-4xl font-bold mb-3">
+              🛒 E-commerce Bundles
+            </h2>
+            <p className="text-muted-foreground text-lg">Pre-packaged deals with videos + landing pages included</p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {bundles.map((bundle, i) => (
               <motion.div
-                key="bundle-value"
+                key={bundle.name}
                 initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.05 }}
+                className={`relative glass-card p-6 flex flex-col transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/10 ${bundle.popular ? "gradient-border ring-1 ring-primary/30" : ""}`}
               >
-                <h2 className="font-display text-2xl md:text-3xl font-bold text-center mb-2">Why Choose Bundles?</h2>
-                <p className="text-center text-muted-foreground mb-8">&nbsp;</p>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-                  {[
-                    { emoji: "💰", title: "Save up to 40%", desc: "Bundles are cheaper than buying credits separately" },
-                    { emoji: "📦", title: "Everything You Need", desc: "Videos + Landing Pages in one package" },
-                    { emoji: "🚀", title: "Built for E-commerce", desc: "Optimized for dropshippers & COD sellers" },
-                  ].map((card) => (
-                    <div key={card.title} className="glass-card p-6 text-center hover:-translate-y-1 transition-all duration-300">
-                      <span className="text-3xl mb-3 block">{card.emoji}</span>
-                      <h3 className="font-display font-bold text-foreground mb-2">{card.title}</h3>
-                      <p className="text-sm text-muted-foreground">{card.desc}</p>
-                    </div>
-                  ))}
+                {bundle.popular && (
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-bold btn-primary-gradient">
+                    ⭐ MOST POPULAR
+                  </span>
+                )}
+                <h3 className="font-display text-lg font-bold text-foreground">{bundle.name}</h3>
+                <p className="text-sm text-muted-foreground mb-4">{bundle.tagline}</p>
+                <div className="mb-5">
+                  <span className="font-display text-4xl font-bold text-foreground">{formatPrice(bundle.price)}</span>
                 </div>
+                <ul className="space-y-2.5 mb-4 flex-1">
+                  {bundle.items.map((item) => (
+                    <li key={item.text} className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <span>{item.emoji}</span>
+                      {item.text}
+                    </li>
+                  ))}
+                </ul>
+                <p className="text-xs text-muted-foreground mb-4">Best for: <span className="text-foreground">{bundle.bestFor}</span></p>
+                <Button variant={bundle.popular ? "gradient" : "outline"} className="w-full" asChild>
+                  <Link to="/signup">{bundle.cta}</Link>
+                </Button>
               </motion.div>
-            )}
-          </AnimatePresence>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Value Comparison */}
+      <section className="py-12 px-4">
+        <div className="container max-w-4xl">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {[
+              { emoji: "💰", title: "Save up to 40%", desc: "Bundles cost less than credits" },
+              { emoji: "📦", title: "All-in-One", desc: "Videos + Landing Pages together" },
+              { emoji: "🚀", title: "Built for E-com", desc: "Perfect for COD & dropshipping" },
+            ].map((card) => (
+              <div key={card.title} className="glass-card p-6 text-center hover:-translate-y-1 transition-all duration-300">
+                <span className="text-3xl mb-3 block">{card.emoji}</span>
+                <h3 className="font-display font-bold text-foreground mb-2">{card.title}</h3>
+                <p className="text-sm text-muted-foreground">{card.desc}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -422,19 +389,9 @@ export default function PricingPage() {
                   <span className="font-medium text-foreground">{faq.q}</span>
                   <ChevronDown className={`h-4 w-4 text-muted-foreground shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-180" : ""}`} />
                 </button>
-                <AnimatePresence>
-                  {openFaq === i && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.2 }}
-                      className="overflow-hidden"
-                    >
-                      <p className="px-6 pb-4 text-sm text-muted-foreground">{faq.a}</p>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                {openFaq === i && (
+                  <p className="px-6 pb-4 text-sm text-muted-foreground">{faq.a}</p>
+                )}
               </div>
             ))}
           </div>
