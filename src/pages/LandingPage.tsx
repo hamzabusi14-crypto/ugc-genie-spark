@@ -42,10 +42,10 @@ const landingPageExamples = [
     ],
   },
   {
-    title: "Beauty Skincare",
-    titleAr: "العناية بالبشرة",
-    category: "Beauty",
-    categoryAr: "جمال",
+    title: "Green Coffee Plus",
+    titleAr: "قهوة خضراء بلس",
+    category: "Health",
+    categoryAr: "صحة",
     conversion: "+12.3%",
     sections: [
       "https://res.cloudinary.com/da2zkmtcn/image/upload/v1774434639/lp/75481cb5-eb93-4d89-8179-bb6ff0f07cd9/hero_1774434638507.jpg",
