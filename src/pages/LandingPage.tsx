@@ -128,7 +128,7 @@ export default function LandingPage() {
                 className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/10 text-sm text-primary mb-6"
               >
                 <Sparkles className="h-4 w-4" />
-                AI-Powered Video Generation
+                {t("heroTagline" as any)}
               </motion.div>
 
               <motion.h2
@@ -137,7 +137,7 @@ export default function LandingPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.1 }}
               >
-                Create <span className="gradient-text">Viral UGC Videos</span> in Seconds
+                {t("heroHeadline1" as any)} <span className="gradient-text">{t("heroHeadline2" as any)}</span> {t("heroHeadline3" as any)}
               </motion.h2>
 
               <motion.p
