@@ -17,26 +17,17 @@ import { toast } from "sonner";
 const MAX_FILE_SIZE = 100 * 1024 * 1024; // 100MB
 const ACCEPTED_TYPES = ["video/mp4", "video/quicktime", "video/webm", "video/x-msvideo"];
 
-const FONTS = [
-  { value: "Tajawal/Tajawal-ExtraBold.ttf", label: "Tajawal Bold (Arabic)" },
-  { value: "Poppins/Poppins-ExtraBold.ttf", label: "Poppins Bold" },
-  { value: "Roboto/Roboto-Bold.ttf", label: "Roboto Bold" },
-  { value: "Montserrat/Montserrat-ExtraBold.ttf", label: "Montserrat Bold" },
-  { value: "Bangers/Bangers-Regular.ttf", label: "Bangers" },
-  { value: "Oswald/Oswald-Bold.ttf", label: "Oswald Bold" },
+const ARABIC_FONTS = [
+  { value: "Arial/Arial_Bold.ttf", label: "Arial Bold" },
 ];
 
-const LANGUAGES = [
-  { code: "ar", name: "Arabic (العربية)" },
-  { code: "en", name: "English" },
-  { code: "fr", name: "French (Français)" },
-  { code: "es", name: "Spanish (Español)" },
-  { code: "de", name: "German (Deutsch)" },
-  { code: "hi", name: "Hindi (हिन्दी)" },
-  { code: "ur", name: "Urdu (اردو)" },
-  { code: "tr", name: "Turkish (Türkçe)" },
-  { code: "id", name: "Indonesian" },
-  { code: "pt", name: "Portuguese (Português)" },
+const ENGLISH_FONTS = [
+  { value: "Poppins/Poppins-Bold.ttf", label: "Poppins Bold" },
+  { value: "Poppins/Poppins-ExtraBold.ttf", label: "Poppins Extra Bold" },
+  { value: "Poppins/Poppins-Black.ttf", label: "Poppins Black" },
+  { value: "Poppins/Poppins-BoldItalic.ttf", label: "Poppins Bold Italic" },
+  { value: "Atkinson_Hyperlegible/AtkinsonHyperlegible-Bold.ttf", label: "Atkinson Bold" },
+  { value: "M_PLUS_Rounded_1c/MPLUSRounded1c-ExtraBold.ttf", label: "M PLUS Rounded" },
 ];
 
 const TEXT_COLORS = [
