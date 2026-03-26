@@ -171,7 +171,7 @@ export default function MyVideosPage() {
                           {t("download")}
                         </Button>
                       )}
-                      {video.status === "done" && !isExtended && !isFaceless && (
+                      {video.status === "done" && !isExtended && !isFaceless && video.duration === "8s" && (
                         <Button variant="glass" size="sm" onClick={() => {
                           setExtendVideoId(video.id);
                           setAdditionalDescription("");
