@@ -62,7 +62,7 @@ Deno.serve(async (req) => {
             cloudinary_public_id: original.cloudinary_public_id,
             video_url: videoUrl,
             status: "done",
-            duration: duration || "16s",
+            duration: duration || "15s",
             parent_video_id: parentVideoId,
             task_id: taskId,
           });

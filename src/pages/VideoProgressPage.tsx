@@ -78,7 +78,7 @@ export default function VideoProgressPage() {
   const rafRef = useRef<number>();
   const doneHandled = useRef(false);
 
-  const estimatedMinutes = videoDuration === "24s" ? 9 : videoDuration === "16s" ? 6 : 3;
+  const estimatedMinutes = videoDuration === "22s" ? 9 : videoDuration === "15s" ? 6 : 3;
 
   // Fetch product name
   useEffect(() => {
