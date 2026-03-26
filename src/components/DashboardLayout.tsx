@@ -122,7 +122,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       {/* Desktop Sidebar */}
       <aside className="hidden lg:flex lg:w-64 flex-col border-r border-border bg-sidebar p-4 fixed inset-y-0 start-0 z-30">
         <div className="mb-8 flex items-center gap-2">
-          <img src={logoImg} alt="OFA AI" className="w-8 h-8 rounded-lg" />
+          <img src={logoImg} alt="OFA AI" className="h-14 w-auto" />
           <div>
             <h1 className="font-display text-2xl font-bold gradient-text">OFA AI</h1>
             <p className="text-xs text-muted-foreground mt-0.5">{t("tagline")}</p>
