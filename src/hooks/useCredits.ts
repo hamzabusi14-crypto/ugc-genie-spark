@@ -4,8 +4,8 @@ import { useAuth } from "@/lib/auth";
 
 const CREDIT_COSTS: Record<string, number> = {
   "8s": 30,
-  "16s": 50,
-  "24s": 75,
+  "15s": 50,
+  "22s": 75,
   "landing_page": 25,
   "subtitles": 0,
   "extension": 10,
