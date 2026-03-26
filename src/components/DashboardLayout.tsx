@@ -22,6 +22,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import AppFooter from "@/components/AppFooter";
 import { toast } from "sonner";
+import logoImg from "@/assets/logo.png";
 
 const navItems = [
   { key: "dashboard" as const, path: "/dashboard", icon: LayoutDashboard },

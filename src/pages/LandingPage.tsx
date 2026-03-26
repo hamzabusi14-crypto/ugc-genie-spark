@@ -10,6 +10,7 @@ import {
 
 import { useState, useRef, useCallback, useEffect } from "react";
 import AppFooter from "@/components/AppFooter";
+import logoImg from "@/assets/logo.png";
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
