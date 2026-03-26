@@ -22,6 +22,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import AppFooter from "@/components/AppFooter";
 import { toast } from "sonner";
+import logoImg from "@/assets/logo.png";
 
 const navItems = [
   { key: "dashboard" as const, path: "/dashboard", icon: LayoutDashboard },
@@ -120,9 +121,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     <div className="flex min-h-screen bg-background">
       {/* Desktop Sidebar */}
       <aside className="hidden lg:flex lg:w-64 flex-col border-r border-border bg-sidebar p-4 fixed inset-y-0 start-0 z-30">
-        <div className="mb-8">
-          <h1 className="font-display text-2xl font-bold gradient-text">OFA AI</h1>
-          <p className="text-xs text-muted-foreground mt-1">{t("tagline")}</p>
+        <div className="mb-8 flex items-center gap-2">
+          <img src={logoImg} alt="OFA AI" className="w-8 h-8 rounded-lg" />
+          <div>
+            <h1 className="font-display text-2xl font-bold gradient-text">OFA AI</h1>
+            <p className="text-xs text-muted-foreground mt-0.5">{t("tagline")}</p>
+          </div>
         </div>
 
         <nav className="flex-1 space-y-1">
@@ -146,7 +150,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <div className="fixed inset-0 z-40 lg:hidden" onClick={() => setSidebarOpen(false)}>
           <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" />
           <aside className="absolute inset-y-0 start-0 w-64 border-r border-border bg-sidebar p-4 flex flex-col" onClick={(e) => e.stopPropagation()}>
-            <div className="mb-8">
+            <div className="mb-8 flex items-center gap-2">
+              <img src={logoImg} alt="OFA AI" className="w-8 h-8 rounded-lg" />
               <h1 className="font-display text-2xl font-bold gradient-text">OFA AI</h1>
             </div>
             <nav className="flex-1 space-y-1">
