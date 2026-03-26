@@ -233,7 +233,7 @@ export default function LandingPage() {
       <header className={`fixed inset-x-0 z-50 border-b border-border bg-background/80 backdrop-blur-sm ${!bannerDismissed ? "top-10" : "top-0"}`}>
         <div className="container flex items-center justify-between h-16">
           <Link to="/" className="flex items-center gap-2">
-            <img src={logoImg} alt="OFA AI" className="w-9 h-9 rounded-xl" />
+            <img src={logoImg} alt="OFA AI" className="h-14 w-auto" />
             <div>
               <span className="font-display text-xl font-bold text-white">OFA AI</span>
               <span className="hidden sm:block text-[10px] text-muted-foreground -mt-1">One For All AI</span>

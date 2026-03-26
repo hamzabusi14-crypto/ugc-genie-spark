@@ -151,7 +151,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" />
           <aside className="absolute inset-y-0 start-0 w-64 border-r border-border bg-sidebar p-4 flex flex-col" onClick={(e) => e.stopPropagation()}>
             <div className="mb-8 flex items-center gap-2">
-              <img src={logoImg} alt="OFA AI" className="w-8 h-8 rounded-lg" />
+              <img src={logoImg} alt="OFA AI" className="h-14 w-auto" />
               <h1 className="font-display text-2xl font-bold gradient-text">OFA AI</h1>
             </div>
             <nav className="flex-1 space-y-1">
