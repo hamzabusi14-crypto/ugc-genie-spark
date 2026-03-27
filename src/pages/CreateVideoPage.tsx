@@ -106,7 +106,7 @@ export default function CreateVideoPage() {
 
   const handleGenerate = async () => {
     if (isSubmitting.current || generating) return;
-    if (!productName.trim() || !imageUrl || !country) {
+    if (!productName.trim() || !imageUrl || !language || !country) {
       toast.error("Please fill all required fields");
       return;
     }
