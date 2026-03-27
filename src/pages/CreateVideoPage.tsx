@@ -24,6 +24,25 @@ const STAGES = [
   { key: "finalizing", min: 300 },
 ] as const;
 
+const countryToLanguage: Record<string, string> = {
+  "Saudi Arabia": "Gulf Arabic", "UAE": "Gulf Arabic", "United Arab Emirates": "Gulf Arabic",
+  "Kuwait": "Gulf Arabic", "Qatar": "Gulf Arabic", "Bahrain": "Gulf Arabic", "Oman": "Gulf Arabic",
+  "Egypt": "Egyptian Arabic",
+  "Morocco": "Moroccan Darija", "Algeria": "Algerian Arabic", "Tunisia": "Tunisian Arabic", "Libya": "Libyan Arabic",
+  "Lebanon": "Levantine Arabic", "Syria": "Levantine Arabic", "Jordan": "Levantine Arabic", "Palestine": "Levantine Arabic",
+  "Iraq": "Iraqi Arabic", "Sudan": "Sudanese Arabic", "Yemen": "Yemeni Arabic",
+  "France": "French", "Germany": "German", "Spain": "Spanish", "Italy": "Italian",
+  "Netherlands": "Dutch", "Portugal": "Portuguese",
+  "United States": "English", "United Kingdom": "English", "Canada": "English",
+  "Australia": "English", "Ireland": "English",
+  "Turkey": "Turkish", "India": "Hindi", "Pakistan": "Urdu", "Indonesia": "Indonesian",
+  "Malaysia": "Malay", "Thailand": "Thai", "Vietnam": "Vietnamese", "Philippines": "Filipino",
+  "Japan": "Japanese", "South Korea": "Korean", "China": "Chinese",
+  "Mexico": "Spanish", "Argentina": "Spanish", "Colombia": "Spanish", "Brazil": "Portuguese",
+};
+
+const getLanguageForCountry = (country: string): string => countryToLanguage[country] || "English";
+
 export default function CreateVideoPage() {
   const { profile, refreshProfile } = useAuth();
   const { t, lang } = useI18n();
@@ -35,8 +54,8 @@ export default function CreateVideoPage() {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [duration, setDuration] = useState("8s");
   const [aspectRatio, setAspectRatio] = useState("9:16");
-  const [language, setLanguage] = useState("Arabic");
   const [country, setCountry] = useState("");
+  const detectedLanguage = country ? getLanguageForCountry(country) : "English";
   const [description, setDescription] = useState("");
   const [sceneControls, setSceneControls] = useState<SceneControlsData>(SCENE_CONTROLS_DEFAULTS);
   const [uploading, setUploading] = useState(false);
@@ -132,7 +151,7 @@ export default function CreateVideoPage() {
         status: "generating",
         duration,
         aspect_ratio: aspectRatio,
-        language,
+        language: detectedLanguage,
         country,
         description: finalDescription || null,
         credits_used: creditCost,
@@ -150,7 +169,7 @@ export default function CreateVideoPage() {
           productImage: imageUrl,
           duration,
           aspectRatio,
-          language,
+          language: detectedLanguage,
           country,
           description: finalDescription || undefined,
         }),
@@ -256,20 +275,6 @@ export default function CreateVideoPage() {
             </div>
           </div>
 
-          {/* Language */}
-          <div>
-            <Label>{t("language")}</Label>
-            <Select value={language} onValueChange={setLanguage}>
-              <SelectTrigger className="mt-1 bg-muted border-border">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Arabic">{t("arabic")}</SelectItem>
-                <SelectItem value="English">{t("english")}</SelectItem>
-                <SelectItem value="French">{t("french")}</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
 
           {/* Country */}
           <div>
@@ -277,6 +282,11 @@ export default function CreateVideoPage() {
             <div className="mt-1">
               <CountrySelector value={country} onChange={setCountry} lang={lang} />
             </div>
+            {country && (
+              <div className="mt-2 inline-flex items-center gap-1.5 rounded-md bg-muted px-3 py-1.5 text-xs text-muted-foreground">
+                🌐 Video language: <span className="font-semibold text-foreground">{detectedLanguage}</span>
+              </div>
+            )}
           </div>
 
           {/* Advanced Scene Controls */}
