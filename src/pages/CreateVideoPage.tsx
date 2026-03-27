@@ -83,7 +83,7 @@ export default function CreateVideoPage() {
 
   const handleGenerate = async () => {
     if (isSubmitting.current || generating) return;
-    if (!productName.trim() || !imageUrl || !country.trim()) {
+    if (!productName.trim() || !imageUrl || !country) {
       toast.error("Please fill all required fields");
       return;
     }
@@ -105,7 +105,7 @@ export default function CreateVideoPage() {
         duration,
         aspect_ratio: aspectRatio,
         language,
-        country: country.trim(),
+        country,
         description: description.trim() || null,
         credits_used: creditCost,
         video_type: "ugc",
@@ -123,7 +123,7 @@ export default function CreateVideoPage() {
           duration,
           aspectRatio,
           language,
-          country: country.trim(),
+          country,
           description: description.trim() || undefined,
         }),
       });
