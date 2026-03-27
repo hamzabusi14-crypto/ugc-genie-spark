@@ -126,23 +126,25 @@ export default function DashboardPage() {
         <div>
           <h3 className="font-display text-lg font-semibold">Video Ideas</h3>
           <p className="text-xs text-muted-foreground mb-3">Get inspired</p>
-          <HorizontalSlider>
-            {VIDEO_PREVIEWS.map((url, i) => (
-              <div
-                key={i}
-                className="flex-shrink-0 w-[180px] h-[280px] rounded-xl overflow-hidden bg-black"
-              >
-                <video
-                  src={url}
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            ))}
-          </HorizontalSlider>
+          <div className="overflow-hidden group/marquee">
+            <div className="flex gap-3 w-max animate-marquee group-hover/marquee:[animation-play-state:paused]">
+              {[...VIDEO_PREVIEWS, ...VIDEO_PREVIEWS].map((url, i) => (
+                <div
+                  key={i}
+                  className="flex-shrink-0 w-[180px] h-[280px] rounded-xl overflow-hidden bg-black"
+                >
+                  <video
+                    src={url}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
         {/* Landing Pages */}
