@@ -18,9 +18,6 @@ const VIDEO_PREVIEWS = [
   "https://res.cloudinary.com/da2zkmtcn/video/upload/v1774618662/0624_77_nyqku3.mov",
 ] as const;
 
-function getThumbnail(url: string) {
-  return url.replace("/video/upload/", "/video/upload/so_0,f_jpg/").replace(/\.\w+$/, ".jpg");
-}
 
 function HorizontalSlider({ children }: { children: React.ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
