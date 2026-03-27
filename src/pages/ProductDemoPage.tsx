@@ -15,11 +15,8 @@ import { Upload, Coins, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const SHOWCASE_TYPES = [
-  { value: "In Action", emoji: "⚡" },
-  { value: "Unboxing", emoji: "📦" },
-  { value: "Before/After", emoji: "✨" },
-  { value: "Close-up", emoji: "🔍" },
-  { value: "Gift Reveal", emoji: "🎁" },
+  { value: "In Action", emoji: "⚡", desc: "Product being used (spray, pour, open)" },
+  { value: "Product Showcase", emoji: "🔍", desc: "Just display the product (rotate, close-up view)" },
 ] as const;
 
 const CREDIT_COST = 10;
