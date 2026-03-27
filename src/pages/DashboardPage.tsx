@@ -130,15 +130,22 @@ export default function DashboardPage() {
           <h3 className="font-display text-lg font-semibold">Video Ideas</h3>
           <p className="text-xs text-muted-foreground mb-3">Get inspired</p>
           <HorizontalSlider>
-            {VIDEO_IDEAS.map((idea) => (
+            {VIDEO_PREVIEWS.map((url, i) => (
               <button
-                key={idea.id}
+                key={i}
                 onClick={() => navigate("/create-video/product-demo")}
-                className={`flex-shrink-0 w-[140px] h-[200px] rounded-lg overflow-hidden relative transition-transform hover:scale-[1.04] ${idea.bg}`}
+                className="flex-shrink-0 w-[140px] h-[200px] rounded-lg overflow-hidden relative transition-transform hover:scale-[1.04] bg-black group/vid"
+                onMouseEnter={(e) => {
+                  const vid = e.currentTarget.querySelector("video");
+                  vid?.play();
+                }}
+                onMouseLeave={(e) => {
+                  const vid = e.currentTarget.querySelector("video");
+                  if (vid) { vid.pause(); vid.currentTime = 0; }
+                }}
               >
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-4xl select-none">{idea.emoji}</span>
-                <span className="absolute bottom-3 left-0 right-0 text-center text-white text-xs font-medium">{idea.label}</span>
+                <img src={getThumbnail(url)} alt="" className="absolute inset-0 w-full h-full object-cover group-hover/vid:opacity-0 transition-opacity" />
+                <video src={url} muted loop playsInline preload="none" className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover/vid:opacity-100 transition-opacity" />
               </button>
             ))}
           </HorizontalSlider>
