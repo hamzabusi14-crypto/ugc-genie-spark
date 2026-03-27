@@ -9,16 +9,18 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import React, { useRef, useState } from "react";
 
-const VIDEO_IDEAS = [
-  { id: 1, emoji: "🧴", label: "Skincare Demo", bg: "bg-gradient-to-br from-pink-500/40 to-pink-300/20" },
-  { id: 2, emoji: "☕", label: "Coffee Pour", bg: "bg-gradient-to-br from-amber-700/40 to-amber-500/20" },
-  { id: 3, emoji: "📱", label: "Tech Unboxing", bg: "bg-gradient-to-br from-blue-800/40 to-blue-500/20" },
-  { id: 4, emoji: "🍹", label: "Blender Action", bg: "bg-gradient-to-br from-green-600/40 to-green-400/20" },
-  { id: 5, emoji: "✨", label: "Perfume Spray", bg: "bg-gradient-to-br from-yellow-600/40 to-yellow-400/20" },
-  { id: 6, emoji: "🕯️", label: "Candle Lighting", bg: "bg-gradient-to-br from-orange-500/40 to-orange-300/20" },
-  { id: 7, emoji: "🧹", label: "Cleaning Spray", bg: "bg-gradient-to-br from-cyan-500/40 to-cyan-300/20" },
-  { id: 8, emoji: "💄", label: "Makeup Apply", bg: "bg-gradient-to-br from-pink-600/40 to-fuchsia-400/20" },
+const VIDEO_PREVIEWS = [
+  "https://res.cloudinary.com/da2zkmtcn/video/upload/v1774618664/0624_76_t7mya1.mov",
+  "https://res.cloudinary.com/da2zkmtcn/video/upload/v1774618664/0624_72_pswpf5.mov",
+  "https://res.cloudinary.com/da2zkmtcn/video/upload/v1774618663/0624_75_q0cnes.mov",
+  "https://res.cloudinary.com/da2zkmtcn/video/upload/v1774618663/0624_73_xsubos.mov",
+  "https://res.cloudinary.com/da2zkmtcn/video/upload/v1774618662/0624_74_wgukyc.mov",
+  "https://res.cloudinary.com/da2zkmtcn/video/upload/v1774618662/0624_77_nyqku3.mov",
 ] as const;
+
+function getThumbnail(url: string) {
+  return url.replace("/video/upload/", "/video/upload/so_0,f_jpg/").replace(/\.\w+$/, ".jpg");
+}
 
 function HorizontalSlider({ children }: { children: React.ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -128,15 +130,22 @@ export default function DashboardPage() {
           <h3 className="font-display text-lg font-semibold">Video Ideas</h3>
           <p className="text-xs text-muted-foreground mb-3">Get inspired</p>
           <HorizontalSlider>
-            {VIDEO_IDEAS.map((idea) => (
+            {VIDEO_PREVIEWS.map((url, i) => (
               <button
-                key={idea.id}
+                key={i}
                 onClick={() => navigate("/create-video/product-demo")}
-                className={`flex-shrink-0 w-[140px] h-[200px] rounded-lg overflow-hidden relative transition-transform hover:scale-[1.04] ${idea.bg}`}
+                className="flex-shrink-0 w-[140px] h-[200px] rounded-lg overflow-hidden relative transition-transform hover:scale-[1.04] bg-black group/vid"
+                onMouseEnter={(e) => {
+                  const vid = e.currentTarget.querySelector("video");
+                  vid?.play();
+                }}
+                onMouseLeave={(e) => {
+                  const vid = e.currentTarget.querySelector("video");
+                  if (vid) { vid.pause(); vid.currentTime = 0; }
+                }}
               >
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-4xl select-none">{idea.emoji}</span>
-                <span className="absolute bottom-3 left-0 right-0 text-center text-white text-xs font-medium">{idea.label}</span>
+                <img src={getThumbnail(url)} alt="" className="absolute inset-0 w-full h-full object-cover group-hover/vid:opacity-0 transition-opacity" />
+                <video src={url} muted loop playsInline preload="none" className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover/vid:opacity-100 transition-opacity" />
               </button>
             ))}
           </HorizontalSlider>
