@@ -191,7 +191,7 @@ export default function CreateVideoPage() {
           productImage: imageUrl,
           duration,
           aspectRatio,
-          language: detectedLanguage,
+          language,
           country,
           description: finalDescription || undefined,
         }),
