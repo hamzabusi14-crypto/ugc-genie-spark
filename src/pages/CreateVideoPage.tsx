@@ -283,14 +283,21 @@ export default function CreateVideoPage() {
           <div>
             <Label>{t("aspectRatio")}</Label>
             <div className="flex gap-3 mt-1">
-              {[{ value: "9:16", label: "Portrait (9:16)" }, { value: "16:9", label: "Landscape (16:9)" }].map((ar) => (
+              {[
+                { value: "9:16", label: "Portrait (9:16)", iconW: 20, iconH: 32 },
+                { value: "16:9", label: "Landscape (16:9)", iconW: 36, iconH: 20 },
+              ].map((ar) => (
                 <button
                   key={ar.value}
-                  className={`flex-1 py-2.5 rounded-lg text-sm font-medium transition-all ${
+                  className={`flex-1 py-3 rounded-lg text-sm font-medium transition-all flex flex-col items-center gap-2 ${
                     aspectRatio === ar.value ? "btn-primary-gradient" : "glass-card hover:bg-[rgba(255,255,255,0.1)]"
                   }`}
                   onClick={() => setAspectRatio(ar.value)}
                 >
+                  <span
+                    className="rounded border-2 border-current opacity-70"
+                    style={{ width: ar.iconW, height: ar.iconH }}
+                  />
                   {ar.label}
                 </button>
               ))}
