@@ -9,16 +9,18 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import React, { useRef, useState } from "react";
 
-const VIDEO_IDEAS = [
-  { id: 1, emoji: "🧴", label: "Skincare Demo", bg: "bg-gradient-to-br from-pink-500/40 to-pink-300/20" },
-  { id: 2, emoji: "☕", label: "Coffee Pour", bg: "bg-gradient-to-br from-amber-700/40 to-amber-500/20" },
-  { id: 3, emoji: "📱", label: "Tech Unboxing", bg: "bg-gradient-to-br from-blue-800/40 to-blue-500/20" },
-  { id: 4, emoji: "🍹", label: "Blender Action", bg: "bg-gradient-to-br from-green-600/40 to-green-400/20" },
-  { id: 5, emoji: "✨", label: "Perfume Spray", bg: "bg-gradient-to-br from-yellow-600/40 to-yellow-400/20" },
-  { id: 6, emoji: "🕯️", label: "Candle Lighting", bg: "bg-gradient-to-br from-orange-500/40 to-orange-300/20" },
-  { id: 7, emoji: "🧹", label: "Cleaning Spray", bg: "bg-gradient-to-br from-cyan-500/40 to-cyan-300/20" },
-  { id: 8, emoji: "💄", label: "Makeup Apply", bg: "bg-gradient-to-br from-pink-600/40 to-fuchsia-400/20" },
+const VIDEO_PREVIEWS = [
+  "https://res.cloudinary.com/da2zkmtcn/video/upload/v1774618664/0624_76_t7mya1.mov",
+  "https://res.cloudinary.com/da2zkmtcn/video/upload/v1774618664/0624_72_pswpf5.mov",
+  "https://res.cloudinary.com/da2zkmtcn/video/upload/v1774618663/0624_75_q0cnes.mov",
+  "https://res.cloudinary.com/da2zkmtcn/video/upload/v1774618663/0624_73_xsubos.mov",
+  "https://res.cloudinary.com/da2zkmtcn/video/upload/v1774618662/0624_74_wgukyc.mov",
+  "https://res.cloudinary.com/da2zkmtcn/video/upload/v1774618662/0624_77_nyqku3.mov",
 ] as const;
+
+function getThumbnail(url: string) {
+  return url.replace("/video/upload/", "/video/upload/so_0,f_jpg/").replace(/\.\w+$/, ".jpg");
+}
 
 function HorizontalSlider({ children }: { children: React.ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
