@@ -16,6 +16,7 @@ import {
   Globe,
   Captions,
   Sparkles,
+  Play,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { Button } from "@/components/ui/button";
@@ -28,6 +29,7 @@ const navItems = [
   { key: "dashboard" as const, path: "/dashboard", icon: LayoutDashboard },
   { key: "createVideo" as const, path: "/create", icon: Video, subItems: [
     { key: "ugcVideo" as const, path: "/create", icon: Film, enabled: true },
+    { key: "productDemo" as const, path: "/create-video/product-demo", icon: Play, enabled: true },
     { key: "facelessContent" as const, path: "#", icon: Sparkles, enabled: false, badge: "Soon" },
   ]},
   { key: "myVideos" as const, path: "/videos", icon: Film },
@@ -39,13 +41,14 @@ const navItems = [
 
 const SUB_LABELS: Record<string, { en: string; ar: string }> = {
   ugcVideo: { en: "UGC Video", ar: "فيديو UGC" },
+  productDemo: { en: "Product Demo", ar: "عرض المنتج" },
   facelessContent: { en: "Faceless Content", ar: "فيديو أنيميشن" },
 };
 
 function SidebarNav({ lang, onNavigate }: { lang: string; onNavigate?: () => void }) {
   const { t } = useI18n();
   const location = useLocation();
-  const isCreateActive = location.pathname === "/create";
+  const isCreateActive = location.pathname === "/create" || location.pathname.startsWith("/create-video");
 
   return (
     <>
