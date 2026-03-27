@@ -54,7 +54,7 @@ export default function CreateVideoPage() {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [duration, setDuration] = useState("8s");
   const [aspectRatio, setAspectRatio] = useState("9:16");
-  const [language, setLanguage] = useState("Arabic");
+  const detectedLanguage = country ? getLanguageForCountry(country) : "English";
   const [country, setCountry] = useState("");
   const [description, setDescription] = useState("");
   const [sceneControls, setSceneControls] = useState<SceneControlsData>(SCENE_CONTROLS_DEFAULTS);
