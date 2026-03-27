@@ -254,6 +254,9 @@ export default function CreateVideoPage() {
             </div>
           </div>
 
+          {/* Advanced Scene Controls */}
+          <AdvancedSceneControls value={sceneControls} onChange={setSceneControls} selectedCountry={country} />
+
           {/* Description */}
           <div>
             <Label>{t("additionalDesc")}</Label>
