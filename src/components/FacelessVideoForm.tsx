@@ -174,7 +174,7 @@ export default function FacelessVideoForm() {
         size="xl"
         className="w-full"
         onClick={handleGenerate}
-        disabled={loading || !niche || !country.trim()}
+        disabled={loading || !niche || !country}
       >
         {loading ? (
           <>
