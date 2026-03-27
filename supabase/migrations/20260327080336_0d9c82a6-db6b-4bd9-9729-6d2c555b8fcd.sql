@@ -1,0 +1,1 @@
+UPDATE public.user_credits SET credits = credits + 1000, updated_at = now() WHERE user_id = '1d23ed64-6d15-41a6-bc1a-98d860b98b11';
