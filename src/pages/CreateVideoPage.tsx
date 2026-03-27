@@ -38,6 +38,7 @@ export default function CreateVideoPage() {
   const [language, setLanguage] = useState("Arabic");
   const [country, setCountry] = useState("");
   const [description, setDescription] = useState("");
+  const [sceneControls, setSceneControls] = useState<SceneControlsData>(SCENE_CONTROLS_DEFAULTS);
   const [uploading, setUploading] = useState(false);
   const [generating, setGenerating] = useState(false);
   const [stage, setStage] = useState(0);
