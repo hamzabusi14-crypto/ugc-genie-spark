@@ -40,6 +40,7 @@ const navItems = [
 
 const SUB_LABELS: Record<string, { en: string; ar: string }> = {
   ugcVideo: { en: "UGC Video", ar: "فيديو UGC" },
+  productDemo: { en: "Product Demo", ar: "عرض المنتج" },
   facelessContent: { en: "Faceless Content", ar: "فيديو أنيميشن" },
 };
 
