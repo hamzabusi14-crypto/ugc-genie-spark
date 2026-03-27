@@ -59,7 +59,7 @@ export default function FacelessVideoForm() {
         niche,
         aspectRatio,
         language,
-        country: country.trim(),
+        country,
         customPrompt: customPrompt.trim() || undefined,
       });
 
