@@ -140,11 +140,31 @@ export default function CreateVideoPage() {
       if (sceneControls.cameraStyle) sceneParts.push(`Camera Style: ${sceneControls.cameraStyle}`);
       if (sceneControls.lightingMood) sceneParts.push(`Lighting: ${sceneControls.lightingMood}`);
 
-      let finalDescription = description.trim();
-      if (sceneParts.length > 0) {
-        const sceneBlock = `\n[SCENE SETTINGS]\n${sceneParts.join("\n")}`;
-        finalDescription = finalDescription ? `${finalDescription}\n${sceneBlock}` : sceneBlock.trim();
+      // Build final description: MARKETING → SCENE → USER TEXT
+      const sections: string[] = [];
+
+      // 1. Marketing / Script Structure
+      const marketingParts: string[] = [];
+      if (marketingStyle.marketingAngle) marketingParts.push(`Marketing Angle: ${marketingStyle.marketingAngle}`);
+      if (marketingStyle.hookStyle) {
+        const hookEx = { "Question Hook": '"Do you struggle with...?"', "Bold Claim": '"This changed everything"', "POV/Relatable": '"POV: When you finally..."', "Curiosity": '"I tried this viral product..."', "Call-out": '"If you have [problem], watch this"', "Shock": '"I can\'t believe this works"' }[marketingStyle.hookStyle] || "";
+        marketingParts.push(`Hook Style: ${marketingStyle.hookStyle} ${hookEx}`);
       }
+      if (marketingStyle.ctaStyle) {
+        const ctaEx = { "Soft/Casual": '"Link in bio if interested"', "Direct": '"Get yours now"', "Urgency": '"Selling out fast"', "Social/Engaging": '"Would you try this?"', "Teaser": '"Part 2 coming soon"' }[marketingStyle.ctaStyle] || "";
+        marketingParts.push(`CTA Style: ${marketingStyle.ctaStyle} ${ctaEx}`);
+      }
+      if (marketingStyle.tone) marketingParts.push(`Tone: ${marketingStyle.tone}`);
+      if (marketingParts.length > 0) sections.push(`SCRIPT STRUCTURE (MUST FOLLOW):\n${marketingParts.join("\n")}`);
+
+      // 2. Scene Direction
+      if (sceneParts.length > 0) sections.push(`SCENE DIRECTION:\n${sceneParts.join("\n")}`);
+
+      // 3. User text
+      const userText = description.trim();
+      if (userText) sections.push(`ADDITIONAL NOTES:\n${userText}`);
+
+      const finalDescription = sections.join("\n\n");
 
       const { data: videoRecord, error: dbError } = await supabase.from("videos").insert({
         user_id: profile!.id,
