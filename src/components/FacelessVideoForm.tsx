@@ -114,13 +114,9 @@ export default function FacelessVideoForm() {
       {/* Country */}
       <div>
         <Label>{t("targetCountry")} *</Label>
-        <Input
-          value={country}
-          onChange={(e) => setCountry(e.target.value)}
-          placeholder={t("targetCountryPlaceholder")}
-          className="mt-1 bg-muted border-border"
-          required
-        />
+        <div className="mt-1">
+          <CountrySelector value={country} onChange={setCountry} lang={lang} />
+        </div>
       </div>
 
       {/* Aspect Ratio */}
