@@ -24,6 +24,25 @@ const STAGES = [
   { key: "finalizing", min: 300 },
 ] as const;
 
+const countryToLanguage: Record<string, string> = {
+  "Saudi Arabia": "Gulf Arabic", "UAE": "Gulf Arabic", "United Arab Emirates": "Gulf Arabic",
+  "Kuwait": "Gulf Arabic", "Qatar": "Gulf Arabic", "Bahrain": "Gulf Arabic", "Oman": "Gulf Arabic",
+  "Egypt": "Egyptian Arabic",
+  "Morocco": "Moroccan Darija", "Algeria": "Algerian Arabic", "Tunisia": "Tunisian Arabic", "Libya": "Libyan Arabic",
+  "Lebanon": "Levantine Arabic", "Syria": "Levantine Arabic", "Jordan": "Levantine Arabic", "Palestine": "Levantine Arabic",
+  "Iraq": "Iraqi Arabic", "Sudan": "Sudanese Arabic", "Yemen": "Yemeni Arabic",
+  "France": "French", "Germany": "German", "Spain": "Spanish", "Italy": "Italian",
+  "Netherlands": "Dutch", "Portugal": "Portuguese",
+  "United States": "English", "United Kingdom": "English", "Canada": "English",
+  "Australia": "English", "Ireland": "English",
+  "Turkey": "Turkish", "India": "Hindi", "Pakistan": "Urdu", "Indonesia": "Indonesian",
+  "Malaysia": "Malay", "Thailand": "Thai", "Vietnam": "Vietnamese", "Philippines": "Filipino",
+  "Japan": "Japanese", "South Korea": "Korean", "China": "Chinese",
+  "Mexico": "Spanish", "Argentina": "Spanish", "Colombia": "Spanish", "Brazil": "Portuguese",
+};
+
+const getLanguageForCountry = (country: string): string => countryToLanguage[country] || "English";
+
 export default function CreateVideoPage() {
   const { profile, refreshProfile } = useAuth();
   const { t, lang } = useI18n();
