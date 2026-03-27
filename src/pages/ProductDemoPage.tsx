@@ -2,7 +2,6 @@ import { useState, useCallback, useRef } from "react";
 import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n";
 import { useCredits } from "@/hooks/useCredits";
-import { useI18n as _useI18n } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
