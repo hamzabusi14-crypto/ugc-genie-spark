@@ -16,6 +16,7 @@ import {
   Globe,
   Captions,
   Sparkles,
+  Play,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { Button } from "@/components/ui/button";
