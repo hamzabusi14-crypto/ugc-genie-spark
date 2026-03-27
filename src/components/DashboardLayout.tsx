@@ -47,7 +47,7 @@ const SUB_LABELS: Record<string, { en: string; ar: string }> = {
 function SidebarNav({ lang, onNavigate }: { lang: string; onNavigate?: () => void }) {
   const { t } = useI18n();
   const location = useLocation();
-  const isCreateActive = location.pathname === "/create";
+  const isCreateActive = location.pathname === "/create" || location.pathname.startsWith("/create-video");
 
   return (
     <>
