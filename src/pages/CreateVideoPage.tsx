@@ -1,4 +1,5 @@
 import { useState, useCallback, useRef } from "react";
+import AdvancedSceneControls, { SceneControlsData, SCENE_CONTROLS_DEFAULTS } from "@/components/AdvancedSceneControls";
 import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
@@ -37,6 +38,7 @@ export default function CreateVideoPage() {
   const [language, setLanguage] = useState("Arabic");
   const [country, setCountry] = useState("");
   const [description, setDescription] = useState("");
+  const [sceneControls, setSceneControls] = useState<SceneControlsData>(SCENE_CONTROLS_DEFAULTS);
   const [uploading, setUploading] = useState(false);
   const [generating, setGenerating] = useState(false);
   const [stage, setStage] = useState(0);
@@ -125,6 +127,7 @@ export default function CreateVideoPage() {
           language,
           country,
           description: description.trim() || undefined,
+          sceneControls,
         }),
       });
 
@@ -250,6 +253,9 @@ export default function CreateVideoPage() {
               <CountrySelector value={country} onChange={setCountry} lang={lang} />
             </div>
           </div>
+
+          {/* Advanced Scene Controls */}
+          <AdvancedSceneControls value={sceneControls} onChange={setSceneControls} selectedCountry={country} />
 
           {/* Description */}
           <div>
