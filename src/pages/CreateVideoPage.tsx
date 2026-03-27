@@ -127,6 +127,7 @@ export default function CreateVideoPage() {
           language,
           country,
           description: description.trim() || undefined,
+          sceneControls,
         }),
       });
 
