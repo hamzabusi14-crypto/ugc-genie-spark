@@ -314,6 +314,9 @@ export default function CreateVideoPage() {
           {/* Advanced Scene Controls */}
           <AdvancedSceneControls value={sceneControls} onChange={setSceneControls} selectedCountry={country} />
 
+          {/* Marketing Style */}
+          <MarketingStyleControls value={marketingStyle} onChange={setMarketingStyle} />
+
           {/* Description */}
           <div>
             <Label>{t("additionalDesc")}</Label>
