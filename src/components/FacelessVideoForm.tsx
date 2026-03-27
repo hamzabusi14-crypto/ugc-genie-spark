@@ -48,7 +48,7 @@ export default function FacelessVideoForm() {
 
   const handleGenerate = async () => {
     if (isSubmitting.current || loading) return;
-    if (!niche || !country.trim()) {
+    if (!niche || !country) {
       toast.error(t("fillRequired"));
       return;
     }
