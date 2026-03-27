@@ -126,8 +126,8 @@ export default function DashboardPage() {
         <div>
           <h3 className="font-display text-lg font-semibold">Video Ideas</h3>
           <p className="text-xs text-muted-foreground mb-3">Get inspired</p>
-          <div className="overflow-hidden group/marquee">
-            <div className="flex gap-3 w-max animate-marquee group-hover/marquee:[animation-play-state:paused]">
+          <div className="overflow-hidden">
+            <div className="flex gap-3 w-max animate-marquee">
               {[...VIDEO_PREVIEWS, ...VIDEO_PREVIEWS].map((url, i) => (
                 <div
                   key={i}
