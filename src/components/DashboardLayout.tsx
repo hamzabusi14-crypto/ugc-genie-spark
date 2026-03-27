@@ -28,6 +28,7 @@ const navItems = [
   { key: "dashboard" as const, path: "/dashboard", icon: LayoutDashboard },
   { key: "createVideo" as const, path: "/create", icon: Video, subItems: [
     { key: "ugcVideo" as const, path: "/create", icon: Film, enabled: true },
+    { key: "productDemo" as const, path: "/create-video/product-demo", icon: Sparkles, enabled: true },
     { key: "facelessContent" as const, path: "#", icon: Sparkles, enabled: false, badge: "Soon" },
   ]},
   { key: "myVideos" as const, path: "/videos", icon: Film },
