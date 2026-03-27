@@ -169,7 +169,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       )}
 
       {/* Main content */}
-      <div className="flex-1 lg:ms-64 flex flex-col">
+      <div className="flex-1 lg:ms-64 flex flex-col overflow-x-hidden">
         <header className="sticky top-0 z-20 flex items-center justify-between border-b border-border bg-background/80 backdrop-blur-sm px-4 lg:px-6 h-16">
           <Button variant="ghost" size="icon" className="lg:hidden" onClick={() => setSidebarOpen(true)}>
             <Menu className="h-5 w-5" />
@@ -189,7 +189,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </div>
         </header>
 
-        <main className="flex-1 p-4 lg:p-6 pb-20 lg:pb-6">
+        <main className="flex-1 overflow-x-hidden p-4 pb-20 lg:p-6 lg:pb-6">
           {children}
         </main>
         <AppFooter />
