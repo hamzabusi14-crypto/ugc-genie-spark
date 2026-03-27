@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import CountrySelector from "@/components/CountrySelector";
 import { Coins, Loader2, Sparkles } from "lucide-react";
 import { useGenerateFacelessVideo } from "@/hooks/useFacelessVideo";
 import { useNavigate } from "react-router-dom";
@@ -47,7 +48,7 @@ export default function FacelessVideoForm() {
 
   const handleGenerate = async () => {
     if (isSubmitting.current || loading) return;
-    if (!niche || !country.trim()) {
+    if (!niche || !country) {
       toast.error(t("fillRequired"));
       return;
     }
@@ -58,7 +59,7 @@ export default function FacelessVideoForm() {
         niche,
         aspectRatio,
         language,
-        country: country.trim(),
+        country,
         customPrompt: customPrompt.trim() || undefined,
       });
 
@@ -113,13 +114,9 @@ export default function FacelessVideoForm() {
       {/* Country */}
       <div>
         <Label>{t("targetCountry")} *</Label>
-        <Input
-          value={country}
-          onChange={(e) => setCountry(e.target.value)}
-          placeholder={t("targetCountryPlaceholder")}
-          className="mt-1 bg-muted border-border"
-          required
-        />
+        <div className="mt-1">
+          <CountrySelector value={country} onChange={setCountry} lang={lang} />
+        </div>
       </div>
 
       {/* Aspect Ratio */}
@@ -177,7 +174,7 @@ export default function FacelessVideoForm() {
         size="xl"
         className="w-full"
         onClick={handleGenerate}
-        disabled={loading || !niche || !country.trim()}
+        disabled={loading || !niche || !country}
       >
         {loading ? (
           <>
