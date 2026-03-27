@@ -173,7 +173,7 @@ export default function CreateVideoPage() {
         status: "generating",
         duration,
         aspect_ratio: aspectRatio,
-        language: detectedLanguage,
+        language,
         country,
         description: finalDescription || null,
         credits_used: creditCost,
