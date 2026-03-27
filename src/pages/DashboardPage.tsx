@@ -18,9 +18,6 @@ const VIDEO_PREVIEWS = [
   "https://res.cloudinary.com/da2zkmtcn/video/upload/v1774618662/0624_77_nyqku3.mov",
 ] as const;
 
-function getThumbnail(url: string) {
-  return url.replace("/video/upload/", "/video/upload/so_0,f_jpg/").replace(/\.\w+$/, ".jpg");
-}
 
 function HorizontalSlider({ children }: { children: React.ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -131,22 +128,19 @@ export default function DashboardPage() {
           <p className="text-xs text-muted-foreground mb-3">Get inspired</p>
           <HorizontalSlider>
             {VIDEO_PREVIEWS.map((url, i) => (
-              <button
+              <div
                 key={i}
-                onClick={() => navigate("/create-video/product-demo")}
-                className="flex-shrink-0 w-[140px] h-[200px] rounded-lg overflow-hidden relative transition-transform hover:scale-[1.04] bg-black group/vid"
-                onMouseEnter={(e) => {
-                  const vid = e.currentTarget.querySelector("video");
-                  vid?.play();
-                }}
-                onMouseLeave={(e) => {
-                  const vid = e.currentTarget.querySelector("video");
-                  if (vid) { vid.pause(); vid.currentTime = 0; }
-                }}
+                className="flex-shrink-0 w-[180px] h-[280px] rounded-xl overflow-hidden bg-black"
               >
-                <img src={getThumbnail(url)} alt="" className="absolute inset-0 w-full h-full object-cover group-hover/vid:opacity-0 transition-opacity" />
-                <video src={url} muted loop playsInline preload="none" className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover/vid:opacity-100 transition-opacity" />
-              </button>
+                <video
+                  src={url}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="w-full h-full object-cover"
+                />
+              </div>
             ))}
           </HorizontalSlider>
         </div>
