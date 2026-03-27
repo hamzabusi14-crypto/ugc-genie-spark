@@ -308,21 +308,9 @@ export default function CreateVideoPage() {
           {/* Language */}
           <div>
             <Label>{lang === "ar" ? "اللغة" : "Language"} *</Label>
-            <Select value={language} onValueChange={setLanguage}>
-              <SelectTrigger className="mt-1 bg-muted border-border">
-                <SelectValue placeholder={lang === "ar" ? "اختر اللغة" : "Select language"} />
-              </SelectTrigger>
-              <SelectContent>
-                {[
-                  "Arabic", "English", "French", "Spanish", "Portuguese", "German",
-                  "Italian", "Turkish", "Hindi", "Indonesian", "Malay", "Dutch",
-                  "Russian", "Chinese", "Japanese", "Korean", "Persian", "Urdu",
-                  "Swahili", "Polish",
-                ].map((l) => (
-                  <SelectItem key={l} value={l}>{l}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <div className="mt-1">
+              <LanguageSelector value={language} onChange={setLanguage} lang={lang} />
+            </div>
           </div>
 
           {/* Country */}
