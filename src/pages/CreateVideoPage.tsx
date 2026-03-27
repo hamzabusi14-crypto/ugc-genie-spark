@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef } from "react";
 import AdvancedSceneControls, { SceneControlsData, SCENE_CONTROLS_DEFAULTS } from "@/components/AdvancedSceneControls";
+import MarketingStyleControls, { MarketingStyleData, MARKETING_DEFAULTS } from "@/components/MarketingStyleControls";
 import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
