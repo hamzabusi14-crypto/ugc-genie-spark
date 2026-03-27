@@ -304,6 +304,25 @@ export default function CreateVideoPage() {
             </div>
           </div>
 
+          {/* Language */}
+          <div>
+            <Label>{lang === "ar" ? "اللغة" : "Language"} *</Label>
+            <Select value={language} onValueChange={setLanguage}>
+              <SelectTrigger className="mt-1 bg-muted border-border">
+                <SelectValue placeholder={lang === "ar" ? "اختر اللغة" : "Select language"} />
+              </SelectTrigger>
+              <SelectContent>
+                {[
+                  "Arabic", "English", "French", "Spanish", "Portuguese", "German",
+                  "Italian", "Turkish", "Hindi", "Indonesian", "Malay", "Dutch",
+                  "Russian", "Chinese", "Japanese", "Korean", "Persian", "Urdu",
+                  "Swahili", "Polish",
+                ].map((l) => (
+                  <SelectItem key={l} value={l}>{l}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
 
           {/* Country */}
           <div>
@@ -311,11 +330,6 @@ export default function CreateVideoPage() {
             <div className="mt-1">
               <CountrySelector value={country} onChange={setCountry} lang={lang} />
             </div>
-            {country && (
-              <div className="mt-2 inline-flex items-center gap-1.5 rounded-md bg-muted px-3 py-1.5 text-xs text-muted-foreground">
-                🌐 Video language: <span className="font-semibold text-foreground">{detectedLanguage}</span>
-              </div>
-            )}
           </div>
 
           {/* Advanced Scene Controls */}
