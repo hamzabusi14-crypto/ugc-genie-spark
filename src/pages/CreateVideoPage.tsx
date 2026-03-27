@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import CountrySelector from "@/components/CountrySelector";
+import LanguageSelector from "@/components/LanguageSelector";
 import DashboardLayout from "@/components/DashboardLayout";
 import { CREDIT_COSTS } from "@/lib/types";
 import { supabase } from "@/integrations/supabase/client";
@@ -307,21 +308,9 @@ export default function CreateVideoPage() {
           {/* Language */}
           <div>
             <Label>{lang === "ar" ? "اللغة" : "Language"} *</Label>
-            <Select value={language} onValueChange={setLanguage}>
-              <SelectTrigger className="mt-1 bg-muted border-border">
-                <SelectValue placeholder={lang === "ar" ? "اختر اللغة" : "Select language"} />
-              </SelectTrigger>
-              <SelectContent>
-                {[
-                  "Arabic", "English", "French", "Spanish", "Portuguese", "German",
-                  "Italian", "Turkish", "Hindi", "Indonesian", "Malay", "Dutch",
-                  "Russian", "Chinese", "Japanese", "Korean", "Persian", "Urdu",
-                  "Swahili", "Polish",
-                ].map((l) => (
-                  <SelectItem key={l} value={l}>{l}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <div className="mt-1">
+              <LanguageSelector value={language} onChange={setLanguage} lang={lang} />
+            </div>
           </div>
 
           {/* Country */}
