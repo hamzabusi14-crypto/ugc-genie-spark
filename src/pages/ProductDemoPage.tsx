@@ -15,11 +15,8 @@ import { Upload, Coins, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const SHOWCASE_TYPES = [
-  { value: "In Action", emoji: "⚡" },
-  { value: "Unboxing", emoji: "📦" },
-  { value: "Before/After", emoji: "✨" },
-  { value: "Close-up", emoji: "🔍" },
-  { value: "Gift Reveal", emoji: "🎁" },
+  { value: "In Action", emoji: "⚡", desc: "Product being used (spray, pour, open)" },
+  { value: "Product Showcase", emoji: "🔍", desc: "Just display the product (rotate, close-up view)" },
 ] as const;
 
 const CREDIT_COST = 10;
@@ -225,25 +222,28 @@ export default function ProductDemoPage() {
           {/* Showcase Type */}
           <div>
             <Label>{lang === "ar" ? "نوع العرض" : "Showcase Type"} *</Label>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-2">
+            <div className="grid grid-cols-2 gap-3 mt-2">
               {SHOWCASE_TYPES.map((st) => (
                 <button
                   key={st.value}
                   type="button"
-                  className={`flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm font-medium transition-all ${
+                  className={`flex flex-col items-start gap-1.5 rounded-lg px-4 py-4 text-left transition-all ${
                     showcaseType === st.value
                       ? "btn-primary-gradient ring-2 ring-primary/30"
                       : "glass-card hover:bg-[rgba(255,255,255,0.1)]"
                   }`}
                   onClick={() => setShowcaseType(st.value)}
                 >
-                  <span className="text-base">{st.emoji}</span>
-                  <span>{st.value}</span>
+                  <span className="flex items-center gap-2 font-medium">
+                    <span className="text-lg">{st.emoji}</span>
+                    <span>{st.value}</span>
+                  </span>
+                  <span className="text-xs text-muted-foreground">{st.desc}</span>
                 </button>
               ))}
             </div>
             <p className="text-xs text-muted-foreground mt-2">
-              {lang === "ar" ? "كيف نعرض منتجك؟" : "How should we demonstrate your product?"}
+              {lang === "ar" ? "كيف نعرض منتجك؟" : "How should we show your product?"}
             </p>
           </div>
 
