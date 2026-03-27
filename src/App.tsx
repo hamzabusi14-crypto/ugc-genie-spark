@@ -26,6 +26,7 @@ import RefundPolicyPage from "@/pages/RefundPolicyPage";
 import CookiePolicyPage from "@/pages/CookiePolicyPage";
 import SubtitlesPage from "@/pages/SubtitlesPage";
 import PricingPage from "@/pages/PricingPage";
+import ProductDemoPage from "@/pages/ProductDemoPage";
 
 const queryClient = new QueryClient();
 
