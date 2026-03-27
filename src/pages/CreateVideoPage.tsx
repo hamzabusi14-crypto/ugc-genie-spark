@@ -55,8 +55,8 @@ export default function CreateVideoPage() {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [duration, setDuration] = useState("8s");
   const [aspectRatio, setAspectRatio] = useState("9:16");
+  const [language, setLanguage] = useState("");
   const [country, setCountry] = useState("");
-  const detectedLanguage = country ? getLanguageForCountry(country) : "English";
   const [description, setDescription] = useState("");
   const [sceneControls, setSceneControls] = useState<SceneControlsData>(SCENE_CONTROLS_DEFAULTS);
   const [marketingStyle, setMarketingStyle] = useState<MarketingStyleData>(MARKETING_DEFAULTS);
@@ -106,7 +106,7 @@ export default function CreateVideoPage() {
 
   const handleGenerate = async () => {
     if (isSubmitting.current || generating) return;
-    if (!productName.trim() || !imageUrl || !country) {
+    if (!productName.trim() || !imageUrl || !language || !country) {
       toast.error("Please fill all required fields");
       return;
     }
@@ -173,7 +173,7 @@ export default function CreateVideoPage() {
         status: "generating",
         duration,
         aspect_ratio: aspectRatio,
-        language: detectedLanguage,
+        language,
         country,
         description: finalDescription || null,
         credits_used: creditCost,
@@ -191,7 +191,7 @@ export default function CreateVideoPage() {
           productImage: imageUrl,
           duration,
           aspectRatio,
-          language: detectedLanguage,
+          language,
           country,
           description: finalDescription || undefined,
         }),
@@ -304,6 +304,25 @@ export default function CreateVideoPage() {
             </div>
           </div>
 
+          {/* Language */}
+          <div>
+            <Label>{lang === "ar" ? "اللغة" : "Language"} *</Label>
+            <Select value={language} onValueChange={setLanguage}>
+              <SelectTrigger className="mt-1 bg-muted border-border">
+                <SelectValue placeholder={lang === "ar" ? "اختر اللغة" : "Select language"} />
+              </SelectTrigger>
+              <SelectContent>
+                {[
+                  "Arabic", "English", "French", "Spanish", "Portuguese", "German",
+                  "Italian", "Turkish", "Hindi", "Indonesian", "Malay", "Dutch",
+                  "Russian", "Chinese", "Japanese", "Korean", "Persian", "Urdu",
+                  "Swahili", "Polish",
+                ].map((l) => (
+                  <SelectItem key={l} value={l}>{l}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
 
           {/* Country */}
           <div>
@@ -311,11 +330,6 @@ export default function CreateVideoPage() {
             <div className="mt-1">
               <CountrySelector value={country} onChange={setCountry} lang={lang} />
             </div>
-            {country && (
-              <div className="mt-2 inline-flex items-center gap-1.5 rounded-md bg-muted px-3 py-1.5 text-xs text-muted-foreground">
-                🌐 Video language: <span className="font-semibold text-foreground">{detectedLanguage}</span>
-              </div>
-            )}
           </div>
 
           {/* Advanced Scene Controls */}
