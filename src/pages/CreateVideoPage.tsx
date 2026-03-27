@@ -99,6 +99,32 @@ export default function CreateVideoPage() {
     }, 15000);
 
     try {
+      // Build scene settings string from advanced controls
+      const sceneParts: string[] = [];
+      const mainParts: string[] = [];
+      if (sceneControls.mainCharacterGender) mainParts.push(sceneControls.mainCharacterGender);
+      if (sceneControls.mainCharacterAge) mainParts.push(`${sceneControls.mainCharacterAge} years old`);
+      if (sceneControls.clothingStyle) mainParts.push(`${sceneControls.clothingStyle} clothing`);
+      if (mainParts.length > 0) sceneParts.push(`Main Character: ${mainParts.join(", ")}`);
+
+      if (sceneControls.addSecondCharacter) {
+        const secParts: string[] = [];
+        if (sceneControls.secondCharacterGender) secParts.push(sceneControls.secondCharacterGender);
+        if (sceneControls.secondCharacterAge) secParts.push(`${sceneControls.secondCharacterAge} years old`);
+        if (sceneControls.secondCharacterRole) secParts.push(sceneControls.secondCharacterRole);
+        if (secParts.length > 0) sceneParts.push(`Second Character: ${secParts.join(", ")}`);
+      }
+
+      if (sceneControls.environment) sceneParts.push(`Environment: ${sceneControls.environment}`);
+      if (sceneControls.cameraStyle) sceneParts.push(`Camera Style: ${sceneControls.cameraStyle}`);
+      if (sceneControls.lightingMood) sceneParts.push(`Lighting: ${sceneControls.lightingMood}`);
+
+      let finalDescription = description.trim();
+      if (sceneParts.length > 0) {
+        const sceneBlock = `\n[SCENE SETTINGS]\n${sceneParts.join("\n")}`;
+        finalDescription = finalDescription ? `${finalDescription}\n${sceneBlock}` : sceneBlock.trim();
+      }
+
       const { data: videoRecord, error: dbError } = await supabase.from("videos").insert({
         user_id: profile!.id,
         product_name: productName.trim(),
@@ -108,7 +134,7 @@ export default function CreateVideoPage() {
         aspect_ratio: aspectRatio,
         language,
         country,
-        description: description.trim() || null,
+        description: finalDescription || null,
         credits_used: creditCost,
         video_type: "ugc",
       }).select("id").single();
@@ -126,8 +152,7 @@ export default function CreateVideoPage() {
           aspectRatio,
           language,
           country,
-          description: description.trim() || undefined,
-          sceneControls,
+          description: finalDescription || undefined,
         }),
       });
 
