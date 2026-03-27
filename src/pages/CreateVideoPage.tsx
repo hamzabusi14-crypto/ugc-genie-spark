@@ -275,20 +275,6 @@ export default function CreateVideoPage() {
             </div>
           </div>
 
-          {/* Language */}
-          <div>
-            <Label>{t("language")}</Label>
-            <Select value={language} onValueChange={setLanguage}>
-              <SelectTrigger className="mt-1 bg-muted border-border">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Arabic">{t("arabic")}</SelectItem>
-                <SelectItem value="English">{t("english")}</SelectItem>
-                <SelectItem value="French">{t("french")}</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
 
           {/* Country */}
           <div>
