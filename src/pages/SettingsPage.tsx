@@ -17,6 +17,9 @@ export default function SettingsPage() {
   const [email] = useState(profile?.email ?? "");
   const [notifications, setNotifications] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [creditAmount, setCreditAmount] = useState("");
+  const [updatingCredits, setUpdatingCredits] = useState(false);
+  const isAdmin = profile?.email === "hamzaakarid14@gmail.com";
 
   const handleSave = async () => {
     setSaving(true);
