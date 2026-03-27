@@ -323,7 +323,7 @@ export default function ProductDemoPage() {
         </div>
       </div>
 
-      <InsufficientCreditsModal open={showCreditsModal} onOpenChange={setShowCreditsModal} />
+      <InsufficientCreditsModal open={showCreditsModal} onClose={() => setShowCreditsModal(false)} required={CREDIT_COST} current={0} />
     </DashboardLayout>
   );
 }
