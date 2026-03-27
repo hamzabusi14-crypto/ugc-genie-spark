@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import CountrySelector from "@/components/CountrySelector";
 import DashboardLayout from "@/components/DashboardLayout";
 import { CREDIT_COSTS } from "@/lib/types";
 import { supabase } from "@/integrations/supabase/client";
@@ -82,7 +83,7 @@ export default function CreateVideoPage() {
 
   const handleGenerate = async () => {
     if (isSubmitting.current || generating) return;
-    if (!productName.trim() || !imageUrl || !country.trim()) {
+    if (!productName.trim() || !imageUrl || !country) {
       toast.error("Please fill all required fields");
       return;
     }
@@ -104,7 +105,7 @@ export default function CreateVideoPage() {
         duration,
         aspect_ratio: aspectRatio,
         language,
-        country: country.trim(),
+        country,
         description: description.trim() || null,
         credits_used: creditCost,
         video_type: "ugc",
@@ -122,7 +123,7 @@ export default function CreateVideoPage() {
           duration,
           aspectRatio,
           language,
-          country: country.trim(),
+          country,
           description: description.trim() || undefined,
         }),
       });
@@ -245,7 +246,9 @@ export default function CreateVideoPage() {
           {/* Country */}
           <div>
             <Label>{t("targetCountry")} *</Label>
-            <Input value={country} onChange={(e) => setCountry(e.target.value)} placeholder={t("targetCountryPlaceholder")} className="mt-1 bg-muted border-border" required />
+            <div className="mt-1">
+              <CountrySelector value={country} onChange={setCountry} lang={lang} />
+            </div>
           </div>
 
           {/* Description */}
