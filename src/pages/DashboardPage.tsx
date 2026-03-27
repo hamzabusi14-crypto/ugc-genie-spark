@@ -42,8 +42,7 @@ function HorizontalSlider({ children }: { children: React.ReactNode }) {
     <div className="relative">
       <div
         ref={ref}
-        className="flex gap-3 overflow-x-auto scroll-smooth pb-1"
-        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+        className="flex gap-3 overflow-x-auto scroll-smooth pb-1 scrollbar-hide"
         onMouseDown={onMouseDown}
         onMouseMove={onMouseMove}
         onMouseUp={onMouseUp}
