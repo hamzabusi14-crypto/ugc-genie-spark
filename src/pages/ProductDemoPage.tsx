@@ -121,7 +121,7 @@ export default function ProductDemoPage() {
 
       if (dbError || !videoRecord) throw dbError || new Error("Failed to create video record");
 
-      const webhookUrl = import.meta.env.VITE_PRODUCT_DEMO_WEBHOOK_URL || "https://your-n8n.app.n8n.cloud/webhook/product-demo-video";
+      const webhookUrl = import.meta.env.VITE_PRODUCT_DEMO_WEBHOOK_URL || "https://snap-automation1.app.n8n.cloud/webhook/product-demo-video";
 
       const res = await fetch(webhookUrl, {
         method: "POST",
