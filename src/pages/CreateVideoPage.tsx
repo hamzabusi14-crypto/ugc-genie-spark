@@ -59,6 +59,7 @@ export default function CreateVideoPage() {
   const detectedLanguage = country ? getLanguageForCountry(country) : "English";
   const [description, setDescription] = useState("");
   const [sceneControls, setSceneControls] = useState<SceneControlsData>(SCENE_CONTROLS_DEFAULTS);
+  const [marketingStyle, setMarketingStyle] = useState<MarketingStyleData>(MARKETING_DEFAULTS);
   const [uploading, setUploading] = useState(false);
   const [generating, setGenerating] = useState(false);
   const [stage, setStage] = useState(0);
