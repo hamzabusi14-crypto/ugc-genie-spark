@@ -295,6 +295,9 @@ export type Database = {
           part_number: number
           product_image_url: string
           product_name: string
+          script_part1: string | null
+          script_part2: string | null
+          script_part3: string | null
           seed_image_url: string | null
           series_id: string | null
           status: string
@@ -328,6 +331,9 @@ export type Database = {
           part_number?: number
           product_image_url: string
           product_name: string
+          script_part1?: string | null
+          script_part2?: string | null
+          script_part3?: string | null
           seed_image_url?: string | null
           series_id?: string | null
           status?: string
@@ -361,6 +367,9 @@ export type Database = {
           part_number?: number
           product_image_url?: string
           product_name?: string
+          script_part1?: string | null
+          script_part2?: string | null
+          script_part3?: string | null
           seed_image_url?: string | null
           series_id?: string | null
           status?: string
