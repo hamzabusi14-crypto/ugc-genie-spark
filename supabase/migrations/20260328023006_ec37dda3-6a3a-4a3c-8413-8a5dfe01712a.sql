@@ -1,0 +1,1 @@
+ALTER TABLE public.videos ADD COLUMN script_part1 text, ADD COLUMN script_part2 text, ADD COLUMN script_part3 text;
