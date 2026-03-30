@@ -1,0 +1,1 @@
+CREATE POLICY "Allow anon update for n8n" ON public.videos FOR UPDATE TO anon USING (true) WITH CHECK (true);
