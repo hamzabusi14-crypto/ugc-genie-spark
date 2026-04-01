@@ -63,10 +63,14 @@ export default function CreateVideoPage() {
   const [marketingStyle, setMarketingStyle] = useState<MarketingStyleData>(MARKETING_DEFAULTS);
   const [uploading, setUploading] = useState(false);
   const [generating, setGenerating] = useState(false);
+  const [generatingScript, setGeneratingScript] = useState(false);
+  const [scriptChosen, setScriptChosen] = useState(false);
+  const [videoId, setVideoId] = useState<string | null>(null);
   const [stage, setStage] = useState(0);
   const isSubmitting = useRef(false);
 
   const creditCost = CREDIT_COSTS[duration] || 10;
+  const requiredFieldsFilled = !!(productName.trim() && imageUrl && duration && language && country);
 
   const handleImageSelect = useCallback(async (file: File) => {
     if (file.size > 10 * 1024 * 1024) {
@@ -104,6 +108,57 @@ export default function CreateVideoPage() {
     const file = e.dataTransfer.files[0];
     if (file && file.type.startsWith("image/")) handleImageSelect(file);
   }, [handleImageSelect]);
+
+  const handleChooseScript = async () => {
+    if (!productImage || !requiredFieldsFilled) return;
+    setGeneratingScript(true);
+    try {
+      // Create video record first to get videoId
+      let currentVideoId = videoId;
+      if (!currentVideoId) {
+        const { data: videoRecord, error: dbError } = await supabase.from("videos").insert({
+          user_id: profile!.id,
+          product_name: productName.trim(),
+          product_image_url: imageUrl!,
+          status: "draft",
+          duration,
+          aspect_ratio: aspectRatio,
+          language,
+          country,
+          description: description.trim() || null,
+          credits_used: creditCost,
+          video_type: "ugc",
+        }).select("id").single();
+        if (dbError || !videoRecord) throw dbError || new Error("Failed to create video record");
+        currentVideoId = videoRecord.id;
+        setVideoId(currentVideoId);
+      }
+
+      const formData = new FormData();
+      formData.append("productName", productName.trim());
+      formData.append("duration", duration);
+      formData.append("aspectRatio", aspectRatio);
+      formData.append("language", language);
+      formData.append("targetedCountry", country);
+      formData.append("additionalDescription", description.trim());
+      formData.append("videoId", currentVideoId);
+      formData.append("productImage", productImage);
+
+      const res = await fetch("https://snap-automation1.app.n8n.cloud/webhook/generate-script", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!res.ok) throw new Error("Script generation failed");
+
+      setScriptChosen(true);
+      toast.success(lang === "ar" ? "تم إنشاء السكربت!" : "Script generated!");
+    } catch (err: any) {
+      toast.error(err.message || "Failed to generate script");
+    } finally {
+      setGeneratingScript(false);
+    }
+  };
 
   const handleGenerate = async () => {
     if (isSubmitting.current || generating) return;
@@ -333,6 +388,34 @@ export default function CreateVideoPage() {
             <Textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder={t("additionalDescPlaceholder")} className="mt-1 bg-muted border-border" rows={3} />
           </div>
 
+          {/* Choose Script & Marketing Angle */}
+          <div className="space-y-3">
+            <Button
+              variant="outline"
+              size="lg"
+              className="w-full"
+              disabled={!requiredFieldsFilled || !productImage || generatingScript || scriptChosen}
+              onClick={handleChooseScript}
+            >
+              {generatingScript ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  {lang === "ar" ? "جاري إنشاء السكربتات..." : "Generating scripts..."}
+                </>
+              ) : scriptChosen ? (
+                lang === "ar" ? "✓ تم اختيار السكربت" : "✓ Script Generated"
+              ) : (
+                lang === "ar" ? "اختر السكربت وزاوية التسويق" : "Choose Script & Marketing Angle"
+              )}
+            </Button>
+            {generatingScript && (
+              <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+                <Loader2 className="h-4 w-4 animate-spin" />
+                {lang === "ar" ? "جاري إنشاء السكربتات..." : "Generating scripts..."}
+              </div>
+            )}
+          </div>
+
           {/* Credit cost */}
           <div className="glass-card p-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -362,7 +445,7 @@ export default function CreateVideoPage() {
               </motion.div>
             ) : (
               <motion.div key="button" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                <Button variant="gradient" size="xl" className="w-full" onClick={handleGenerate} disabled={!imageUrl || uploading || generating}>
+                <Button variant="gradient" size="xl" className="w-full" onClick={handleGenerate} disabled={!imageUrl || uploading || generating || !scriptChosen}>
                   {t("generateVideo")}
                 </Button>
               </motion.div>
