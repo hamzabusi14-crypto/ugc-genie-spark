@@ -109,7 +109,57 @@ export default function CreateVideoPage() {
     if (file && file.type.startsWith("image/")) handleImageSelect(file);
   }, [handleImageSelect]);
 
-  const handleGenerate = async () => {
+  const handleChooseScript = async () => {
+    if (!productImage || !requiredFieldsFilled) return;
+    setGeneratingScript(true);
+    try {
+      // Create video record first to get videoId
+      let currentVideoId = videoId;
+      if (!currentVideoId) {
+        const { data: videoRecord, error: dbError } = await supabase.from("videos").insert({
+          user_id: profile!.id,
+          product_name: productName.trim(),
+          product_image_url: imageUrl!,
+          status: "draft",
+          duration,
+          aspect_ratio: aspectRatio,
+          language,
+          country,
+          description: description.trim() || null,
+          credits_used: creditCost,
+          video_type: "ugc",
+        }).select("id").single();
+        if (dbError || !videoRecord) throw dbError || new Error("Failed to create video record");
+        currentVideoId = videoRecord.id;
+        setVideoId(currentVideoId);
+      }
+
+      const formData = new FormData();
+      formData.append("productName", productName.trim());
+      formData.append("duration", duration);
+      formData.append("aspectRatio", aspectRatio);
+      formData.append("language", language);
+      formData.append("targetedCountry", country);
+      formData.append("additionalDescription", description.trim());
+      formData.append("videoId", currentVideoId);
+      formData.append("productImage", productImage);
+
+      const res = await fetch("https://snap-automation1.app.n8n.cloud/webhook/generate-script", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!res.ok) throw new Error("Script generation failed");
+
+      setScriptChosen(true);
+      toast.success(lang === "ar" ? "تم إنشاء السكربت!" : "Script generated!");
+    } catch (err: any) {
+      toast.error(err.message || "Failed to generate script");
+    } finally {
+      setGeneratingScript(false);
+    }
+  };
+
     if (isSubmitting.current || generating) return;
     if (!productName.trim() || !imageUrl || !language || !country) {
       toast.error("Please fill all required fields");
