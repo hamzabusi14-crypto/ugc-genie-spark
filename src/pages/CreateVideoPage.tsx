@@ -114,24 +114,10 @@ export default function CreateVideoPage() {
     if (!productImage || !requiredFieldsFilled) return;
     setGeneratingScript(true);
     try {
-      // Create video record first to get videoId
+      // Generate a UUID on the frontend — no DB record yet
       let currentVideoId = videoId;
       if (!currentVideoId) {
-        const { data: videoRecord, error: dbError } = await supabase.from("videos").insert({
-          user_id: profile!.id,
-          product_name: productName.trim(),
-          product_image_url: imageUrl!,
-          status: "draft",
-          duration,
-          aspect_ratio: aspectRatio,
-          language,
-          country,
-          description: description.trim() || null,
-          credits_used: creditCost,
-          video_type: "ugc",
-        }).select("id").single();
-        if (dbError || !videoRecord) throw dbError || new Error("Failed to create video record");
-        currentVideoId = videoRecord.id;
+        currentVideoId = crypto.randomUUID();
         setVideoId(currentVideoId);
       }
 
