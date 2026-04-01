@@ -70,6 +70,7 @@ export default function CreateVideoPage() {
   const isSubmitting = useRef(false);
 
   const creditCost = CREDIT_COSTS[duration] || 10;
+  const requiredFieldsFilled = !!(productName.trim() && imageUrl && duration && language && country);
 
   const handleImageSelect = useCallback(async (file: File) => {
     if (file.size > 10 * 1024 * 1024) {
