@@ -388,6 +388,34 @@ export default function CreateVideoPage() {
             <Textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder={t("additionalDescPlaceholder")} className="mt-1 bg-muted border-border" rows={3} />
           </div>
 
+          {/* Choose Script & Marketing Angle */}
+          <div className="space-y-3">
+            <Button
+              variant="outline"
+              size="lg"
+              className="w-full"
+              disabled={!requiredFieldsFilled || !productImage || generatingScript || scriptChosen}
+              onClick={handleChooseScript}
+            >
+              {generatingScript ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  {lang === "ar" ? "جاري إنشاء السكربتات..." : "Generating scripts..."}
+                </>
+              ) : scriptChosen ? (
+                lang === "ar" ? "✓ تم اختيار السكربت" : "✓ Script Generated"
+              ) : (
+                lang === "ar" ? "اختر السكربت وزاوية التسويق" : "Choose Script & Marketing Angle"
+              )}
+            </Button>
+            {generatingScript && (
+              <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+                <Loader2 className="h-4 w-4 animate-spin" />
+                {lang === "ar" ? "جاري إنشاء السكربتات..." : "Generating scripts..."}
+              </div>
+            )}
+          </div>
+
           {/* Credit cost */}
           <div className="glass-card p-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -417,7 +445,7 @@ export default function CreateVideoPage() {
               </motion.div>
             ) : (
               <motion.div key="button" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                <Button variant="gradient" size="xl" className="w-full" onClick={handleGenerate} disabled={!imageUrl || uploading || generating}>
+                <Button variant="gradient" size="xl" className="w-full" onClick={handleGenerate} disabled={!imageUrl || uploading || generating || !scriptChosen}>
                   {t("generateVideo")}
                 </Button>
               </motion.div>
