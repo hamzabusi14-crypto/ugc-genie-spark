@@ -209,7 +209,9 @@ export default function CreateVideoPage() {
 
       const finalDescription = sections.join("\n\n");
 
+      const insertId = videoId || crypto.randomUUID();
       const { data: videoRecord, error: dbError } = await supabase.from("videos").insert({
+        id: insertId,
         user_id: profile!.id,
         product_name: productName.trim(),
         product_image_url: imageUrl,
