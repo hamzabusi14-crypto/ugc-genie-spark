@@ -390,24 +390,29 @@ export default function CreateVideoPage() {
 
           {/* Choose Script & Marketing Angle */}
           <div className="space-y-3">
-            <Button
-              variant="outline"
-              size="lg"
-              className="w-full"
-              disabled={!requiredFieldsFilled || !productImage || generatingScript || scriptChosen}
-              onClick={handleChooseScript}
-            >
-              {generatingScript ? (
-                <>
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                  {lang === "ar" ? "جاري إنشاء السكربتات..." : "Generating scripts..."}
-                </>
-              ) : scriptChosen ? (
-                lang === "ar" ? "✓ تم اختيار السكربت" : "✓ Script Generated"
-              ) : (
-                lang === "ar" ? "اختر السكربت وزاوية التسويق" : "Choose Script & Marketing Angle"
-              )}
-            </Button>
+            <div className="relative group rounded-lg p-[2px] bg-gradient-to-r from-purple-500 to-pink-500 transition-shadow duration-300 hover:shadow-[0_0_20px_rgba(168,85,247,0.4)]">
+              <Button
+                variant="ghost"
+                size="lg"
+                className="w-full bg-background hover:bg-background/90 text-foreground font-semibold rounded-[6px]"
+                disabled={!requiredFieldsFilled || !productImage || generatingScript || scriptChosen}
+                onClick={handleChooseScript}
+              >
+                {generatingScript ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    {lang === "ar" ? "جاري إنشاء السكربتات..." : "Generating scripts..."}
+                  </>
+                ) : scriptChosen ? (
+                  lang === "ar" ? "✓ تم اختيار السكربت" : "✓ Script Generated"
+                ) : (
+                  <>
+                    <Sparkles className="h-4 w-4" />
+                    {lang === "ar" ? "اختر السكربت وزاوية التسويق" : "Choose Script & Marketing Angle"}
+                  </>
+                )}
+              </Button>
+            </div>
             {generatingScript && (
               <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
                 <Loader2 className="h-4 w-4 animate-spin" />
