@@ -63,6 +63,9 @@ export default function CreateVideoPage() {
   const [marketingStyle, setMarketingStyle] = useState<MarketingStyleData>(MARKETING_DEFAULTS);
   const [uploading, setUploading] = useState(false);
   const [generating, setGenerating] = useState(false);
+  const [generatingScript, setGeneratingScript] = useState(false);
+  const [scriptChosen, setScriptChosen] = useState(false);
+  const [videoId, setVideoId] = useState<string | null>(null);
   const [stage, setStage] = useState(0);
   const isSubmitting = useRef(false);
 
