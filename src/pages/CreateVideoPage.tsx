@@ -394,12 +394,16 @@ export default function CreateVideoPage() {
               <Button
                 variant="ghost"
                 size="lg"
-                className={cn(
-                  "w-full font-semibold rounded-lg border-0 transition-all duration-300",
-                  (!requiredFieldsFilled || !productImage || generatingScript || scriptChosen)
-                    ? "bg-[hsl(240_10%_18%)] text-[hsl(240_5%_40%)] cursor-not-allowed"
-                    : "bg-gradient-to-r from-[hsl(270_70%_60%)] to-[hsl(330_70%_60%)] text-white hover:shadow-[0_0_24px_rgba(168,85,247,0.45)]"
-                )}
+                style={{
+                  border: 'none',
+                  outline: 'none',
+                  transition: 'all 0.3s ease',
+                  ...( (!requiredFieldsFilled || !productImage || generatingScript || scriptChosen)
+                    ? { background: '#2a2a3a', color: '#666666' }
+                    : { background: 'linear-gradient(135deg, #8B5CF6, #D946EF)', color: '#ffffff' }
+                  ),
+                }}
+                className="w-full font-semibold rounded-lg !border-none !outline-none hover:enabled:shadow-[0_0_20px_rgba(139,92,246,0.4)]"
                 disabled={!requiredFieldsFilled || !productImage || generatingScript || scriptChosen}
                 onClick={handleChooseScript}
               >
