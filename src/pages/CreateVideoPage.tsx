@@ -390,11 +390,15 @@ export default function CreateVideoPage() {
 
           {/* Choose Script & Marketing Angle */}
           <div className="space-y-3">
-            <div className="relative group rounded-lg p-[2px] bg-gradient-to-r from-purple-500 to-pink-500 transition-shadow duration-300 hover:shadow-[0_0_20px_rgba(168,85,247,0.4)]">
               <Button
                 variant="ghost"
                 size="lg"
-                className="w-full bg-background hover:bg-background/90 text-foreground font-semibold rounded-[6px]"
+                className={cn(
+                  "w-full font-semibold rounded-lg border-0 transition-all duration-300",
+                  (!requiredFieldsFilled || !productImage || generatingScript || scriptChosen)
+                    ? "bg-[hsl(240_10%_18%)] text-[hsl(240_5%_40%)] cursor-not-allowed"
+                    : "bg-gradient-to-r from-[hsl(270_70%_60%)] to-[hsl(330_70%_60%)] text-white hover:shadow-[0_0_24px_rgba(168,85,247,0.45)]"
+                )}
                 disabled={!requiredFieldsFilled || !productImage || generatingScript || scriptChosen}
                 onClick={handleChooseScript}
               >
@@ -412,7 +416,6 @@ export default function CreateVideoPage() {
                   </>
                 )}
               </Button>
-            </div>
             {generatingScript && (
               <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
                 <Loader2 className="h-4 w-4 animate-spin" />
