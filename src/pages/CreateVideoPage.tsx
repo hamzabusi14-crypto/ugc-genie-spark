@@ -121,19 +121,19 @@ export default function CreateVideoPage() {
         setVideoId(currentVideoId);
       }
 
-      const formData = new FormData();
-      formData.append("videoId", currentVideoId);
-      formData.append("productName", productName.trim());
-      formData.append("productImage", productImage);
-      formData.append("duration", duration);
-      formData.append("aspectRatio", aspectRatio);
-      formData.append("language", language);
-      formData.append("country", country);
-      formData.append("description", description.trim() || "");
-
       const res = await fetch("https://snap-automation1.app.n8n.cloud/webhook/generate-script", {
         method: "POST",
-        body: formData,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          videoId: currentVideoId,
+          productName: productName.trim(),
+          productImage: imageUrl,
+          duration,
+          aspectRatio,
+          language,
+          country,
+          description: description.trim() || "",
+        }),
       });
 
       if (!res.ok) throw new Error("Script generation failed");
