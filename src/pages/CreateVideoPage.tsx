@@ -122,14 +122,14 @@ export default function CreateVideoPage() {
       }
 
       const formData = new FormData();
+      formData.append("videoId", currentVideoId);
       formData.append("productName", productName.trim());
+      formData.append("productImage", productImage);
       formData.append("duration", duration);
       formData.append("aspectRatio", aspectRatio);
       formData.append("language", language);
-      formData.append("targetedCountry", country);
-      formData.append("additionalDescription", description.trim());
-      formData.append("videoId", currentVideoId);
-      formData.append("productImage", productImage);
+      formData.append("country", country);
+      formData.append("description", description.trim() || "");
 
       const res = await fetch("https://snap-automation1.app.n8n.cloud/webhook/generate-script", {
         method: "POST",
