@@ -251,6 +251,8 @@ export default function CreateVideoPage() {
           language,
           country,
           description: finalDescription || undefined,
+          selectedScript: selectedScript || undefined,
+          selectedAngle: selectedAngle || undefined,
         }),
       });
 
