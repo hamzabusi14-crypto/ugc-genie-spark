@@ -444,7 +444,6 @@ export default function CreateVideoPage() {
                         "p-4 rounded-lg cursor-pointer transition-all border-2 bg-muted/50 hover:bg-muted",
                         isSelected ? "border-purple-500 shadow-[0_0_12px_rgba(139,92,246,0.3)]" : "border-transparent"
                       )}
-                      style={{ direction: "rtl" in document.documentElement.style ? undefined : undefined }}
                       dir="auto"
                     >
                       <h4 className="font-bold text-sm mb-2 text-foreground">{s.angle}</h4>
