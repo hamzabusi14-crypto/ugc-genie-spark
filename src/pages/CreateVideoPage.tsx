@@ -68,6 +68,9 @@ export default function CreateVideoPage() {
   const [scriptChosen, setScriptChosen] = useState(false);
   const [videoId, setVideoId] = useState<string | null>(null);
   const [stage, setStage] = useState(0);
+  const [scripts, setScripts] = useState<{ angle: string; script: string }[]>([]);
+  const [selectedScript, setSelectedScript] = useState<string | null>(null);
+  const [selectedAngle, setSelectedAngle] = useState<string | null>(null);
   const isSubmitting = useRef(false);
 
   const creditCost = CREDIT_COSTS[duration] || 10;
