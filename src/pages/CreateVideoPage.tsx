@@ -421,10 +421,36 @@ export default function CreateVideoPage() {
                   </>
                 )}
               </Button>
-            {generatingScript && (
+             {generatingScript && (
               <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
                 <Loader2 className="h-4 w-4 animate-spin" />
                 {lang === "ar" ? "جاري إنشاء السكربتات..." : "Generating scripts..."}
+              </div>
+            )}
+
+            {/* Script Selection Cards */}
+            {scripts.length > 0 && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">
+                {scripts.map((s, i) => {
+                  const isSelected = selectedAngle === s.angle && selectedScript === s.script;
+                  return (
+                    <div
+                      key={i}
+                      onClick={() => {
+                        setSelectedScript(s.script);
+                        setSelectedAngle(s.angle);
+                      }}
+                      className={cn(
+                        "p-4 rounded-lg cursor-pointer transition-all border-2 bg-muted/50 hover:bg-muted",
+                        isSelected ? "border-purple-500 shadow-[0_0_12px_rgba(139,92,246,0.3)]" : "border-transparent"
+                      )}
+                      style={{ direction: "auto" }}
+                    >
+                      <h4 className="font-bold text-sm mb-2 text-foreground">{s.angle}</h4>
+                      <p className="text-xs text-muted-foreground leading-relaxed whitespace-pre-wrap">{s.script}</p>
+                    </div>
+                  );
+                })}
               </div>
             )}
           </div>
