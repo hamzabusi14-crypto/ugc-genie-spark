@@ -68,6 +68,9 @@ export default function CreateVideoPage() {
   const [scriptChosen, setScriptChosen] = useState(false);
   const [videoId, setVideoId] = useState<string | null>(null);
   const [stage, setStage] = useState(0);
+  const [scripts, setScripts] = useState<{ angle: string; script: string }[]>([]);
+  const [selectedScript, setSelectedScript] = useState<string | null>(null);
+  const [selectedAngle, setSelectedAngle] = useState<string | null>(null);
   const isSubmitting = useRef(false);
 
   const creditCost = CREDIT_COSTS[duration] || 10;
@@ -114,7 +117,6 @@ export default function CreateVideoPage() {
     if (!productImage || !requiredFieldsFilled) return;
     setGeneratingScript(true);
     try {
-      // Generate a UUID on the frontend — no DB record yet
       let currentVideoId = videoId;
       if (!currentVideoId) {
         currentVideoId = crypto.randomUUID();
@@ -138,8 +140,18 @@ export default function CreateVideoPage() {
 
       if (!res.ok) throw new Error("Script generation failed");
 
-      setScriptChosen(true);
-      toast.success(lang === "ar" ? "تم إنشاء السكربت!" : "Script generated!");
+      const data = await res.json();
+      console.log("Choose Script webhook response:", data);
+
+      if (data.scripts && Array.isArray(data.scripts)) {
+        setScripts(data.scripts);
+        if (data.videoId) setVideoId(data.videoId);
+        if (data.imageUrl) setImageUrl(data.imageUrl);
+        setScriptChosen(true);
+        toast.success(lang === "ar" ? "تم إنشاء السكربتات! اختر واحداً" : "Scripts generated! Select one");
+      } else {
+        throw new Error("Invalid response format");
+      }
     } catch (err: any) {
       toast.error(err.message || "Failed to generate script");
     } finally {
@@ -239,6 +251,8 @@ export default function CreateVideoPage() {
           language,
           country,
           description: finalDescription || undefined,
+          selectedScript: selectedScript || undefined,
+          selectedAngle: selectedAngle || undefined,
         }),
       });
 
@@ -409,10 +423,36 @@ export default function CreateVideoPage() {
                   </>
                 )}
               </Button>
-            {generatingScript && (
+             {generatingScript && (
               <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
                 <Loader2 className="h-4 w-4 animate-spin" />
                 {lang === "ar" ? "جاري إنشاء السكربتات..." : "Generating scripts..."}
+              </div>
+            )}
+
+            {/* Script Selection Cards */}
+            {scripts.length > 0 && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">
+                {scripts.map((s, i) => {
+                  const isSelected = selectedAngle === s.angle && selectedScript === s.script;
+                  return (
+                    <div
+                      key={i}
+                      onClick={() => {
+                        setSelectedScript(s.script);
+                        setSelectedAngle(s.angle);
+                      }}
+                      className={cn(
+                        "p-4 rounded-lg cursor-pointer transition-all border-2 bg-muted/50 hover:bg-muted",
+                        isSelected ? "border-purple-500 shadow-[0_0_12px_rgba(139,92,246,0.3)]" : "border-transparent"
+                      )}
+                      dir="auto"
+                    >
+                      <h4 className="font-bold text-sm mb-2 text-foreground">{s.angle}</h4>
+                      <p className="text-xs text-muted-foreground leading-relaxed whitespace-pre-wrap">{s.script}</p>
+                    </div>
+                  );
+                })}
               </div>
             )}
           </div>
@@ -446,7 +486,7 @@ export default function CreateVideoPage() {
               </motion.div>
             ) : (
               <motion.div key="button" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                <Button variant="gradient" size="xl" className="w-full" onClick={handleGenerate} disabled={!imageUrl || uploading || generating || !scriptChosen}>
+                <Button variant="gradient" size="xl" className="w-full" onClick={handleGenerate} disabled={!imageUrl || uploading || generating || !scriptChosen || !selectedScript}>
                   {t("generateVideo")}
                 </Button>
               </motion.div>
