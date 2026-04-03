@@ -117,7 +117,6 @@ export default function CreateVideoPage() {
     if (!productImage || !requiredFieldsFilled) return;
     setGeneratingScript(true);
     try {
-      // Generate a UUID on the frontend — no DB record yet
       let currentVideoId = videoId;
       if (!currentVideoId) {
         currentVideoId = crypto.randomUUID();
@@ -141,8 +140,18 @@ export default function CreateVideoPage() {
 
       if (!res.ok) throw new Error("Script generation failed");
 
-      setScriptChosen(true);
-      toast.success(lang === "ar" ? "تم إنشاء السكربت!" : "Script generated!");
+      const data = await res.json();
+      console.log("Choose Script webhook response:", data);
+
+      if (data.scripts && Array.isArray(data.scripts)) {
+        setScripts(data.scripts);
+        if (data.videoId) setVideoId(data.videoId);
+        if (data.imageUrl) setImageUrl(data.imageUrl);
+        setScriptChosen(true);
+        toast.success(lang === "ar" ? "تم إنشاء السكربتات! اختر واحداً" : "Scripts generated! Select one");
+      } else {
+        throw new Error("Invalid response format");
+      }
     } catch (err: any) {
       toast.error(err.message || "Failed to generate script");
     } finally {
